@@ -15,6 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('login/github', 'SocialiteController@redirectToProvider');
+Route::get('login/github/callback', 'SocialiteController@handleProviderCallback');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
