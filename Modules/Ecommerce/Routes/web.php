@@ -11,6 +11,10 @@
 |
 */
 
-Route::prefix('admin/ecommerce')->group(function() {
-    Route::get('/', 'EcommerceController@index');
+// Route::prefix('admin/ecommerce')->group(function() {
+//     Route::get('/', 'EcommerceController@index');
+// });
+
+Route::prefix('admin/products/{product_id}')->group(function() {
+    Route::get('/index', 'EcommerceController@details_index')->name('details_index');
 });

@@ -5,7 +5,9 @@ namespace Modules\Ecommerce\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
+use TCG\Voyager\Facades\Voyager;
+use Modules\Ecommerce\Entities\Detail;
+use Modules\Ecommerce\Entities\Product;
 class EcommerceController extends Controller
 {
     /**
@@ -75,5 +77,19 @@ class EcommerceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    function details_index($product_id)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'details')->first();
+        $product = Product::where('id', $product_id)->first();
+        $details = Detail::where('id', $product_id)->get();
+
+        return view('ecommerce::index', [
+            'dataType' => $dataType,
+            'product' => $product,
+            'details' => $details
+        ]);
+      
     }
 }

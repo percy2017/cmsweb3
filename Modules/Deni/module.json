@@ -1,0 +1,13 @@
+{
+    "name": "Deni",
+    "alias": "deni",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Deni\\Providers\\DeniServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

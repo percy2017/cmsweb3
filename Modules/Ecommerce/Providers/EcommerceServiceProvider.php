@@ -4,7 +4,7 @@ namespace Modules\Ecommerce\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-
+use TCG\Voyager\Facades\Voyager;
 class EcommerceServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +19,12 @@ class EcommerceServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path('Ecommerce', 'Database/Migrations'));
+
+        Voyager::addAction(\Modules\Ecommerce\Actions\Details::class);
+        Voyager::addAction(\Modules\Ecommerce\Actions\AllDetails::class);
+        Voyager::addAction(\Modules\Ecommerce\Actions\AllCategories::class);
+        Voyager::addAction(\Modules\Ecommerce\Actions\AllProducts::class);
+        Voyager::addAction(\Modules\Ecommerce\Actions\AllProducts2::class);
     }
 
     /**
