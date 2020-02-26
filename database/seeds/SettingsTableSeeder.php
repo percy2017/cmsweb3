@@ -86,7 +86,7 @@ class SettingsTableSeeder extends Seeder
         if (!$setting->exists) {
             $setting->fill([
                 'display_name' => __('voyager::seeders.settings.admin.description'),
-                'value'        => __('voyager::seeders.settings.admin.description_value'),
+                'value'        => 'CmsWeb v3.0 - Software para crear y Administrar Paginas Web Dinamicas.',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 2,

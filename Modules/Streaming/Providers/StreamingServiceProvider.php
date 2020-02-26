@@ -4,7 +4,7 @@ namespace Modules\Streaming\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-
+use TCG\Voyager\Facades\Voyager;
 class StreamingServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +19,11 @@ class StreamingServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path('Streaming', 'Database/Migrations'));
+
+        Voyager::addAction(\Modules\Streaming\Actions\AllAccount::class);
+        Voyager::addAction(\Modules\Streaming\Actions\AllAccount2::class);
+        Voyager::addAction(\Modules\Streaming\Actions\AllMembership::class);
+        Voyager::addAction(\Modules\Streaming\Actions\AllProfile::class);
     }
 
     /**

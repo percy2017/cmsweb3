@@ -11,13 +11,16 @@ La herramienta inscluye paquete de terceros:
 
 # Installed
 ### Step #1
-Clona el repositorio oficial
+Clona el repositorio oficial e install las dependencias
 - https://github.com/percy2017/cmsweb3.git
+- composer install
+- npm install
 
 ### Step #2
-Configurar el erchivo .env (Variales de Entorno)
+Configurar el erchivo .env (Variales de Entorno) y permisos
 -   cp .env.example .env
 -   edit .env (nano)   
+-   chmod -R 777 (storage, bootstrap y public)
 
 ### Step #3
 Realizar la instalcion mediante el comando:

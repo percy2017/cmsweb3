@@ -73,6 +73,10 @@ class EcommerceDatabaseSeeder extends Seeder
         //DataTypes----------------------------------------
 
 
+
+
+
+        
         //DataRows----------------------------------------
         // --------------------------------------------------
         $CategorieDataType = DataType::where('slug', 'categories')->firstOrFail();
@@ -254,6 +258,12 @@ class EcommerceDatabaseSeeder extends Seeder
         }
         //-------------------------------------------------
         //DataRows----------------------------------------
+
+
+
+
+
+
 
         //Menus-----------------------------------------
         //---------------------------------------------
