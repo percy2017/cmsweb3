@@ -4,11 +4,11 @@ namespace Modules\Streaming\Actions;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class AllAccount extends AbstractAction
+class Profiles extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Cuentas';
+        return 'Perfiles';
     }
 
     public function getIcon()
@@ -24,21 +24,16 @@ class AllAccount extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-primary',
+            'class' => 'btn btn-sm btn-default',
         ];
     }
 
     public function getDefaultRoute()
     {
-        // return route('voyager.details.index');
+        return route('voyager.profiles.index', 'key=account_id&filter=equals&s='.$this->data->{$this->data->getKeyName()});
     }
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'memberships';
-    }
-    public function massAction($ids, $comingFrom)
-    {
-        // Do something with the IDs
-        return redirect()->route('voyager.accounts.index');
+        return $this->dataType->slug == 'accounts';
     }
 }

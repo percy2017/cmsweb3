@@ -24,6 +24,7 @@ class StreamingServiceProvider extends ServiceProvider
         Voyager::addAction(\Modules\Streaming\Actions\AllAccount2::class);
         Voyager::addAction(\Modules\Streaming\Actions\AllMembership::class);
         Voyager::addAction(\Modules\Streaming\Actions\AllProfile::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Profiles::class);
     }
 
     /**

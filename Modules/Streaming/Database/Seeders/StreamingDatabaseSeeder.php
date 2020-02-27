@@ -11,6 +11,7 @@ use TCG\Voyager\Models\Role;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;
+use TCG\Voyager\Models\Setting;
 use Modules\Streaming\Entities\Account;
 use Modules\Streaming\Entities\Membership;
 use Modules\Streaming\Entities\Profile;
@@ -40,10 +41,18 @@ class StreamingDatabaseSeeder extends Seeder
                 'display_name_plural'   => 'Cuenta',
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Account',
-                'policy_name'           => '',
-                'controller'            => '',
+                'policy_name'           => null,
+                'controller'            => null,
                 'generate_permissions'  => 1,
-                'description'           => '',
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => null,
+                    'order_display_column' => null,
+                    'order_direction'      => 'desc',
+                    'default_search_key'   => 'name',
+                    'scope'                => null
+                ]
             ])->save();
         }
         $dataType = $this->dataType('slug', 'memberships');
@@ -54,10 +63,18 @@ class StreamingDatabaseSeeder extends Seeder
                 'display_name_plural'   => 'Membresias',
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Membership',
-                'policy_name'           => '',
-                'controller'            => '',
+                'policy_name'           => null,
+                'controller'            => null,
                 'generate_permissions'  => 1,
-                'description'           => '',
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => null,
+                    'order_display_column' => null,
+                    'order_direction'      => 'desc',
+                    'default_search_key'   => 'title',
+                    'scope'                => null
+                ]
             ])->save();
         }
         $dataType = $this->dataType('slug', 'profiles');
@@ -68,10 +85,18 @@ class StreamingDatabaseSeeder extends Seeder
                 'display_name_plural'   => 'profiles',
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Profile',
-                'policy_name'           => '',
-                'controller'            => '',
+                'policy_name'           => null,
+                'controller'            => null,
                 'generate_permissions'  => 1,
-                'description'           => '',
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => null,
+                    'order_display_column' => null,
+                    'order_direction'      => 'desc',
+                    'default_search_key'   => 'fullname',
+                    'scope'                => null
+                ]
             ])->save();
         }
         //DataTypes----------------------------------------
@@ -99,6 +124,52 @@ class StreamingDatabaseSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($AccountDataType, 'type');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Type',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'options' => [
+                        'Netflix' => 'Netflix',
+                        'Spotify' => 'Spotify'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($AccountDataType, 'statu');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Estado',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'options'=>[
+                        'Activo'=>'Activo',
+                        'Inactivo'=>'Inactivo'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($AccountDataType, 'name');
@@ -139,7 +210,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
         $dataRow = $this->dataRow($AccountDataType, 'password');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -159,7 +229,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
         $dataRow = $this->dataRow($AccountDataType, 'price');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -179,7 +248,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
         $dataRow = $this->dataRow($AccountDataType, 'renovation');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -199,7 +267,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
         $dataRow = $this->dataRow($AccountDataType, 'quantity_profiles');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -219,8 +286,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
-        
         $dataRow = $this->dataRow($AccountDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -235,12 +300,30 @@ class StreamingDatabaseSeeder extends Seeder
                 'order'        => 2,
                 'details'      => [
                     'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($AccountDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
                         'width'  => '12',
                     ],
                 ]
             ])->save();
         }
-
         $dataRow = $this->dataRow($AccountDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -297,6 +380,82 @@ class StreamingDatabaseSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($MembershipDataType, 'title');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Titulo',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 1,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($MembershipDataType, 'description');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 1,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($MembershipDataType, 'price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Precio',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 1,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($MembershipDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($MembershipDataType, 'created_at');
@@ -356,6 +515,227 @@ class StreamingDatabaseSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'profile_belongsto_account_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Cuenta',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Account',
+                    'table'       => 'accounts',
+                    'type'        => 'belongsTo',
+                    'column'      => 'account_id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'accounts',
+                    'pivot'       => 0,
+                ],
+                'order'        => 2,
+                
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'account_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'account_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 2,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'profile_belongsto_membership_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Membresia',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Membership',
+                    'table'       => 'memberships',
+                    'type'        => 'belongsTo',
+                    'column'      => 'membership_id',
+                    'key'         => 'id',
+                    'label'       => 'title',
+                    'pivot_table' => 'memberships',
+                    'pivot'       => 0,
+                ],
+                'order'        => 2,
+                
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'membership_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'membership_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 2,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'fullname');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Nombre Completo',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'phone');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Telefono',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'statu');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Estado',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'options'=>[
+                        'Vigente'=>'Vigente',
+                        'Finalizado'=>'Finalizado'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'startdate');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Inicio',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'observation');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Obs',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'finaldate');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'Fin',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ProfileDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($ProfileDataType, 'created_at');
@@ -515,6 +895,38 @@ class StreamingDatabaseSeeder extends Seeder
 
 
 
+        // Setting ------------------------------------
+        // -----------------------------------------------
+        $setting = $this->findSetting('streaming.mensaje1');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Mensaje 1',
+                'value'        => 'le mandamos este mensaje para informarle que su membresia del servcio',
+                'details'      => '',
+                'type'         => 'text_area',
+                'order'        => 1,
+                'group'        => 'Streaming',
+            ])->save();
+        }
+
+        $setting = $this->findSetting('streaming.mensaje2');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Mensaje 2',
+                'value'        => 'ya finalizo, le invitamos a renovar con nuestra promo :',
+                'details'      => '',
+                'type'         => 'text_area',
+                'order'        => 2,
+                'group'        => 'Streaming',
+            ])->save();
+        }
+        // Setting ------------------------------------
+
+
+
+
+
+
 
         //Datos Default -------------------------------------
         //-----------------------------------------------------
@@ -558,5 +970,10 @@ class StreamingDatabaseSeeder extends Seeder
             'data_type_id' => $type->id,
             'field'        => $field,
         ]);
+    }
+
+    protected function findSetting($key)
+    {
+        return Setting::firstOrNew(['key' => $key]);
     }
 }
