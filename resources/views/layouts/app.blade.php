@@ -1,27 +1,26 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="resources/landingpage/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="resources/landingpage/css/mdb.min.css" rel="stylesheet">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('vendor/whatsapp/floating-wpp.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/share/css/contact-buttons.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  @laravelPWA
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        {{--  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -70,11 +69,82 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav>  --}}
 
-        <main class="py-4">
+        {{--  <main class="py-4">  --}}
             @yield('content')
-        </main>
+        {{--  </main>  --}}
     </div>
+
+
+  <div id="myWP"></div>
+  
+  <!-- SCRIPTS -->
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="resources/landingpage/js/jquery-3.4.1.min.js"></script>
+
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="resources/landingpage/js/popper.min.js"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="resources/landingpage/js/bootstrap.min.js"></script>
+
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="resources/landingpage/js/mdb.min.js"></script>
+
+
+  <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
+  <script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
+  <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
+
+
+  <script>
+
+
+    // whatsapp ------------------------------------
+      $('#myWP').floatingWhatsApp({
+        phone: '{{ setting('whatsapp.phone') }}',
+        popupMessage: '{{ setting('whatsapp.popupMessage') }}',
+        message: '{{ setting('whatsapp.message') }}',
+        showPopup: true,
+        showOnIE: true,
+        headerTitle: '{{ setting('whatsapp.headerTitle') }}',
+        headerColor: '{{ setting('whatsapp.color') }}',
+        backgroundColor: '{{ setting('whatsapp.color') }}',
+        buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage' )) }}" />',
+        position: '{{ setting('whatsapp.position') }}',
+        autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
+        size: '{{ setting('whatsapp.size') }}'
+      });
+
+      // Initialize Share-Buttons
+      $.contactButtons({
+        effect  : 'slide-on-scroll',
+        buttons : {
+          'facebook':   { class: 'facebook', use: true, link: 'https://www.facebook.com/sharer/sharer.php?u='+window.location, extras: 'target="_blank"' },
+          'twitter':   { class: 'twitter', use: true, link: 'https://twitter.com/home?status='+window.location, extras: 'target="_blank"' },
+          'whatsapp':   { class: 'whatsapp', use: true, link: 'https://api.whatsapp.com/send?text='+window.location, extras: 'target="_blank"' }
+        }
+      });
+
+      // buttun up
+      $("body").toTopButton({
+        // path to icons
+        imagePath: 'vendor/up/img/icons/',
+        // arrow, arrow-circle, caret, caret-circle, circle, circle-o, arrow-l, drop, rise, top
+        // or your own SVG icon
+        arrowType: 'arrow',
+
+        // 'w' = white
+        // 'b' = black
+        iconColor: 'w',
+        
+        // icon shadow
+        // from 1 to 16
+        iconShadow: 6
+      });
+
+  </script>
 </body>
 </html>
