@@ -190,11 +190,13 @@ return [
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         //'css/custom.css',
-        'theme.css',
+        'vendor/admin/theme.css',
+        'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
     ],
 
     'additional_js' => [
         //'js/custom.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/fontawesome.min.js',
     ],
 
     'googlemaps' => [
