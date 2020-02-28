@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "binarytorch/larecipe": "^2.2",
+        "bonecms/laravel-captcha": "^2.2",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.4",

@@ -6,7 +6,7 @@ En un software inteligente para crear y administrar paginas web dinamicas, utili
 La herramienta inscluye paquete de terceros:
 
 - [Laravel Framework v6](#)
-- [Voyager Pacakages v1.3](#)
+- [Voyager Packages v1.3](#)
 - [VueJs Framework v2.5](#)
 
 # Installed

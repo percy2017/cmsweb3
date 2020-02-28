@@ -52,6 +52,38 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => '',
             ])->save();
         }
+
+        // pages ----------------------------------
+        $dataType = $this->dataType('slug', 'pages');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'pages',
+                'display_name_singular' => 'Pagina',
+                'display_name_plural'   => 'Paginas',
+                'icon'                  => 'voyager-browser',
+                'model_name'            => 'App\\Page',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+            ])->save();
+        }
+        //pages ------------------------------------
+
+        // pages ----------------------------------
+        $dataType = $this->dataType('slug', 'blocks');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'blocks',
+                'display_name_singular' => 'Pagina',
+                'display_name_plural'   => 'Paginas',
+                'icon'                  => 'voyager-wallet',
+                'model_name'            => 'App\\Block',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+            ])->save();
+        }
+        //pages ------------------------------------
     }
 
     /**
