@@ -24,4 +24,6 @@ Route::get('login/github/callback', 'SocialiteController@handleProviderCallback'
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('/block/{page_id}', 'BlockController@index')->name('block_index');    
 });

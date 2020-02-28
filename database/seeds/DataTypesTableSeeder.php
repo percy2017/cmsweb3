@@ -69,21 +69,21 @@ class DataTypesTableSeeder extends Seeder
         }
         //pages ------------------------------------
 
-        // pages ----------------------------------
+        // blocks ----------------------------------
         $dataType = $this->dataType('slug', 'blocks');
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'blocks',
-                'display_name_singular' => 'Pagina',
-                'display_name_plural'   => 'Paginas',
-                'icon'                  => 'voyager-wallet',
+                'display_name_singular' => 'Blocke',
+                'display_name_plural'   => 'Blockes',
+                'icon'                  => 'voyager-params',
                 'model_name'            => 'App\\Block',
                 'controller'            => null,
                 'generate_permissions'  => 1,
                 'description'           => null,
             ])->save();
         }
-        //pages ------------------------------------
+        //blocks ------------------------------------
     }
 
     /**

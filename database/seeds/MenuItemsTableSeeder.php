@@ -127,5 +127,22 @@ class MenuItemsTableSeeder extends Seeder
                 'order'      => 6,
             ])->save();
         }
+
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Paginas',
+            'url'     => '',
+            'route'   => 'voyager.pages.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-paypal',
+                'color'      => null,
+                'parent_id'  => $toolsMenuItem->id,
+                'order'      => 7,
+            ])->save();
+        }
     }
 }

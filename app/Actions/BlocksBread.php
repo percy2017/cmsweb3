@@ -4,11 +4,11 @@ namespace App\Actions;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class Roles extends AbstractAction
+class BlocksBread extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Roles';
+        return 'Blocks';
     }
 
     public function getIcon()
@@ -24,22 +24,22 @@ class Roles extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-primary',
+            'class' => 'btn btn-success',
         ];
     }
 
     public function getDefaultRoute()
     {
-        // return route('voyager.roles.index');
+        return route('block_index', $this->data->{$this->data->getKeyName()});
     }
 
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'users';
+        return $this->dataType->slug == 'pages';
     }
 
-    public function massAction($ids, $comingFrom)
-    {
-        return redirect()->route('voyager.roles.index');
-    }
+    // public function massAction($ids, $comingFrom)
+    // {
+    //     return redirect()->route('voyager.blocks.index');
+    // }
 }
