@@ -58,6 +58,18 @@ class SettingsTableSeeder extends Seeder
             ])->save();
         }
 
+        $setting = $this->findSetting('site.page');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Pagina',
+                'value'        => 'welcome',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => 5,
+                'group'        => 'Site',
+            ])->save();
+        }
+
         $setting = $this->findSetting('admin.bg_image');
         if (!$setting->exists) {
             $setting->fill([

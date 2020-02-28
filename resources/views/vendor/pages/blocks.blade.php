@@ -7,7 +7,12 @@
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
+             <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
+                <span class="glyphicon glyphicon-list"></span>&nbsp;
+                {{ __('voyager::generic.return_to_list') }}
+            </a>
     </div>
+
 @stop
 
 @section('css')
@@ -31,7 +36,7 @@
                         </div>
 
                         <div class="panel-body">
-                            <form action="#" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('block_update', $block->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 
                                 <h3 class="text-center">{{ $block->description }}</h3>
@@ -102,7 +107,7 @@
                                 
                                 <div class="form-group text-center col-md-12">
                                     <button type="submit" class="btn btn-primary">Guardar este Blocke</button>
-                                    <a href="#" class="btn btn-danger">Eliminar este Blocke</a>
+                                    <a href="{{ route('block_delete', $block->id) }}" class="btn btn-danger">Eliminar este Blocke</a>
                                 </div>
                             </form>
                         </div>

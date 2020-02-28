@@ -9,5 +9,5 @@ class Block extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'blocks';
-    protected $fillable = [];
+    protected $fillable = ['name', 'title', 'description', 'page_id', 'position', 'details'];
 }

@@ -14,8 +14,9 @@ class PagesTableSeeder extends Seeder
     public function run()
     {
         $page = Page::create([
-            'name'    => 'Page Default',
-            'slug'    => 'welcome'
+            'name'      => 'Page Default',
+            'slug'      => 'welcome',
+            'direction' => 'welcome'
         ]);
 
         Block::create([

@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', 'FrontEndController@default')->name('page_default');
 
 Auth::routes();
 
@@ -25,5 +26,7 @@ Route::get('login/github/callback', 'SocialiteController@handleProviderCallback'
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
-    Route::get('/block/{page_id}', 'BlockController@index')->name('block_index');    
+    Route::get('/block/{page_id}', 'BlockController@index')->name('block_index'); 
+    Route::post('/block/update/{block_id}', 'BlockController@update')->name('block_update');
+    Route::get('/block/delete/{block_id}', 'BlockController@delete')->name('block_delete');    
 });
