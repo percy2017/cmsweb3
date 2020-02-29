@@ -11,6 +11,7 @@
 |
 */
 
-Route::prefix('cashflow')->group(function() {
-    Route::get('/', 'CashFlowController@index');
+Route::group(['prefix' => 'admin'], function () {
+  Route::get('seating/{box_id}', 'SeatingController@index')->name('seating_index'); 
+     
 });

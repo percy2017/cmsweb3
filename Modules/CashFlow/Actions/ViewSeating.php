@@ -30,7 +30,7 @@ class ViewSeating extends AbstractAction
 
     public function getDefaultRoute()
     {
-        return route('voyager.seatings.index', 'key=box_id&filter=equals&s='.$this->data->{$this->data->getKeyName()});
+        return route('seating_index', $this->data->{$this->data->getKeyName()});
     }
     public function shouldActionDisplayOnDataType()
     {

@@ -19,6 +19,7 @@ class CreateSeatingsTable extends Migration
             $table->decimal('amount',8,2);
             $table->string('type');
             
+            
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('box_id');
 
