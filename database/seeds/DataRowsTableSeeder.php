@@ -390,6 +390,7 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        
         $dataRow = $this->dataRow($PageDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([

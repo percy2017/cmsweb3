@@ -16,7 +16,59 @@ class PagesTableSeeder extends Seeder
         $page = Page::create([
             'name'      => 'Page Default',
             'slug'      => 'welcome',
-            'direction' => 'welcome'
+            'direction' => 'welcome',
+            'details'   => json_encode([
+                'title' => [
+                    'type' => 'text',
+                    'name' => 'title',
+                    'label' => 'Titulo',
+                    'value' => 'Make purchases with our app',
+                    'width' => 6
+                ],
+                'image1' => [
+                    'type' => 'image',
+                    'name' => 'image1',
+                    'label' => 'Imagen',
+                    'value' => 'myimage.png',
+                    'width' => 6
+                ],
+                'button_text1' => [
+                    'type' => 'text',
+                    'name' => 'button_text1',
+                    'label' => 'Texto Boton #1',
+                    'value' => 'DOWNLOAD',
+                    'width' => 6
+                ],
+                'button_link1' => [
+                    'type' => 'text',
+                    'name' => 'button_link1',
+                    'label' => 'Link Text #1',
+                    'value' => '#',
+                    'width' => 6
+                ],
+                'button_text2' => [
+                    'type' => 'text',
+                    'name' => 'button_text2',
+                    'label' => 'Texto Boton #2',
+                    'value' => 'LEAR MORE',
+                    'width' => 6
+                ],
+                'button_link2' => [
+                    'type' => 'text',
+                    'name' => 'button_link2',
+                    'label' => 'Link Text #2',
+                    'value' => '#',
+                    'width' => 6
+                ],
+                
+                'description' => [
+                    'type' => 'text_area',
+                    'name' => 'description',
+                    'label' => 'Descripcion',
+                    'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem repellendus quasi fuga nesciunt dolorum nulla magnam veniam sapiente, fugiat! Commodi sequi non animi ea dolor molestiae iste.',
+                    'width' => 12
+                ]
+            ])
         ]);
 
         Block::create([
