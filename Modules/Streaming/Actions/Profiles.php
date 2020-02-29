@@ -24,7 +24,8 @@ class Profiles extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-default',
+            'class' => 'btn btn-sm btn-dark pull-right',
+            'style'=>'margin: 5px',
         ];
     }
 

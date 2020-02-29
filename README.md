@@ -21,6 +21,7 @@ Configurar el erchivo .env (Variales de Entorno) y permisos
 -   cp .env.example .env
 -   edit .env (nano)   
 -   chmod -R 777 (storage, bootstrap y public)
+- `php artisan key:generate`
 
 ### Step #3
 Realizar la instalcion mediante el comando:

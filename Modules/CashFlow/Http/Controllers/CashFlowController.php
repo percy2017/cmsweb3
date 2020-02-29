@@ -5,6 +5,7 @@ namespace Modules\CashFlow\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use TCG\Voyager\Facades\Voyager;
 
 class CashFlowController extends Controller
 {
@@ -14,7 +15,11 @@ class CashFlowController extends Controller
      */
     public function index()
     {
-        return view('cashflow::index');
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'seatings')->first();
+       // return $dataType;
+        return view('cashflow::index', [
+            'dataType'=> $dataType
+        ]);
     }
 
     /**

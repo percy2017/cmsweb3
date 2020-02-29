@@ -14,17 +14,19 @@ class AllBox extends AbstractAction
     public function getIcon()
     {
         // return 'voyager-pen';
+        return 'voyager-archive';
     }
 
     public function getPolicy()
     {
-        return 'browse';
+        return 'read';
     }
 
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-success',
+            'class' => 'btn btn-md btn-dark',
+        
         ];
     }
 

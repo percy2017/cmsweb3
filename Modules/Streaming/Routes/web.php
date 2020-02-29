@@ -11,6 +11,8 @@
 |
 */
 
-Route::prefix('streaming')->group(function() {
-    Route::get('/', 'StreamingController@index');
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', 'StreamingController@index')->name('index');
+
 });
