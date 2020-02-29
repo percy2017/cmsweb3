@@ -10,6 +10,6 @@ class Box extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'boxes';
-    protected $fillable = [];
+    protected $fillable = ['title','start_amount','balance','status','user_id'];
     
 }

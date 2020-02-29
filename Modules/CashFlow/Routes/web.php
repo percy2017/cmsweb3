@@ -12,6 +12,7 @@
 */
 
 Route::group(['prefix' => 'admin'], function () {
+
   Route::get('seating/{box_id}', 'SeatingController@index')->name('seating_index'); 
-     
+  Route::post('seating/ingresos', 'SeatingController@store')->name('seating_storage'); 
 });
