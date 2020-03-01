@@ -24,15 +24,18 @@ class PageController extends Controller
         $mijson = $page->details;
         foreach(json_decode($page->details, true) as $item => $value)
         {
-              
+            if($value['type'] == 'image')
+            {
+                $mijson = str_replace($value['value'], $value['value'], $mijson);
+            }else{
+                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+            }
             if($request->hasFile($value['name']))
             {
                 $dirimage = Storage::disk('public')->put('pages/'.date('F').date('Y'), $request->file($value['name']));
                 $mijson = str_replace($value['value'], $dirimage, $mijson);
-                
-            }else{
-                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
             }
+           
         }
         $page->details = $mijson;
         // $page->position = $request->position;

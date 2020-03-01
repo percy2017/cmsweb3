@@ -24,13 +24,16 @@ class BlockController extends Controller
         foreach(json_decode($block->details, true) as $item => $value)
         {
               
+            if($value['type'] == 'image')
+            {
+                $mijson = str_replace($value['value'], $value['value'], $mijson);
+            }else{
+                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+            }
             if($request->hasFile($value['name']))
             {
                 $dirimage = Storage::disk('public')->put('blocks/'.date('F').date('Y'), $request->file($value['name']));
                 $mijson = str_replace($value['value'], $dirimage, $mijson);
-                
-            }else{
-                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
             }
         }
         $block->details = $mijson;

@@ -60,6 +60,7 @@
                                         
                                                 <img src="{{ Voyager::Image($value['value']) }}" style="max-width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
                                                 <input type="file" name="{{ $value['name'] }}" accept="image/*">
+                                                {{--  <input type="hidden" name="{{ $value['name'] }}-aux" value="{{ $value['value'] }}" />  --}}
                                             </div>
                                             @break
                                         @case('select_dropdown')
@@ -111,5 +112,9 @@
 
 
 @section('javascript')
-
+    <script>
+        $(document).ready(function(){
+            
+        });
+    </script>
 @endsection
