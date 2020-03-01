@@ -14,7 +14,7 @@ class FrontEndController extends Controller
         $page = setting('site.page');
         $collection = Page::where('slug', $page)->first();
         $blocks = Block::where('page_id', $collection->id)->orderBy('position', 'asc')->get();
-        
+       
         return view($collection->direction, [
             'collection' => json_decode($collection->details, true),
             'blocks'     => $blocks
