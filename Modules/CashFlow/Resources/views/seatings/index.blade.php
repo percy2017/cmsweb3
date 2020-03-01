@@ -122,41 +122,42 @@
             </div>
         </div
         <!-- Modal -->
-<div class="modal fade" id="IngresosModal" tabindex="-1" role="dialog" aria-labelledby="IngresosModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-        <form action="#">
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Concepto</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter">
+    <div class="modal fade" id="IngresosModal" tabindex="-1" role="dialog" aria-labelledby="IngresosModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ingresos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Monto</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter"">
+            <div class="modal-body">
+            <form action="{{ route('seating_storage') }}" method="POST">
+                @csrf
+                    <input type="hidden" name="box_id" value="{{ $box_id }}">
+                    <input type="hidden" name="type" value="INGRESOS">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Concepto</label>
+                        <input type="text" class="form-control" name="concept" id="concept" placeholder="Enter">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Monto</label>
+                        <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter"">
+                    </div>
+                
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
             </div>
-        
-        </form>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            
+            </div>
         </div>
-        <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
         </div>
     </div>
-    </div>
-</div>
-
-
-
-
 
 @endsection
 
 @section('javascript')
+
 @stop

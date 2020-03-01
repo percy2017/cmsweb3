@@ -5,6 +5,7 @@ namespace Modules\CashFlow\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Facades\Voyager;
 use Modules\CashFlow\Entities\Seating;
 use NumerosEnLetras;
@@ -30,7 +31,8 @@ class SeatingController extends Controller
             'ingresos' => $ingresos,
             'egresos'  => $egresos,
             'monto_total'=>$monto_total,
-            'monto_literal'=>$total_literal
+            'monto_literal'=>$total_literal,
+            'box_id' =>$box_id
 
         ]);
     }
@@ -51,7 +53,23 @@ class SeatingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //para guardar 
+       //  return $request;
+        $ingreso= Seating::create([
+        'concept'   => $request->concept,
+        'amount'    => $request->amount,
+        'type'      => $request->type,
+        'box_id'    => $request->box_id,
+        'user_id'   => auth()->user()->id
+        
+        ]);
+     
+        return back()->with([
+            'message'    => 'Ingreso Registrado - '.$ingreso->concept,
+            'alert-type' => 'success',
+        ]);
+        
+         
     }
 
     /**
