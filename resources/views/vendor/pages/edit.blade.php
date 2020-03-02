@@ -90,7 +90,8 @@
                                                         'fas fa-cloud-upload-alt blue-text',
                                                         'fas fa-home blue-text',
                                                         'fas fa-users white-text',
-                                                        'fas fa-chart-bar blue-text'
+                                                        'fas fa-chart-bar blue-text',
+                                                        'far fa-calendar-alt mr-2'
                                                     ];
                                                 @endphp
                                                 <label>{{ $value['label'] }}</label>
@@ -103,6 +104,11 @@
                                                 </select>
                                             </div>
                                             @break
+                                            @case('space')
+                                            <div class="col-md-12">
+                                                <hr />
+                                            </div>
+                                        @break
                                     @endswitch
                                 @endforeach
 
