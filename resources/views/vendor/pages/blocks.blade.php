@@ -33,16 +33,26 @@
                             <div class="panel-actions">
                                 <a class="panel-action voyager-angle-up" data-toggle="panel-collapse"></a>
                             </div>
+                           
                         </div>
 
                         <div class="panel-body">
                             <form action="{{ route('block_update', $block->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                
-                                <h3 class="text-center">{{ $block->description }}</h3>
-                                <div class="col-md-offset-3 col-md-6">
-                                    <input type="number" min="1" class="form-control" name="position" value="{{ $block->position }}" />
+                                <div class="panel panel-success text-center">
+                                    <h3>{{ $block->description }}</h3>
+                              
+                                        <a href="{{ route('block_move_up', $block->id) }}">
+                                            <i class="sort-icons fa-lg voyager-sort-asc"></i>
+                                        </a>
+                                        <a href="{{ route('block_move_down', $block->id) }}">
+                                            <i class="sort-icons fa-lg voyager-sort-desc"></i>
+                                        </a>
                                 </div>
+                                
+                                {{-- <div class="col-md-offset-3 col-md-6">
+                                    <input type="number" min="1" class="form-control" name="position" value="{{ $block->position }}" />
+                                </div> --}}
                                 <div class="col-md-12">
                                     <hr />
                                 </div>
@@ -99,7 +109,12 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            @break
+                                        @break
+                                        @case('space')
+                                            <div class="col-md-12">
+                                                <hr />
+                                            </div>
+                                        @break
                                     @endswitch
                                 @endforeach
                                 <div class="form-group col-md-12">
@@ -107,8 +122,8 @@
                                 </div>
                                 
                                 <div class="form-group text-center col-md-12">
-                                    <button type="submit" class="btn btn-primary">Guardar este Blocke</button>
-                                    <a href="{{ route('block_delete', $block->id) }}" class="btn btn-danger">Eliminar este Blocke</a>
+                                    <button type="submit" class="btn btn-primary"><i class="voyager-edit"></i> Guardar este Blocke</button>
+                                    <a href="{{ route('block_delete', $block->id) }}" class="btn btn-danger"><i class="voyager-trash"></i> Eliminar este Blocke</a>
                                 </div>
                             </form>
                         </div>

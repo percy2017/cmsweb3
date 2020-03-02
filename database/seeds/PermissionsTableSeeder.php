@@ -33,8 +33,20 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::generateFor('settings');
 
-        Permission::generateFor('pages');
 
-        Permission::generateFor('blocks');
+        $keys = [
+            'browse_pages',
+        ];
+
+        foreach ($keys as $key) {
+            Permission::firstOrCreate([
+                'key'        => $key,
+                'table_name' => 'pages',
+            ]);
+        }
+
+        // Permission::generateFor('pages');
+
+        // Permission::generateFor('blocks');
     }
 }

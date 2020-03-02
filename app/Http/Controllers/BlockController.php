@@ -53,4 +53,59 @@ class BlockController extends Controller
             'alert-type' => 'success',
         ]);
     }
+
+    public function move_up($id)
+    {
+        $block = Block::where('id', $id)->first();
+        $swapOrder = $block->position;
+
+        $previousSetting = Block::where('position', '<', $swapOrder)->orderBy('position', 'DESC')->first();
+        $data = [
+        'message'    => __('voyager::settings.already_at_top'),
+        'alert-type' => 'error',
+        ];
+        // return $previousSetting;
+        if (isset($previousSetting->position)) {
+            $block->position = $previousSetting->position;
+            $block->save();
+            $previousSetting->position = $swapOrder;
+            $previousSetting->save();
+
+            $data = [
+                'message'    => __('voyager::settings.moved_order_up', ['name' => $block->title]),
+                'alert-type' => 'success',
+            ];
+        }
+
+        return back()->with($data);
+    }
+
+
+    public function move_down($id)
+    {
+     
+        $block = Block::where('id', $id)->first();
+
+        $swapOrder = $block->position;
+
+        $previousSetting = Block::where('position', '>', $swapOrder)->orderBy('position', 'ASC')->first();
+        $data = [
+            'message'    => __('voyager::settings.already_at_bottom'),
+            'alert-type' => 'error',
+        ];
+
+        if (isset($previousSetting->position)) {
+            $block->position = $previousSetting->position;
+            $block->save();
+            $previousSetting->position = $swapOrder;
+            $previousSetting->save();
+
+            $data = [
+                'message'    => __('voyager::settings.moved_order_down', ['name' => $block->title]),
+                'alert-type' => 'success',
+            ];
+        }
+
+        return back()->with($data);
+    }
 }

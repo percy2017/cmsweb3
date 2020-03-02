@@ -13,7 +13,7 @@ class PageEdit extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-lock';
+        return 'voyager-pen';
     }
 
     public function getPolicy()
@@ -24,7 +24,7 @@ class PageEdit extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-primary',
+            'class' => 'btn btn-primary pull-right',
         ];
     }
 

@@ -17,6 +17,7 @@ class PagesTableSeeder extends Seeder
             'name'      => 'Page Default',
             'slug'      => 'welcome',
             'direction' => 'welcome',
+            'description' => 'Pagina Default del CmsWeb v3.0',
             'details'   => json_encode([
                 'title' => [
                     'type' => 'text',
@@ -74,7 +75,7 @@ class PagesTableSeeder extends Seeder
         Block::create([
             'name'        => 'lps_block1',
             'title'       => 'Blocke #1 (features #1)',
-            'description' => 'Seccion Features #1 para la plantilla LPS',
+            'description' => 'Seccion Features',
             'page_id'     => $page->id,
             'position'    => 1,
             'details'     => json_encode([
@@ -168,7 +169,7 @@ class PagesTableSeeder extends Seeder
         Block::create([
             'name'        => 'lps_block2',
             'title'       => 'Blocke #2 (downlonad)',
-            'description' => 'Seccion Download para la plantilla LPS',
+            'description' => 'Seccion para Descargas',
             'page_id' => $page->id,
             'position'    => 2,
             'details'     => json_encode([
@@ -217,11 +218,10 @@ class PagesTableSeeder extends Seeder
             ])
         ]);
 
-
         Block::create([
             'name'        => 'lps_block3',
             'title'       => 'Blocke #3 (features #2)',
-            'description' => 'Seccion Features #2 para la plantilla LPS',
+            'description' => 'Seccion Features #2',
             'page_id' => $page->id,
             'position'    => 3,
             'details'     => json_encode([
@@ -377,8 +377,8 @@ class PagesTableSeeder extends Seeder
 
         Block::create([
             'name'        => 'lps_block4',
-            'title'       => 'Blocke # (Prices)',
-            'description' => 'Seccion Prices para la plantilla LPS',
+            'title'       => 'Blocke #4 (Precios)',
+            'description' => 'Seccion para Precios',
             'page_id' => $page->id,
             'position'    => 4,
             'details'     => json_encode([
@@ -508,6 +508,218 @@ class PagesTableSeeder extends Seeder
                     'value'  => 'Loem ipsum dol sit amet, consectetur adipisicing elit. Culpa pariatur id nobis accusamus deleniti cumque hic laborum.',
                     'width'  => 4
                 ]
+            ])
+        ]);
+
+        Block::create([
+            'name'        => 'lps_block5',
+            'title'       => 'Blocke #5 (Clientes)',
+            'description' => 'Seccion Clientes',
+            'page_id' => $page->id,
+            'position'    => 5,
+            'details'     => json_encode([
+                'title_strong' => [
+                    'type'   => 'text',
+                    'name'   => 'title_strong',
+                    'label'  => 'Titulo en Negrita',
+                    'value'  => 'Our clients',
+                    'width'  => 6
+                ],
+                'title_default' => [
+                    'type'  => 'text',
+                    'name'  => 'title_default',
+                    'label' => 'Titulo Normal',
+                    'value' => 'about us',
+                    'width'  => 6
+                ],
+                'image1' => [
+                    'type'  => 'image',
+                    'name'  => 'image1',
+                    'label' => 'Imagen #1',
+                    'value' => 'image1.png',
+                    'width'  => 3
+                ],
+                'title1' => [
+                    'type'  => 'text',
+                    'name'  => 'title1',
+                    'label' => 'Titulo #1',
+                    'value' => 'Blake Dabney',
+                    'width'  => 2
+                ],
+                'tag1' => [
+                    'type'  => 'text',
+                    'name'  => 'tag1',
+                    'label' => 'Tag #1',
+                    'value' => 'Web Designer',
+                    'width'  => 2
+                ],
+                'description1' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description1',
+                    'label' => 'Descripcion #1',
+                    'value' => 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis laboriosam.',
+                    'width'  => 5
+                ],
+                'space1' => [
+                    'type'  => 'space',
+                    'name'  => 'space1',
+                ],
+                'image2' => [
+                    'type'  => 'image',
+                    'name'  => 'image2',
+                    'label' => 'Imagen #2',
+                    'value' => 'image2.png',
+                    'width'  => 3
+                ],
+                'title2' => [
+                    'type'  => 'text',
+                    'name'  => 'title2',
+                    'label' => 'Titulo #2',
+                    'value' => 'Andrea Clay',
+                    'width'  => 2
+                ],
+                'tag2' => [
+                    'type'  => 'text',
+                    'name'  => 'tag2',
+                    'label' => 'Tag #2',
+                    'value' => 'Front-end developer',
+                    'width'  => 2
+                ],
+                'description2' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description2',
+                    'label' => 'Descripcion #2',
+                    'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id officiis hic tenetur quae.',
+                    'width'  => 5
+                ],
+                'space2' => [
+                    'type'  => 'space',
+                    'name'  => 'space2',
+                ],
+                'image3' => [
+                    'type'  => 'image',
+                    'name'  => 'image3',
+                    'label' => 'Imagen #3',
+                    'value' => 'image3.png',
+                    'width'  => 3
+                ],
+                'title3' => [
+                    'type'  => 'text',
+                    'name'  => 'title3',
+                    'label' => 'Titulo #3',
+                    'value' => 'Cami Gosse',
+                    'width'  => 2
+                ],
+                'tag3' => [
+                    'type'  => 'text',
+                    'name'  => 'tag3',
+                    'label' => 'Tag #3',
+                    'value' => 'Phtographer',
+                    'width'  => 2
+                ],
+                'description3' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description3',
+                    'label' => 'Descripcion #3',
+                    'value' => 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.',
+                    'width'  => 5
+                ],
+                'space3' => [
+                    'type'  => 'space',
+                    'name'  => 'space3',
+                ],
+                'image4' => [
+                    'type'  => 'image',
+                    'name'  => 'image4',
+                    'label' => 'Imagen #4',
+                    'value' => 'image4.png',
+                    'width'  => 3
+                ],
+                'title4' => [
+                    'type'  => 'text',
+                    'name'  => 'title4',
+                    'label' => 'Titulo #4',
+                    'value' => 'Bobby Haley',
+                    'width'  => 2
+                ],
+                'tag4' => [
+                    'type'  => 'text',
+                    'name'  => 'tag4',
+                    'label' => 'Tag #4',
+                    'value' => 'Web Developer',
+                    'width'  => 2
+                ],
+                'description4' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description4',
+                    'label' => 'Descripcion #4',
+                    'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id officiis hic tenetur quae.',
+                    'width'  => 5
+                ],
+                'space4' => [
+                    'type'  => 'space',
+                    'name'  => 'space4',
+                ],
+                'image5' => [
+                    'type'  => 'image',
+                    'name'  => 'image5',
+                    'label' => 'Imagen #5',
+                    'value' => 'image5.png',
+                    'width'  => 3
+                ],
+                'title5' => [
+                    'type'  => 'text',
+                    'name'  => 'title5',
+                    'label' => 'Titulo #5',
+                    'value' => 'Elisa Janson',
+                    'width'  => 2
+                ],
+                'tag5' => [
+                    'type'  => 'text',
+                    'name'  => 'tag5',
+                    'label' => 'Tag #5',
+                    'value' => 'Marketer',
+                    'width'  => 2
+                ],
+                'description5' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description5',
+                    'label' => 'Descripcion #5',
+                    'value' => 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.',
+                    'width'  => 5
+                ],
+                'space5' => [
+                    'type'  => 'space',
+                    'name'  => 'space5',
+                ],
+                'image6' => [
+                    'type'  => 'image',
+                    'name'  => 'image6',
+                    'label' => 'Imagen #6',
+                    'value' => 'image6.png',
+                    'width'  => 3
+                ],
+                'title6' => [
+                    'type'  => 'text',
+                    'name'  => 'title6',
+                    'label' => 'Titulo #6',
+                    'value' => 'Rob Jacobs',
+                    'width'  => 2
+                ],
+                'tag6' => [
+                    'type'  => 'text',
+                    'name'  => 'tag6',
+                    'label' => 'Tag #6',
+                    'value' => 'Front-end developer',
+                    'width'  => 2
+                ],
+                'description6' => [
+                    'type'  => 'text_area',
+                    'name'  => 'description6',
+                    'label' => 'Descripcion #6',
+                    'value' => 'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis laboriosam.',
+                    'width'  => 5
+                ],
             ])
         ]);
     }

@@ -10,5 +10,5 @@ class Page extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'pages';
-    protected $fillable = ['name', 'slug', 'direction', 'details'];
+    protected $fillable = ['name', 'slug', 'direction', 'details', 'description'];
 }

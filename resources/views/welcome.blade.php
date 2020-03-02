@@ -64,7 +64,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
           <ul class="navbar-nav mr-auto">
-            {{ menu('primary', 'layouts.partials.primary') }}
+            {{ menu('LandingPage', 'vendor.menus.LandingPage') }}
           </ul>
           <ul class="navbar-nav ml-auto">
             @guest
@@ -139,7 +139,7 @@
 
   <main>
     @foreach ($blocks as $item) 
-      @include('blocks.'.$item->name, ['data' => json_decode($item->details)])
+      @include('vendor.blocks.'.$item->name, ['data' => json_decode($item->details)])
     @endforeach
   </main>
 
@@ -153,24 +153,25 @@
 
           <!--Grid column-->
           <div class="col-12 col-md-5 text-left mb-md-0">
-            <h6 class="mb-0 white-text text-center text-md-left"><strong>Get connected with us on social
-                networks!</strong></h6>
+            <h6 class="mb-0 white-text text-center text-md-left"><strong>{{ setting('site.description') }}</strong></h6>
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-12 col-md-7 text-center text-md-right">
             <!--Facebook-->
-            <a class="p-2 m-2 fa-lg fb-ic ml-0"><i class="fab fa-facebook-f white-text mr-lg-4"> </i></a>
+            {{-- <a class="p-2 m-2 fa-lg fb-ic ml-0"><i class="fab fa-facebook-f white-text mr-lg-4"> </i></a> --}}
             <!--Twitter-->
-            <a class="p-2 m-2 fa-lg tw-ic"><i class="fab fa-twitter white-text mr-lg-4"> </i></a>
+            {{-- <a class="p-2 m-2 fa-lg tw-ic"><i class="fab fa-twitter white-text mr-lg-4"> </i></a> --}}
             <!--Google +-->
-            <a class="p-2 m-2 fa-lg gplus-ic"><i class="fab fa-google-plus-g white-text mr-lg-4"> </i></a>
+            {{-- <a class="p-2 m-2 fa-lg gplus-ic"><i class="fab fa-google-plus-g white-text mr-lg-4"> </i></a> --}}
             <!--Linkedin-->
-            <a class="p-2 m-2 fa-lg li-ic"><i class="fab fa-linkedin-in white-text mr-lg-4"> </i></a>
+            {{-- <a class="p-2 m-2 fa-lg li-ic"><i class="fab fa-linkedin-in white-text mr-lg-4"> </i></a> --}}
             <!--Instagram-->
-            <a class="p-2 m-2 fa-lg ins-ic"><i class="fab fa-instagram white-text mr-lg-4"> </i></a>
+            {{-- <a class="p-2 m-2 fa-lg ins-ic"><i class="fab fa-instagram white-text mr-lg-4"> </i></a> --}}
+            {{ menu('social', 'vendor.menus.social') }}
           </div>
+          
           <!--Grid column-->
 
         </div>
@@ -232,7 +233,7 @@
     <!-- Copyright-->
     <div class="footer-copyright py-3 text-center">
       <div class="container-fluid">
-        © 2019 Copyright: <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
+        © 2020 Copyright: <a href="#" target="_blank"> {{ setting('site.title') }} </a>
       </div>
     </div>
     <!--/.Copyright -->

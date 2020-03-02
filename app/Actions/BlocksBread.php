@@ -13,7 +13,7 @@ class BlocksBread extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-lock';
+        return 'voyager-edit';
     }
 
     public function getPolicy()
@@ -24,7 +24,7 @@ class BlocksBread extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-success',
+            'class' => 'btn btn-success pull-right',
         ];
     }
 
