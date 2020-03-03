@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Material Design Bootstrap</title>
+  <title>{{ config('app.name') }}</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->
@@ -32,7 +32,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
       <div class="container">
         <a class="navbar-brand" href="#">
-          <strong>Navbar</strong>
+          <strong>{{ setting('site.title') }}</strong>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,7 +127,7 @@
     <!--/Navbar-->
 
     <!-- Intro Section -->
-    <div id="home" class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url(https://mdbootstrap.com/img/Photos/Others/images/42.jpg); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <div id="home" class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({{ $collection['image_header']['value'] }}); background-repeat: no-repeat; background-size: cover; background-position: center center;">
       <div class="mask rgba-black-slight">
         <div class="container h-100 d-flex justify-content-center align-items-center">
           <div class="row smooth-scroll">
