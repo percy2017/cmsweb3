@@ -46,4 +46,4 @@
   
   </section>
   <!--Section: Main info-->
-   <hr class="my-5">
+  <hr class="my-5" style="border: 1px solid #6e6e6e;">

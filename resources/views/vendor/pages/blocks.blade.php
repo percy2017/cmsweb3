@@ -115,6 +115,12 @@
                                                 <hr />
                                             </div>
                                         @break
+                                        @case('number')
+                                            <div class="form-group col-md-{{ $value['width'] }}">
+                                                <label>{{ $value['label'] }}</label>
+                                                <input type="number" class="form-control" name="{{ $value['name'] }}"  placeholder="" value="{{ $value['value'] }}">
+                                            </div>
+                                        @break
                                     @endswitch
                                 @endforeach
                                 <div class="form-group col-md-12">

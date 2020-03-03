@@ -95,7 +95,7 @@
                     <strong>Sin Anuncio y ademas descargas.</strong>
                 </p>
 
-                <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn btn-lg " style="background-color: #ce0505">Ver Planes
+                <a target="_blank" href="#pricing" class="btn btn-lg " style="background-color: #ce0505">Ver Planes
                     <i class="fas fa-graduation-cap ml-2"></i>
                 </a>
                 </div>

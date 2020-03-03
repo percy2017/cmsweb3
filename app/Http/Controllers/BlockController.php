@@ -37,7 +37,7 @@ class BlockController extends Controller
             }
         }
         $block->details = $mijson;
-        $block->position = $request->position;
+       // $block->position = $request->position;
         $block->save();
         
         return back()->with([
