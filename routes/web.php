@@ -33,7 +33,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/block/move_down/{block_id}', 'BlockController@move_down')->name('block_move_down');
     
     Route::get('{page_id}/edit', 'PageController@edit')->name('page_edit'); 
-    Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update'); 
+    Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
+    Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
 
     
 });

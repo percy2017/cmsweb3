@@ -25,5 +25,6 @@ class UsersTableSeeder extends Seeder
             'avatar' => null,
             'password' => Hash::make('password')
         ]);
+        
     }
 }

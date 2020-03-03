@@ -7,10 +7,18 @@
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
-             <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
-                <span class="glyphicon glyphicon-list"></span>&nbsp;
-                {{ __('voyager::generic.return_to_list') }}
-            </a>
+        <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
+            <span class="glyphicon glyphicon-list"></span>&nbsp;
+            {{ __('voyager::generic.return_to_list') }}
+        </a>
+        @if(setting('site.page')==$page->slug)
+            <a href="#" class="btn btn-default" disabled="disabled">
+        @else
+            <a href="{{ route('page_default', $page->id) }}" class="btn btn-primary">
+        @endif
+            <span class="voyager-anchor"></span>&nbsp;
+            Establcer Plantilla
+        </a>
     </div>
 
 @stop
@@ -90,7 +98,8 @@
                                                         'fas fa-cloud-upload-alt blue-text',
                                                         'fas fa-home blue-text',
                                                         'fas fa-users white-text',
-                                                        'fas fa-chart-bar blue-text'
+                                                        'fas fa-chart-bar blue-text',
+                                                        'far fa-calendar-alt mr-2'
                                                     ];
                                                 @endphp
                                                 <label>{{ $value['label'] }}</label>
@@ -103,6 +112,11 @@
                                                 </select>
                                             </div>
                                             @break
+                                            @case('space')
+                                            <div class="col-md-12">
+                                                <hr />
+                                            </div>
+                                        @break
                                     @endswitch
                                 @endforeach
 

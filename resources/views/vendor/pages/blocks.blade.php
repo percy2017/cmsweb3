@@ -6,25 +6,23 @@
     <div class="container-fluid">
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
+            - {{ $page->name }}
         </h1>
-             <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
-                <span class="glyphicon glyphicon-list"></span>&nbsp;
-                {{ __('voyager::generic.return_to_list') }}
-            </a>
+        <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
+            <span class="glyphicon glyphicon-list"></span>&nbsp;
+            {{ __('voyager::generic.return_to_list') }}
+        </a>
     </div>
-
 @stop
 
 @section('css')
 
 @endsection
 @section('content')
-
     <div class="page-content container-fluid" id="voyagerBreadEditAdd">
         @include('voyager::alerts')
         <div class="row">
             @foreach ($blocks as $block)
-      
                 <div class="col-md-12">
                     <div class="panel panel-primary panel-bordered">
                         
@@ -97,7 +95,8 @@
                                                         'fas fa-cloud-upload-alt blue-text',
                                                         'fas fa-home blue-text',
                                                         'fas fa-users white-text',
-                                                        'fas fa-chart-bar blue-text'
+                                                        'fas fa-chart-bar blue-text',
+                                                        'far fa-calendar-alt mr-2'
                                                     ];
                                                 @endphp
                                                 <label>{{ $value['label'] }}</label>
@@ -137,7 +136,6 @@
                     </div>
                 </div>
             @endforeach
-               
         </div>
     </div>
 @stop
