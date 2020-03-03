@@ -2,7 +2,7 @@
     <section id="features" class="mb-5">
 
         <h1 class="mb-3 my-5 pt-5 dark-grey-text wow fadeIn text-center" data-wow-delay="0.2s"><strong
-            class="font-weight-bold">{{ $data->title_strong->value }}</strong>{{ $data->title_default->value }}</h1>
+            class="font-weight-bold">{{ $data->title_strong->value }} </strong>{{ $data->title_default->value }}</h1>
 
         <p class="text-center grey-text w-responsive mx-auto mb-5 wow fadeIn" data-wow-delay="0.2s">
             {{ $data->description->value }}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Block;
+use App\Page;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -9,11 +10,13 @@ class BlockController extends Controller
 {
     function index($page_id)
     {
+        $page = Page::where('id', $page_id)->first();
         $blocks = Block::where('page_id', $page_id)->orderBy('position', 'asc')->get();
         $dataType = Voyager::model('DataType')->where('slug', '=', 'blocks')->first();
         return view('vendor.pages.blocks', [
             'blocks' => $blocks,
-            'dataType' =>  $dataType
+            'dataType' =>  $dataType,
+            'page' => $page
         ]);
     }
 
@@ -37,7 +40,7 @@ class BlockController extends Controller
             }
         }
         $block->details = $mijson;
-        $block->position = $request->position;
+        // $block->position = $request->position;
         $block->save();
         
         return back()->with([

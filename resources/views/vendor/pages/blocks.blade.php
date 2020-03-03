@@ -6,11 +6,12 @@
     <div class="container-fluid">
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
+            - {{ $page->name }}
         </h1>
-             <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
-                <span class="glyphicon glyphicon-list"></span>&nbsp;
-                {{ __('voyager::generic.return_to_list') }}
-            </a>
+        <a href="{{ route('voyager.pages.index') }}" class="btn btn-warning">
+            <span class="glyphicon glyphicon-list"></span>&nbsp;
+            {{ __('voyager::generic.return_to_list') }}
+        </a>
     </div>
 @stop
 

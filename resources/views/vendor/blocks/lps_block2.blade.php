@@ -21,7 +21,7 @@
 
             <!--Section heading-->
             <h2 class="mb-3 my-5 dark-grey-text wow fadeIn" data-wow-delay="0.2s"><strong
-                class="font-weight-bold">{{ $data->title_strong->value }}</strong> {{ $data->title_default->value }}</h2>
+                class="font-weight-bold">{{ $data->title_strong->value }} </strong>{{ $data->title_default->value }}</h2>
 
             <p class="grey-text mb-4">{{$data->desription->value}}</p>
 

@@ -6,8 +6,23 @@ use Illuminate\Http\Request;
 use App\Page;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 class PageController extends Controller
 {
+    function default($page_id)
+    {
+        $page = Page::where('id', $page_id)->first(); 
+        
+        DB::table('settings')
+            ->where('key', 'site.page')
+            ->update(['value' => $page->slug]);
+
+            return back()->with([
+                'message'    => $page->name.' - plantilla establecida',
+                'alert-type' => 'success',
+            ]);
+    }
+
     function edit($page_id)
     {
         $page = Page::where('id', $page_id)->first(); 

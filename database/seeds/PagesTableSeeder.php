@@ -32,7 +32,7 @@ class PagesTableSeeder extends Seeder
                 'image1' => [
                     'type' => 'image',
                     'name' => 'image1',
-                    'label' => 'Imagen',
+                    'label' => 'Imagen (600x670)',
                     'value' => 'myimage.png',
                     'width' => 6
                 ],
@@ -179,7 +179,7 @@ class PagesTableSeeder extends Seeder
                 'image_donwload' => [
                     'type'   => 'image',
                     'name'   => 'image_donwload',
-                    'label'  => 'Image Donwload',
+                    'label'  => 'Image Donwload (900x572)',
                     'value'  => 'defualt.png',
                     'width'  => 4
                 ],
@@ -538,7 +538,7 @@ class PagesTableSeeder extends Seeder
                 'image1' => [
                     'type'  => 'image',
                     'name'  => 'image1',
-                    'label' => 'Imagen #1',
+                    'label' => 'Imagen #1 (250x250)',
                     'value' => 'image1.png',
                     'width'  => 3
                 ],
@@ -570,7 +570,7 @@ class PagesTableSeeder extends Seeder
                 'image2' => [
                     'type'  => 'image',
                     'name'  => 'image2',
-                    'label' => 'Imagen #2',
+                    'label' => 'Imagen #2 (250x250)',
                     'value' => 'image2.png',
                     'width'  => 3
                 ],
@@ -602,7 +602,7 @@ class PagesTableSeeder extends Seeder
                 'image3' => [
                     'type'  => 'image',
                     'name'  => 'image3',
-                    'label' => 'Imagen #3',
+                    'label' => 'Imagen #3 (250x250)',
                     'value' => 'image3.png',
                     'width'  => 3
                 ],
@@ -634,7 +634,7 @@ class PagesTableSeeder extends Seeder
                 'image4' => [
                     'type'  => 'image',
                     'name'  => 'image4',
-                    'label' => 'Imagen #4',
+                    'label' => 'Imagen #4 (250x250)',
                     'value' => 'image4.png',
                     'width'  => 3
                 ],
@@ -666,14 +666,14 @@ class PagesTableSeeder extends Seeder
                 'image5' => [
                     'type'  => 'image',
                     'name'  => 'image5',
-                    'label' => 'Imagen #5',
+                    'label' => 'Imagen #5 (250x250)',
                     'value' => 'image5.png',
                     'width'  => 3
                 ],
                 'title5' => [
                     'type'  => 'text',
                     'name'  => 'title5',
-                    'label' => 'Titulo #5',
+                    'label' => 'Titulo #5 (250x250)',
                     'value' => 'Elisa Janson',
                     'width'  => 2
                 ],
@@ -698,7 +698,7 @@ class PagesTableSeeder extends Seeder
                 'image6' => [
                     'type'  => 'image',
                     'name'  => 'image6',
-                    'label' => 'Imagen #6',
+                    'label' => 'Imagen #6 (250x250)',
                     'value' => 'image6.png',
                     'width'  => 3
                 ],
