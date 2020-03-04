@@ -5,11 +5,9 @@
     <section class="text-center dark-grey-text" id="pricing" >
   
       <!-- Section heading -->
-      <h3 class="font-weight-bold pb-2 mb-4">Our pricing plans</h3>
+      <h3 class="font-weight-bold pb-2 mb-4">{{ $data->title->value }}</h3>
       <!-- Section description -->
-      <p class="text-muted w-responsive mx-auto mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        Fugit, error amet numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam
-        eum porro a pariatur veniam.</p>
+       <p class="text-muted w-responsive mx-auto mb-5">{{ $data->description->value }}</p>
   
       <!-- Grid row -->
       <div class="row">
@@ -18,30 +16,30 @@
         <div class="col-lg-4 col-md-12 mb-4">
   
           <!-- Card -->
-          <div class="pricing-card card">
+          <div class="pricing-card card ">
   
             <!-- Content -->
             <div class="card-body">
-              <h5 class="font-weight-bold mt-3">Basic</h5>
+            <h5 class="font-weight-bold mt-3">{{ $data->pricing1_title->value }}</h5>
   
               <!-- Price -->
-              <div class="price pt-0">
-                <h2 class="number red-text mb-0">10</h2>
+              <div class="price pt-0"> 
+                <h2 class="number red-text mb-0">{{ $data->pricing1_price->value }}</h2>
               </div>
   
               <ul class="striped mb-1">
                 <li>
-                  <p><strong>1</strong> project</p>
+                  <p><strong></strong> {{ $data->pricing1_description1->value }}</p>
                 </li>
                 <li>
-                  <p><strong>100</strong> components</p>
+                  <p><strong></strong> {{ $data->pricing1_description2->value }}</p>
                 </li>
                 <li>
-                  <p><strong>150</strong> features</p>
+                  <p><strong></strong> {{ $data->pricing1_description3->value }}</p>
                 </li>
                 
               </ul>
-              <a class="btn btn-danger btn-rounded mb-4"> Buy now</a>
+            <a  href="{{ $data->pricing1_button4->value }}" class="btn btn-danger btn-rounded mb-4">Comprar Ahora</a>
   
             </div>
             <!-- Content -->
@@ -63,28 +61,25 @@
   
               <!-- Content -->
               <div class="card-body">
-                <h5 class="font-weight-bold mt-2">Pro</h5>
+                <h5 class="font-weight-bold mt-2">{{ $data->pricing2_title->value }}</h5>
   
                 <!--Price -->
                 <div class="price pt-0">
-                  <h2 class="number mb-0">20</h2>
+                  <h2 class="number mb-0">{{ $data->pricing2_price->value }}</h2>
                 </div>
   
                 <ul class="striped mb-0">
                   <li>
-                    <p><strong>3</strong> projects</p>
+                    <p><strong></strong> {{ $data->pricing2_description1->value }}</p>
                   </li>
                   <li>
-                    <p><strong>200</strong> components</p>
+                    <p><strong></strong> {{ $data->pricing2_description2->value }}</p>
                   </li>
                   <li>
-                    <p><strong>250</strong> features</p>
-                  </li>
-                  <li>
-                    <p><strong>300</strong> members</p>
+                    <p><strong></strong>{{ $data->pricing2_description3->value }}</p>
                   </li>
                 </ul>
-                <a class="btn btn-rounded btn-outline-white">Buy now</a>
+              <a  href="{{ $data->pricing2_button4->value }}" class="btn btn-rounded btn-outline-white">Comprar Ahora</a>
   
               </div>
               <!-- Content -->
@@ -105,28 +100,26 @@
   
             <!-- Content -->
             <div class="card-body">
-              <h5 class="font-weight-bold mt-3">Enterprise</h5>
+              <h5 class="font-weight-bold mt-3">{{ $data->pricing3_title->value }}</h5>
   
               <!-- Price -->
               <div class="price pt-0">
-                <h2 class="number red-text mb-0">30</h2>
+                <h2 class="number red-text mb-0">{{ $data->pricing3_price->value }}</h2>
               </div>
   
               <ul class="striped mb-1">
                 <li>
-                  <p><strong>5</strong> projects</p>
+                  <p><strong>5</strong> {{ $data->pricing3_description1->value }}</p>
                 </li>
                 <li>
-                  <p><strong>300</strong> components</p>
+                  <p><strong>300</strong> {{ $data->pricing3_description2->value }}</p>
                 </li>
                 <li>
-                  <p><strong>350</strong> features</p>
+                  <p><strong>350</strong> {{ $data->pricing3_description3->value }}</p>
                 </li>
-                <li>
-                  <p><strong>400</strong> members</p>
-                </li>
+                
               </ul>
-              <a class="btn btn-danger btn-rounded mb-4"> Buy now</a>
+            <a href="{{ $data->pricing3_button4->value }}" class="btn btn-danger btn-rounded mb-4"> Comprar Ahora</a>
   
             </div>
             <!-- Content -->

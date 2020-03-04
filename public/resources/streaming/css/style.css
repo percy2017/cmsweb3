@@ -1,1 +1,7 @@
 /* Your custom styles */
+.pricing-card .price .number {
+    padding: 1.5rem;
+    font-size: 5rem;
+    font-weight: 300;
+    content: "Bs" !important;
+}

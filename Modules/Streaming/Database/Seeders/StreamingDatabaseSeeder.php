@@ -995,7 +995,9 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'description',
                     'label' => 'Descripcion',
-                    'value' => 'Ve en smart TV, PlayStation, Xbox, Chromecast, Apple TV, reproductores de Blu-ray y más..',
+                    'value' => 'Ve en smart TV, PlayStation, Xbox, Chromecast, Apple TV, reproductores de Blu-ray y más. Descarga contenidos para ver donde vayas.
+                    Disfruta offline tus películas y programas favoritos. Disfruta donde quieras.
+                    Películas y programas ilimitados en tu teléfono, tablet, computadora y TV sin costo extra.',
                     'width'  => 12
                 ]
             ])
@@ -1012,7 +1014,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'text',
                     'name'   => 'title_strong',
                     'label'  => 'Titulo en Negrita',
-                    'value'  => 'Spotify Premiun.',
+                    'value'  => '¿Por qué ser Premium?',
                     'width'  => 6
                 ],
 
@@ -1020,8 +1022,8 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'description',
                     'label' => 'Descripcion',
-                    'value' => 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id quam sapiente
-                    molestiae numquam quas, voluptates omnis nulla ea odio.',
+                    'value' => 'Escucha música sin límites
+                    Reproduce millones de canciones sin anuncios, sin conexión y on-demand.',
                     'width'  => 6
                 ],
 
@@ -1037,7 +1039,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text',
                     'name'  => 'title1',
                     'label' => 'titulo 1',
-                    'value' => 'Feature One',
+                    'value' => 'Descarga tu música.',
                     'width'  => 3
                 ],
 
@@ -1045,7 +1047,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'decription1',
                     'label' => 'descripcion # 1 ',
-                    'value' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+                    'value' => 'Escúchala desde cualquier lugar.',
                     'width'  => 6
                 ],
 
@@ -1061,7 +1063,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text',
                     'name'  => 'title2',
                     'label' => 'titulo 2',
-                    'value' => 'Feature two',
+                    'value' => 'Sin anuncios que interrumpan tu música.',
                     'width'  => 3
                 ],
 
@@ -1069,7 +1071,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'decription2',
                     'label' => 'descripcion # 2 ',
-                    'value' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+                    'value' => 'Disfruta de tu música sin interrupciones',
                     'width'  => 6
                 ],
 
@@ -1085,7 +1087,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text',
                     'name'  => 'title3',
                     'label' => 'titulo 3',
-                    'value' => 'Feature Tree',
+                    'value' => 'Reproduce lo que quieras.',
                     'width'  => 3
                 ],
 
@@ -1093,7 +1095,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'decription3',
                     'label' => 'descripcion # 3',
-                    'value' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+                    'value' => 'Incluso en dispositivos móviles.',
                     'width'  => 6
                 ],
 
@@ -1109,7 +1111,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text',
                     'name'  => 'title4',
                     'label' => 'titulo 4',
-                    'value' => 'Feature Four',
+                    'value' => 'Salta canciones de forma ilimitada.',
                     'width'  => 3
                 ],
 
@@ -1117,7 +1119,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'  => 'text_area',
                     'name'  => 'decription4',
                     'label' => 'descripcion # 4',
-                    'value' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+                    'value' => 'Salta canciones de forma ilimitada.',
                     'width'  => 6
                 ]
             ])
@@ -1134,7 +1136,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'text',
                     'name'   => 'title_strong',
                     'label'  => 'Titulo en Negrita',
-                    'value'  => 'Spotify Premiun.',
+                    'value'  => 'Pasarela de Pago',
                     'width'  => 6
                 ],
                 'description'=> [
@@ -1146,33 +1148,33 @@ class StreamingDatabaseSeeder extends Seeder
                     'width'  => 6
                 ],
 
-                'image1'=> [
+                'image11'=> [
                     'type'   => 'image',
-                    'name'   => 'image1',
+                    'name'   => 'image11',
                     'label'  => 'Imagen #1',
-                    'value'  => 'default.png',
+                    'value'  => 'default1.png',
                     'width'  => 4
                 ],
+                'image22'=> [
+                    'type'   => 'image',
+                    'name'   => 'image22',
+                    'label'  => 'Imagen #2',
+                    'value'  => 'default2.png',
+                    'width'  => 4
+                ],
+                'image33'=> [
+                    'type'   => 'image',
+                    'name'   => 'image33',
+                    'label'  => 'Imagen #3',
+                    'value'  => 'default3.png',
+                    'width'  => 4
+                ],
+
                 'title1' => [
                     'type'   => 'text',
                     'name'   => 'title1',
                     'label'  => 'Titulo #1',
                     'value'  => 'Tigo Money',
-                    'width'  => 4
-                ],
-                'account1' => [
-                    'type'   => 'text',
-                    'name'   => 'account1',
-                    'label'  => 'Cuenta #1',
-                    'value'  => 'Nro de Telefono: 78746621',
-                    'width'  => 4
-                ],
-
-                'image2'=> [
-                    'type'   => 'image',
-                    'name'   => 'image2',
-                    'label'  => 'Imagen #2',
-                    'value'  => 'default.png',
                     'width'  => 4
                 ],
                 'title2' => [
@@ -1182,26 +1184,26 @@ class StreamingDatabaseSeeder extends Seeder
                     'value'  => 'Banco BNB',
                     'width'  => 4
                 ],
+                 'title3' => [
+                    'type'   => 'text',
+                    'name'   => 'title3',
+                    'label'  => 'Titulo #3',
+                    'value'  => 'Banco Union',
+                    'width'  => 4
+                ],
+
+                'account1' => [
+                    'type'   => 'text',
+                    'name'   => 'account1',
+                    'label'  => 'Cuenta #1',
+                    'value'  => 'Nro de Telefono: 78746621',
+                    'width'  => 4
+                ],
                 'account2' => [
                     'type'   => 'text',
                     'name'   => 'account2',
                     'label'  => 'Cuenta #2',
                     'value'  => 'Nro de Cuenta: 8500183080',
-                    'width'  => 4
-                ],
-
-                'image3'=> [
-                    'type'   => 'image',
-                    'name'   => 'image3',
-                    'label'  => 'Imagen #3',
-                    'value'  => 'default.png',
-                    'width'  => 4
-                ],
-                'title3' => [
-                    'type'   => 'text',
-                    'name'   => 'title3',
-                    'label'  => 'Titulo #3',
-                    'value'  => 'Banco Union',
                     'width'  => 4
                 ],
                 'account3' => [
@@ -1226,7 +1228,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'text',
                     'name'   => 'title',
                     'label'  => 'Titulo en Negrita',
-                    'value'  => 'Pasarela de Pago.',
+                    'value'  => 'Elige tu plan Premium.',
                     'width'  => 6
                 ],
                 'description' => [
@@ -1250,7 +1252,7 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'number',
                     'name'   => 'pricing1_price',
                     'label'  => 'Precio #1',
-                    'value'  => '100',
+                    'value'  => '40',
                     'width'  => 6,
                     'step'   => '0,1',
                     'max'    => '190',
@@ -1260,28 +1262,28 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'text',
                     'name'   => 'pricing1_description1',
                     'label'  => 'detalles del plan # 1',
-                    'value'  => ' project',
+                    'value'  => 'Ve Netflix en tu smartphone',
                     'width'  => 3
                 ],
                 'pricing1_description2' => [
                     'type'   => 'text',
                     'name'   => 'pricing1_description2',
                     'label'  => 'detalles del plan # 1',
-                    'value'  => ' components',
+                    'value'  => ' tablet, smart TV, laptop ',
                     'width'  => 3
                 ],
                 'pricing1_description3' => [
                     'type'   => 'text',
                     'name'   => 'pricing1_description3',
                     'label'  => 'detalles del plan # 1',
-                    'value'  => ' features',
+                    'value'  => 'o dispositivo de streaming, ',
                     'width'  => 3
                 ],
                 'pricing1_button4' => [
                     'type'   => 'text',
                     'name'   => 'pricing1_button4',
                     'label'  => 'Acion del Boton # 1',
-                    'value'  => '#',
+                    'value'  => '#pasarela',
                     'width'  => 3
                 ],
 
@@ -1296,35 +1298,35 @@ class StreamingDatabaseSeeder extends Seeder
                     'type'   => 'number',
                     'name'   => 'pricing2_price',
                     'label'  => 'Precio #2',
-                    'value'  => '50',
+                    'value'  => '20',
                     'width'  => 6
                 ],
                 'pricing2_description1' => [
                     'type'   => 'text',
                     'name'   => 'pricing2_description1',
                     'label'  => 'detalles del plan # 2',
-                    'value'  => ' project',
+                    'value'  => 'Escucha música sin anuncios',
                     'width'  => 3
                 ],
                 'pricing2_description2' => [
                     'type'   => 'text',
                     'name'   => 'pricing2_description2',
                     'label'  => 'detalles del plan # 2',
-                    'value'  => ' components',
+                    'value'  => 'Reproduce tus canciones en cualquier lugar, incluso sin conexión',
                     'width'  => 3
                 ],
                 'pricing2_description3' => [
                     'type'   => 'text',
                     'name'   => 'pricing2_description3',
                     'label'  => 'detalles del plan # 2',
-                    'value'  => ' features',
+                    'value'  => 'Reproducción on-demand',
                     'width'  => 3
                 ],
                 'pricing2_button4' => [
                     'type'   => 'text',
                     'name'   => 'pricing2_button4',
                     'label'  => 'Acion del Boton # 2',
-                    'value'  => '#',
+                    'value'  => '#pasarela',
                     'width'  => 3
                 ],
 

@@ -17,7 +17,7 @@
       <div class="col-md-6 mb-4">
         <!-- Main heading -->
         <h3 class="h3 mb-3">{{ $data->title_strong->value }}.</h3>
-      <p>{{ $data->description->value }}</p>
+      <h5 class="display-6" align="left">{{ $data->description->value }}</h5>
         <!-- Main heading -->
   
         <hr>
