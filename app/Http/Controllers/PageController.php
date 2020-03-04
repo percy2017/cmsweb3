@@ -37,13 +37,21 @@ class PageController extends Controller
     {
         $page = Page::where('id', $page_id)->first();
         $mijson = $page->details;
+        
         foreach(json_decode($page->details, true) as $item => $value)
         {
             if($value['type'] == 'image')
             {
+              
                 $mijson = str_replace($value['value'], $value['value'], $mijson);
             }else{
-                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+                if($value['type'] == 'space')
+                {
+                }else
+                {
+                    $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+                }
+                
             }
             if($request->hasFile($value['name']))
             {

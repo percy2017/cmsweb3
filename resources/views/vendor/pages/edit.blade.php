@@ -121,7 +121,7 @@
                                 @endforeach
 
                                  <div class="form-group text-center col-md-12">
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="submit" class="btn btn-primary"><i class="voyager-edit"></i> Guardar</button>
                                     {{--  <a href="{{ route('block_delete', $block->id) }}" class="btn btn-danger">Eliminar este Blocke</a>  --}}
                                 </div>
                             </form>

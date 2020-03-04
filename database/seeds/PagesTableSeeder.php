@@ -739,7 +739,7 @@ class PagesTableSeeder extends Seeder
                 'image_header' => [
                     'type' => 'image',
                     'name' => 'image_header',
-                    'label' => 'Imagen Header',
+                    'label' => 'Imagen Header(2100x1464)',
                     'value' => 'myimage.png',
                     'width' => 4
                 ],
@@ -792,10 +792,10 @@ class PagesTableSeeder extends Seeder
                     'value'  => 'ABOUT US',
                     'width'  => 6
                 ],
-                'image' => [
+                'image1' => [
                     'type'  => 'image',
-                    'name'  => 'image',
-                    'label' => 'Logo del Restaurant',
+                    'name'  => 'image1',
+                    'label' => 'Logo del Restaurant(800x445)',
                     'value' => 'default.png',
                     'width' => 6
                 ],
@@ -830,9 +830,9 @@ class PagesTableSeeder extends Seeder
                     'value'  => 'Food for the body is not enough. There must be food for the soul.',
                     'width'  => 4
                 ],
-                'image' => [
+                'image2' => [
                     'type'  => 'image',
-                    'name'  => 'image',
+                    'name'  => 'image2',
                     'label' => 'image treak',
                     'value' => 'default.png',
                     'width'  => 4
