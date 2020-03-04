@@ -29,9 +29,16 @@ class BlockController extends Controller
               
             if($value['type'] == 'image')
             {
+              
                 $mijson = str_replace($value['value'], $value['value'], $mijson);
             }else{
-                $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+                if($value['type'] == 'space')
+                {
+                }else
+                {
+                    $mijson = str_replace($value['value'], $request[$value['name']], $mijson);
+                }
+                
             }
             if($request->hasFile($value['name']))
             {
