@@ -19,9 +19,10 @@ class NewMessage
      *
      * @return void
      */
-    public function __construct()
+    public $message;
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -31,6 +32,6 @@ class NewMessage
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('home');
     }
 }
