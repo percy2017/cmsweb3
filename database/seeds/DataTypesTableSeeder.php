@@ -84,6 +84,22 @@ class DataTypesTableSeeder extends Seeder
             ])->save();
         }
         //blocks ------------------------------------
+
+        //Modulos ----------------------------------
+        $dataType = $this->dataType('slug', 'modules');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'modules',
+                'display_name_singular' => 'Modulo',
+                'display_name_plural'   => 'Modulos',
+                'icon'                  => 'voyager-helm',
+                'model_name'            => 'App\\Module',
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+            ])->save();
+        }
+          //Modulos ------------------------------------
     }
 
     /**

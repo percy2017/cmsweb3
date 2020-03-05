@@ -45,8 +45,20 @@ class PermissionsTableSeeder extends Seeder
             ]);
         }
 
+
         // Permission::generateFor('pages');
 
         // Permission::generateFor('blocks');
+
+        $keys = [
+            'browse_modules',
+        ];
+
+        foreach ($keys as $key) {
+            Permission::firstOrCreate([
+                'key'        => $key,
+                'table_name' => 'modules',
+            ]);
+        }
     }
 }

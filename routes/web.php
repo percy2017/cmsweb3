@@ -36,5 +36,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
 
-    
+    Route::get('{module_id}/installer', 'PageController@module_installer')->name('module_installer');
 });

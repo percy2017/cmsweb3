@@ -16,6 +16,7 @@ class DataRowsTableSeeder extends Seeder
         $roleDataType = DataType::where('slug', 'roles')->firstOrFail();
         $PageDataType = DataType::where('slug', 'pages')->firstOrFail();
         $BlockDataType = DataType::where('slug', 'blocks')->firstOrFail();
+        $ModuleDataType = DataType::where('slug', 'modules')->firstOrFail();
 
         $dataRow = $this->dataRow($userDataType, 'id');
         if (!$dataRow->exists) {
@@ -354,6 +355,9 @@ class DataRowsTableSeeder extends Seeder
         }
 
 
+
+
+
         //Pages------------------------------
         //-----------------------------------
         $dataRow = $this->dataRow($PageDataType, 'id');
@@ -389,8 +393,6 @@ class DataRowsTableSeeder extends Seeder
                 ]
             ])->save();
         }
-
-        
         $dataRow = $this->dataRow($PageDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -428,7 +430,6 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 4
             ])->save();
         }
-
         $dataRow = $this->dataRow($PageDataType, 'details');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -457,7 +458,6 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 3,
             ])->save();
         }
-
         $dataRow = $this->dataRow($PageDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -489,6 +489,10 @@ class DataRowsTableSeeder extends Seeder
         //pages------------------------------
 
         
+
+
+
+
         //Blocks------------------------------
         //-----------------------------------
         $dataRow = $this->dataRow($BlockDataType, 'id');
@@ -562,7 +566,99 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 4,
             ])->save();
         }
-        //pages------------------------------
+        //Blocks------------------------------
+
+
+
+        //Modules------------------------------
+        //-----------------------------------
+        $dataRow = $this->dataRow($ModuleDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ModuleDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Nombre',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 2,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ModuleDataType, 'description_short');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 3,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ModuleDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 4,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ModuleDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 5,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ModuleDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 6,
+            ])->save();
+        }
+        //Modules------------------------------
+
+        
     }
 
     /**

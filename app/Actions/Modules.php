@@ -4,11 +4,11 @@ namespace App\Actions;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class Blocks extends AbstractAction
+class Modules extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Blocks';
+        return 'Instalar Modulo';
     }
 
     public function getIcon()
@@ -30,16 +30,17 @@ class Blocks extends AbstractAction
 
     public function getDefaultRoute()
     {
-        // return route('voyager.roles.index');
+        return route('module_installer', $this->data->{$this->data->getKeyName()});
     }
 
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'blocks';
+        return $this->dataType->slug == 'modules';
     }
 
-    public function massAction($ids, $comingFrom)
-    {
-        return redirect()->route('voyager.blocks.index');
-    }
+    // public function massAction($ids, $comingFrom)
+    // {
+    //     return redirect()->route('voyager.modules.index');
+    // }
+    
 }

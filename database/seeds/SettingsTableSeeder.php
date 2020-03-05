@@ -28,7 +28,7 @@ class SettingsTableSeeder extends Seeder
                 'display_name' => __('voyager::seeders.settings.site.description'),
                 'value'        => 'CmsWeb v3.0 - Software para crear y Administrar Paginas Web Dinamicas.',
                 'details'      => '',
-                'type'         => 'text',
+                'type'         => 'text_area',
                 'order'        => 2,
                 'group'        => 'Site',
             ])->save();
@@ -100,7 +100,7 @@ class SettingsTableSeeder extends Seeder
                 'display_name' => __('voyager::seeders.settings.admin.description'),
                 'value'        => 'CmsWeb v3.0 - Software para crear y Administrar Paginas Web Dinamicas.',
                 'details'      => '',
-                'type'         => 'text',
+                'type'         => 'text_area',
                 'order'        => 2,
                 'group'        => 'Admin',
             ])->save();
@@ -247,7 +247,7 @@ class SettingsTableSeeder extends Seeder
         // Whatsapp ------------------------------------
 
 
-                // mail ------------------------------------
+        // mail ------------------------------------
         // --------------------------------------------
         $setting = $this->findSetting('mail.username');
         if (!$setting->exists) {

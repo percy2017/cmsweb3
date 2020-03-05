@@ -69,4 +69,9 @@ class PageController extends Controller
             'alert-type' => 'success',
         ]);
     }
+
+    function module_installer($module_id)
+    {
+        return $module_id;
+    }
 }

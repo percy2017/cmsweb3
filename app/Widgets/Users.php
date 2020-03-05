@@ -5,7 +5,7 @@ use Arrilot\Widgets\AbstractWidget;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
-use Pvtl\VoyagerBlog\BlogPost;
+use App\Module;
 
 class Users extends AbstractWidget
 {
@@ -22,17 +22,17 @@ class Users extends AbstractWidget
      */
     public function run()
     {
-        $count = \App\User::count();
-        $string = trans_choice('voyager::dimmer.user', $count);
+        // $count = User::count();
+        // $string = trans_choice('voyager::dimmer.user', $count);
 
         return view('voyager::dimmer', array_merge($this->config, [
-            'icon'   => 'voyager-group',
-            'title'  => "{$count} {$string}",
+            'icon'   => 'voyager-helm',
+            'title'  => 'Modulos Disponibles',
             // 'text'   => __('voyager::dimmer.user_text', ['count' => $count, 'string' => Str::lower($string)]),
             'text' => "",
             'button' => [
-                'text' => __('voyager::dimmer.user_link_text'),
-                'link' => route('voyager.users.index'),
+                'text' => 'Ver los Modulos',
+                'link' => route('voyager.modules.index'),
             ],
             'image' => voyager_asset('images/widget-backgrounds/01.jpg'),
         ]));
