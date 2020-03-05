@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ config('app.name') }}</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -246,22 +247,23 @@
   <!-- SCRIPTS -->
 
   <!-- JQuery -->
-  <script type="text/javascript" src="resources/landingpage/js/jquery-3.4.1.min.js"></script>
+   
+  <script type="text/javascript" src="{{ asset('resources/landingpage/js/jquery-3.4.1.min.js') }}"></script>
 
   <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="resources/landingpage/js/popper.min.js"></script>
-
+  <script type="text/javascript" src="{{ asset('resources/landingpage/js/popper.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="resources/landingpage/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{ asset('resources/landingpage/js/bootstrap.min.js') }}"></script>
 
   <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="resources/landingpage/js/mdb.min.js"></script>
+  <script type="text/javascript" src="{{ asset('resources/landingpage/js/mdb.min.js') }}"></script>
 
 
   <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
   <script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
   <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
-
+  
 
   <script>
     //Animation init
@@ -322,6 +324,12 @@
         iconShadow: 6
       });
 
+  </script>
+
+  <script>
+      Echo.channel('home').listen('NewMessage', (e) => {
+          alert(e.message);
+      });
   </script>
 
 </body>
