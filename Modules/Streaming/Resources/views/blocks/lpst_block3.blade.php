@@ -1,5 +1,5 @@
  <!--Section: Content-->
- <section class="px-md-5 mx-md-5 text-center dark-grey-text">
+ <section class="px-md-5 mx-md-5 text-center dark-grey-text" id="pasarela">
 
     <!--Grid row-->
     <div class="row d-flex justify-content-center">
@@ -34,7 +34,7 @@
               <div class="mask rgba-white-slight"></div>
             </a>
           </div>
-        
+   
           <!-- Card content -->
           <div class="card-body card-body-cascade text-center">
         
@@ -43,7 +43,7 @@
             <!-- Subtitle -->
             <h5 class="blue-text pb-2"><strong>{{ $data->account1->value }}</strong></h5>
             <!-- Text -->
-        
+      
           </div>
         
         </div>
@@ -68,7 +68,7 @@
              <!-- Title -->
              <h5 class="card-title"><strong>{{ $data->title2->value }}</strong></h5>
              <!-- Subtitle -->
-             <h5 class="blue-text pb-2"><strong>{{ $data->account2->value }}</strong></h5>
+             <h5 class="blue-text pb-2" title="Percy Alvarez Cruz cuenta Banco-BNB"><strong>{{ $data->account2->value }}</strong></h5>
          
            </div>
          
@@ -82,7 +82,7 @@
          
            <!-- Card image -->
            <div class="view view-cascade overlay">
-             <img class="card-img-top" title="PERCY ALAVREZ CRUZ"src="{{ voyager::Image($data->image33->value) }}" alt="Card image cap">
+             <img class="card-img-top" src="{{ voyager::Image($data->image33->value) }}" alt="Card image cap">
              <a href="#!">
                <div class="mask rgba-white-slight"></div>
              </a>

@@ -36,5 +36,13 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
 
-    Route::get('{module_id}/installer', 'PageController@module_installer')->name('module_installer');
+   // Route::get('{module_id}/installer', 'PageController@module_installer')->name('module_installer');
 });
+
+Route::get('{module_name}/installer', function($module_name) {
+    $module=App\Module::where('id', $module_name)->first();//busca el primero
+    Artisan::call('module:seed '.$module->name);//trae nombre
+    $module->installed=true;//logica boleana
+    $module->save();
+    return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
+})->name('module_installer');

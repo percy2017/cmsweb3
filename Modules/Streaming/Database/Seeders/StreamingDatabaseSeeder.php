@@ -965,7 +965,119 @@ class StreamingDatabaseSeeder extends Seeder
             'name'      => 'Page streaming',
             'slug'      => 'index',
             'direction' => 'streaming::index',
-            'details'   => null
+            'details'   => json_encode([
+                'carusel1_image' => [
+                    'type' => 'image',
+                    'name' => 'carusel1_image',
+                    'label' => 'Imagen Header(2100x1464)',
+                    'value' => '1.png',
+                    'width' => 4
+                ],
+                'carusel2_image' => [
+                    'type' => 'image',
+                    'name' => 'carusel2_image',
+                    'label' => 'Imagen Header(2100x1464)',
+                    'value' => '2.png',
+                    'width' => 4
+                ],
+                'carusel3_image' => [
+                    'type' => 'image',
+                    'name' => 'carusel3_image',
+                    'label' => 'Imagen Header(2100x1464)',
+                    'value' => '3.png',
+                    'width' => 4
+                ],
+
+
+                'carusel1_title' => [
+                    'type' => 'text',
+                    'name' => 'carusel1_title',
+                    'label' => 'Titulo #1',
+                    'value' => 'NETFLIX',
+                    'width' => 4
+                ],
+                'carusel2_title' => [
+                    'type' => 'text',
+                    'name' => 'carusel2_title',
+                    'label' => 'Titulo #2',
+                    'value' => 'SPOTIFY',
+                    'width' => 4
+                ],
+                'carusel3_title' => [
+                    'type' => 'text',
+                    'name' => 'carusel3_title',
+                    'label' => 'Titulo #3',
+                    'value' => 'DISNEY PLUS',
+                    'width' => 4
+                ],
+
+
+                'carusel1_description' => [
+                    'type' => 'text',
+                    'name' => 'carusel1_description',
+                    'label' => 'Descripcion #1',
+                    'value' => 'Disfruta de Serie y Peliculas',
+                    'width' => 4
+                ],
+                'carusel2_description' => [
+                    'type' => 'text',
+                    'name' => 'carusel2_description',
+                    'label' => 'Descripcion #2',
+                    'value' => 'Descarga toda la musica.',
+                    'width' => 4
+                ],
+                'carusel3_description' => [
+                    'type' => 'text',
+                    'name' => 'carusel3_description',
+                    'label' => 'Descripcion # 3',
+                    'value' => 'Descarga toda la musica.',
+                    'width' => 4
+                ],
+
+                'carusel1_text_button' => [
+                    'type' => 'text',
+                    'name' => 'carusel1_text_button',
+                    'label' => 'Texto del Boton #1',
+                    'value' => 'VER PLANES',
+                    'width' => 4
+                ],
+                'carusel2_text_button' => [
+                    'type' => 'text',
+                    'name' => 'carusel2_text_button',
+                    'label' => 'Texto del Boton #2',
+                    'value' => 'VER PLANES',
+                    'width' => 4
+                ],
+                'carusel3_text_button' => [
+                    'type' => 'text',
+                    'name' => 'carusel3_text_button',
+                    'label' => 'Texto del Boton #3',
+                    'value' => 'VER PLANES',
+                    'width' => 4
+                ],
+
+                'carusel1_action' => [
+                    'type'  => 'text',
+                    'name'  => 'carusel1_action',
+                    'label' => 'accion btn #1',
+                    'value' => '#pricing',
+                    'width'  => 4
+                ],
+                'carusel2_action' => [
+                    'type'  => 'text',
+                    'name'  => 'carusel2_action',
+                    'label' => 'accion btn #2',
+                    'value' => '#pricing',
+                    'width'  => 4
+                ],
+                'carusel3_action' => [
+                    'type'  => 'text',
+                    'name'  => 'carusel3_action',
+                    'label' => 'accion btn #3',
+                    'value' => '#pricing',
+                    'width'  => 4
+                ]
+            ])
             
         ]);
 

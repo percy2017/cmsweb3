@@ -9,5 +9,5 @@ class Module extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'modules';
-    protected $fillable = [];
+    protected $fillable = ['installed','name','description_short','image','description_long'];
 }

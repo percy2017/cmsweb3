@@ -23,14 +23,30 @@ class Modules extends AbstractAction
 
     public function getAttributes()
     {
-        return [
-            'class' => 'btn btn-primary',
-        ];
+        $disable=\App\Module::where('id', $this->data->{$this->data->getKeyName()})->first();
+        if ( $disable->installed) {
+            return [
+                'class' => 'btn btn-default',
+            ];
+        } else {
+            return [
+                'class' => 'btn btn-primary',
+            ];
+        }
+        
+     
     }
 
     public function getDefaultRoute()
     {
-        return route('module_installer', $this->data->{$this->data->getKeyName()});
+        $disable=\App\Module::where('id', $this->data->{$this->data->getKeyName()})->first();
+        if ( $disable->installed) {
+            
+        } else {
+            return route('module_installer', $this->data->{$this->data->getKeyName()});
+        }
+        
+        
     }
 
     public function shouldActionDisplayOnDataType()

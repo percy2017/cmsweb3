@@ -39,7 +39,7 @@
                 </li>
                 
               </ul>
-            <a  href="{{ $data->pricing1_button4->value }}" class="btn btn-danger btn-rounded mb-4">Comprar Ahora</a>
+            <a  href="{{ $data->pricing1_button4->value }}" class="btn btn-danger btn-rounded mb-4">Comenzar</a>
   
             </div>
             <!-- Content -->
@@ -79,7 +79,7 @@
                     <p><strong></strong>{{ $data->pricing2_description3->value }}</p>
                   </li>
                 </ul>
-              <a  href="{{ $data->pricing2_button4->value }}" class="btn btn-rounded btn-outline-white">Comprar Ahora</a>
+              <a  href="{{ $data->pricing2_button4->value }}" class="btn btn-rounded btn-outline-white">Comenzar</a>
   
               </div>
               <!-- Content -->
@@ -119,7 +119,7 @@
                 </li>
                 
               </ul>
-            <a href="{{ $data->pricing3_button4->value }}" class="btn btn-danger btn-rounded mb-4"> Comprar Ahora</a>
+            <a href="{{ $data->pricing3_button4->value }}" class="btn btn-danger btn-rounded mb-4"> Comenzar</a>
   
             </div>
             <!-- Content -->

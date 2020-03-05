@@ -16,5 +16,30 @@ class ModulesTableSeeder extends Seeder
             'name'              => 'Blog',
             'description_short' => 'Modulo de Blog'
         ]);
+
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'Streaming',
+            'description_short' => 'Modulo de Streaming'
+        ]);
+        
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'CashFlow',
+            'description_short' => 'Modulo de Flujo de Caja'
+        ]);
+
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'Deni',
+            'description_short' => 'Modulo DENI'
+        ]);
+
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'Ecommerce',
+            'description_short' => 'Modulo de Comercio Electronico'
+        ]);
+
     }
 }

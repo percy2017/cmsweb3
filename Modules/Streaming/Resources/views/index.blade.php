@@ -35,7 +35,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
-      <ul class="navbar-nav ml-auto">
+      {{-- <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#">
             <i class="fab fa-facebook-f"></i> Facebook
@@ -55,7 +55,46 @@
             <a class="dropdown-item white-text" href="#">Log out</a>
           </div>
         </li>
-      </ul>
+      </ul> --}}
+      <ul class="navbar-nav ml-auto">
+            @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">
+                      Ingresar
+                    </a>
+                </li>
+                @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">
+                          Registrarme
+                        </a>
+                    </li>
+                @endif
+            @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                      <a class="dropdown-item" href="/home">
+                            Perfil
+                        </a>
+
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                            Salir
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </li>
+            @endguest
+          </ul>
     </div>
 </nav>
 <!--/.Navbar -->
@@ -76,7 +115,7 @@
 
         <!--First slide-->
         <div class="carousel-item active">
-            <div class="view" style="background-image: url('https://assets.nflxext.com/ffe/siteui/vlv3/5039d301-b891-47b2-b755-553e5c874395/886c28db-fd26-41d4-84c6-763d3c552de5/BO-es-20200210-popsignuptwoweeks-perspective_alpha_website_small.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <div class="view" style="background-image: url('{{ voyager::Image($collection['carusel1_image']['value']) }}'); background-repeat: no-repeat; background-size: cover;">
 
             <!-- Mask & flexbox options-->
             <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -84,18 +123,18 @@
                 <!-- Content -->
                 <div class="text-center mx-5 wow fadeIn">
                 <h1 style="font-size:10vw;">
-                    <strong style="color: #ce0505">NETFLIX</strong>
+                    <strong style="color: #ce0505">{{ $collection['carusel1_title']['value'] }}</strong>
                 </h1>
 
-                <p>
-                    <strong>Disfruta de Serie y Peliculas</strong>
+                <p class="h6">
+                    <strong>{{ $collection['carusel1_description']['value'] }}</strong>
                 </p>
 
                 <p class="mb-4 d-none d-md-block">
                     <strong>Sin Anuncio y ademas descargas.</strong>
                 </p>
 
-                <a target="_blank" href="#pricing" class="btn btn-lg " style="background-color: #ce0505">Ver Planes
+                <a target="_blank" href="{{ $collection['carusel1_action']['value'] }}" class="btn btn-lg " style="background-color: #ce0505">{{ $collection['carusel1_text_button']['value'] }}
                     <i class="fas fa-graduation-cap ml-2"></i>
                 </a>
                 </div>
@@ -110,7 +149,7 @@
 
         <!--Second slide-->
         <div class="carousel-item">
-            <div class="view" style="background-image: url('https://wallpaperaccess.com/full/667773.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="view" style="background-image: url('{{ voyager::Image($collection['carusel2_image']['value']) }}'); background-repeat: no-repeat; background-size: cover;">
 
             <!-- Mask & flexbox options-->
             <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -118,18 +157,18 @@
                 <!-- Content -->
                 <div class="text-center white-text mx-5 wow fadeIn">
                 <h1 style="font-size:10vw;">
-                    <strong style="color: #81b71a">SPOTIFY</strong>
+                    <strong style="color: #81b71a">{{ $collection['carusel2_title']['value'] }}</strong>
                 </h1>
 
                 <p>
-                    <strong>Descarga toda la musica.</strong>
+                    <strong>{{ $collection['carusel2_description']['value'] }}</strong>
                 </p>
 
                 <p class="mb-4 d-none d-md-block">
                     <strong>Sin Anuncio y ademas descargas.</strong>
                 </p>
 
-                <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn  btn-lg" style="background-color:#81b71a" >Ver Planes
+                <a target="_blank" href="{{ $collection['carusel2_action']['value'] }}" class="btn  btn-lg" style="background-color:#81b71a" >{{ $collection['carusel2_text_button']['value'] }}
                     <i class="fas fa-graduation-cap ml-2"></i>
                 </a>
                 </div>
@@ -144,7 +183,7 @@
 
         <!--Third slide-->
         <div class="carousel-item">
-            <div class="view" style="background-image: url('https://wallpaperplay.com/walls/full/4/4/a/198388.jpg'); background-repeat: no-repeat; background-size: cover;">
+            <div class="view" style="background-image: url('{{ voyager::Image($collection['carusel3_image']['value']) }}'); background-repeat: no-repeat; background-size: cover;">
 
             <!-- Mask & flexbox options-->
             <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
@@ -152,18 +191,18 @@
                 <!-- Content -->
                 <div class="text-center white-text mx-5 wow fadeIn">
                 <h1 style="font-size:10vw;">
-                    <strong>Disney Plus</strong>
+                    <strong>{{ $collection['carusel3_title']['value'] }}</strong>
                 </h1>
 
                 <p>
-                    <strong>Descarga toda la musica.</strong>
+                    <strong>{{ $collection['carusel3_description']['value'] }}</strong>
                 </p>
 
                 <p class="mb-4 d-none d-md-block">
                     <strong>Sin Anuncio y ademas descargas.</strong>
                 </p>
 
-                <a target="_blank" href="https://mdbootstrap.com/education/bootstrap/" class="btn btn-outline-white btn-lg">Ver Planes
+                <a target="_blank" href="{{ $collection['carusel3_action']['value'] }}" class="btn btn-outline-white btn-lg">{{ $collection['carusel3_text_button']['value'] }}
                     <i class="fas fa-graduation-cap ml-2"></i>
                 </a>
                 </div>
@@ -262,6 +301,7 @@
     <!--/.Copyright-->
 
 </footer>
+<div id="myWP"></div>
 <!--/.Footer-->
 <!-- SCRIPTS -->
 <!-- JQuery -->
@@ -273,9 +313,55 @@
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="resources/streaming/js/mdb.min.js"></script>
 <!-- Initializations -->
+<script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
+<script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
+<script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
+
 <script type="text/javascript">
 // Animations initialization
 new WOW().init();
+// whatsapp ------------------------------------
+$('#myWP').floatingWhatsApp({
+        phone: '{{ setting('whatsapp.phone') }}',
+        popupMessage: '{{ setting('whatsapp.popupMessage') }}',
+        message: '{{ setting('whatsapp.message') }}',
+        showPopup: true,
+        showOnIE: true,
+        headerTitle: '{{ setting('whatsapp.headerTitle') }}',
+        headerColor: '{{ setting('whatsapp.color') }}',
+        backgroundColor: '{{ setting('whatsapp.color') }}',
+        buttonImage: '<img src="{{ Voyager::Image(setting('whatsapp.buttonImage' )) }}" />',
+        position: '{{ setting('whatsapp.position') }}',
+        autoOpenTimeout: {{ setting('whatsapp.autoOpenTimeout') }},
+        size: '{{ setting('whatsapp.size') }}'
+      });
+
+      // Initialize Share-Buttons
+      $.contactButtons({
+        effect  : 'slide-on-scroll',
+        buttons : {
+          'facebook':   { class: 'facebook', use: true, link: 'https://www.facebook.com/sharer/sharer.php?u='+window.location, extras: 'target="_blank"' },
+          'twitter':   { class: 'twitter', use: true, link: 'https://twitter.com/home?status='+window.location, extras: 'target="_blank"' },
+          'whatsapp':   { class: 'whatsapp', use: true, link: 'https://api.whatsapp.com/send?text='+window.location, extras: 'target="_blank"' }
+        }
+      });
+
+      // buttun up
+      $("body").toTopButton({
+        // path to icons
+        imagePath: 'vendor/up/img/icons/',
+        // arrow, arrow-circle, caret, caret-circle, circle, circle-o, arrow-l, drop, rise, top
+        // or your own SVG icon
+        arrowType: 'arrow',
+
+        // 'w' = white
+        // 'b' = black
+        iconColor: 'w',
+        
+        // icon shadow
+        // from 1 to 16
+        iconShadow: 6
+      });
 
 </script>
 </body>
