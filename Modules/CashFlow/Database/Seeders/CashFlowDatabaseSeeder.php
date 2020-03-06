@@ -176,11 +176,11 @@ class CashFlowDatabaseSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 5,
                 'details'      => [
-                    'options'   => [
-                        "on" => "On Text",
-                        "off" => "Off Text",
+                    
+                        "on" => "Caja Abierta",
+                        "off" => "Caja Cerrada",
                         "checked" => true
-                    ],
+                   
                 ]
             ])->save();
         }
@@ -519,7 +519,7 @@ class CashFlowDatabaseSeeder extends Seeder
         Seating::create([
             'concept'   => 'cocepto  #1',
             'amount'    => 100,
-            'type'      => 'INGRESO',
+            'type'      => 'INGRESOS',
             'box_id'    => $box->id,
             'user_id'   => 1
         ]);

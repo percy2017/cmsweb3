@@ -14,6 +14,7 @@ class Profiles extends AbstractAction
     public function getIcon()
     {
         // return 'voyager-pen';
+        return 'fa fa-list-ul';
     }
 
     public function getPolicy()
@@ -24,7 +25,8 @@ class Profiles extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-default',
+            'class' => 'btn btn-sm btn-dark pull-right',
+            'style'=>'margin: 5px;'
         ];
     }
 

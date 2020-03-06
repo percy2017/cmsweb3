@@ -13,7 +13,7 @@ class ViewSeating extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-pen';
+        return 'voyager-file-text';
     }
 
     public function getPolicy()
@@ -24,7 +24,8 @@ class ViewSeating extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-dark',
+            'class' => 'btn btn-sm btn-dark pull-right',
+            'style'=>'margin:5px;'
         ];
     }
 

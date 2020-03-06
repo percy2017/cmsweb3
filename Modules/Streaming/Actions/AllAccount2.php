@@ -13,7 +13,7 @@ class AllAccount2 extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-pen';
+         return 'voyager-credit-cards';
     }
 
     public function getPolicy()
@@ -24,7 +24,7 @@ class AllAccount2 extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-primary',
+            'class' => 'btn btn-md btn-primary',
         ];
     }
 

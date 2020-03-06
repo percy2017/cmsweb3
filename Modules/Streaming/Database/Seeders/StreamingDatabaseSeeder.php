@@ -557,8 +557,8 @@ class StreamingDatabaseSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => 2,
             ])->save();
@@ -599,8 +599,8 @@ class StreamingDatabaseSeeder extends Seeder
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => 2,
             ])->save();
