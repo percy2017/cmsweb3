@@ -329,6 +329,7 @@
   <script>
       Echo.channel('home').listen('NewMessage', (e) => {
           alert(e.message);
+          console.log(e.message);
       });
   </script>
 
