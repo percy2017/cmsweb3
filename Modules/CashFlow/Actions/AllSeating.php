@@ -24,7 +24,7 @@ class AllSeating extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-primary',
+            'class' => 'btn btn-md btn-primary',
         ];
     }
 

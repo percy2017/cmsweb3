@@ -13,7 +13,7 @@ class AllProfile extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-pen';
+        return 'fa fa-users';
     }
 
     public function getPolicy()
@@ -24,7 +24,7 @@ class AllProfile extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-success',
+            'class' => 'btn btn-md btn-success',
         ];
     }
 
