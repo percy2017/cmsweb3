@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Page;
+use App\Module;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -70,8 +71,14 @@ class PageController extends Controller
         ]);
     }
 
-    function module_installer($module_id)
+    //Modules--------------------------------
+    function module_view($module_id)
     {
-        return $module_id;
+        $module = Module::where('id', $module_id)->first(); 
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'modules')->first();
+        return view('vendor.modules.index', [
+            'module' => $module,
+            'dataType' => $dataType
+        ]);
     }
 }

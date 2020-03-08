@@ -614,6 +614,21 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 3,
             ])->save();
         }
+        $dataRow = $this->dataRow($ModuleDataType, 'description_long');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Descripcion Larga',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 4,
+            ])->save();
+        }
+        
         $dataRow = $this->dataRow($ModuleDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([

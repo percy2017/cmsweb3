@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         Voyager::addAction(\App\Actions\BlocksBread::class);
         Voyager::addAction(\App\Actions\PageEdit::class);
         Voyager::addAction(\App\Actions\Modules::class);
+        Voyager::addAction(\App\Actions\ModuleView::class);
     }
 }
