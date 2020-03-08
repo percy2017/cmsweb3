@@ -11,6 +11,17 @@
 |
 */
 
-Route::prefix('streaming')->group(function() {
-    Route::get('/', 'StreamingController@index');
-});
+// Route::prefix('streaming')->group(function() {
+//     Route::get('/', 'StreamingController@index');
+//     Route::get('profiles/{id}','StreamingController@history')->name('profile_history');
+// });
+
+
+Route::group(['prefix' => 'admin'], function () {
+
+    Route::get('profiles/{id}','StreamingController@history')->name('profile_history');
+    Route::post('profiles/{id}/update', 'StreamingController@update')->name('profile_renovation');
+    Route::post('profiles/change', 'StreamingController@change')->name('profile_change');
+  
+  
+  });

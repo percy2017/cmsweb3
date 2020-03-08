@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use SoftDeletes;
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at','finaldate'];
     protected $fillable = ['fullname','phone','statu','finaldate','startdate','membership_id','observation','account_id'];
     protected $table = 'profiles';
 
@@ -19,6 +19,12 @@ class Profile extends Model
     public function membership() {
 
         return $this->belongsTo('Modules\Streaming\Entities\Membership');
+
+    }
+
+    public function history() {
+
+        return $this->belongsTo('Modules\Streaming\Entities\History');
 
     }
 
