@@ -3,12 +3,19 @@
 namespace App\Actions;
 
 use TCG\Voyager\Actions\AbstractAction;
-
+use App\Module;
 class Modules extends AbstractAction
 {
+
     public function getTitle()
     {
-        return 'Instalar Modulo';
+        $mymodule = Module::where('id', $this->data->{$this->data->getKeyName()})->first();
+        if ($mymodule->installed) {
+            return 'Modulo Instaldo';
+        } else {
+            return 'Instalar Modulo';
+        }
+        
     }
 
     public function getIcon()
@@ -23,8 +30,8 @@ class Modules extends AbstractAction
 
     public function getAttributes()
     {
-        $disable=\App\Module::where('id', $this->data->{$this->data->getKeyName()})->first();
-        if ( $disable->installed) {
+        $mymodule = Module::where('id', $this->data->{$this->data->getKeyName()})->first();
+        if ( $mymodule->installed) {
             return [
                 'class' => 'btn btn-default',
             ];
@@ -33,19 +40,16 @@ class Modules extends AbstractAction
                 'class' => 'btn btn-primary',
             ];
         }
-        
-     
+
     }
 
     public function getDefaultRoute()
     {
-        $disable=\App\Module::where('id', $this->data->{$this->data->getKeyName()})->first();
-        if ( $disable->installed) {
-            
+        $mymodule = Module::where('id', $this->data->{$this->data->getKeyName()})->first();
+        if ($mymodule->installed) {
         } else {
             return route('module_installer', $this->data->{$this->data->getKeyName()});
         }
-        
         
     }
 
