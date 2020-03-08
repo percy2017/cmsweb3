@@ -18,4 +18,5 @@ Route::group(['prefix' => 'admin'], function () {
 
   Route::get('seating/cerrar/{box_id}', 'SeatingController@close')->name('box_close'); 
 
+
 });
