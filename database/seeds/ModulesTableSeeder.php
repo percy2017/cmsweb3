@@ -22,12 +22,6 @@ class ModulesTableSeeder extends Seeder
             'name'              => 'Streaming',
             'description_short' => 'Modulo de Streaming'
         ]);
-        
-        $module = Module::create([
-            'installed'         => false,
-            'name'              => 'CashFlow',
-            'description_short' => 'Modulo de Flujo de Caja'
-        ]);
 
         $module = Module::create([
             'installed'         => false,

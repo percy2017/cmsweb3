@@ -2,6 +2,6 @@
     "Ecommerce": true,
     "Deni": true,
     "Streaming": true,
-    "CashFlow": true,
+    "CashFlow": false,
     "Blog": true
 }

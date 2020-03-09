@@ -11,22 +11,22 @@ class Profile extends Model
     protected $fillable = ['fullname','phone','statu','finaldate','startdate','membership_id','observation','account_id'];
     protected $table = 'profiles';
 
-    public function account() {
+    // public function account() {
 
-        return $this->belongsTo('Modules\Streaming\Entities\Account');
+    //     return $this->belongsTo('Modules\Streaming\Entities\Account');
 
-    }
-    public function membership() {
+    // }
+    // public function membership() {
 
-        return $this->belongsTo('Modules\Streaming\Entities\Membership');
+    //     return $this->belongsTo('Modules\Streaming\Entities\Membership');
 
-    }
+    // }
 
-    public function history() {
+    // public function history() {
 
-        return $this->belongsTo('Modules\Streaming\Entities\History');
+    //     return $this->belongsTo('Modules\Streaming\Entities\History');
 
-    }
+    // }
 
     
 }

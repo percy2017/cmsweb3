@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDetailsTable extends Migration
+class CreateSeatingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('details', function (Blueprint $table) {
+        Schema::create('seatings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('images')->nullable();
-            $table->double('price')->nullable();
-            $table->text('description')->nullable();
-
+            $table->string('concept');
+            $table->decimal('amount',8,2);
+            $table->string('type');
+            
+            
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
-
+            $table->unsignedBigInteger('box_id');
+            $table->foreign('box_id')->references('id')->on('boxes');
+            
             $table->timestamps();
             $table->softDeletes();
         });
@@ -38,6 +38,6 @@ class CreateDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('details');
+        Schema::dropIfExists('seatings');
     }
 }

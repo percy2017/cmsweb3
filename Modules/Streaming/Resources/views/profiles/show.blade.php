@@ -79,12 +79,11 @@
                         <label>Membresia</label>
                         <select class="form-control" name="membership_id">
                             @foreach ($membresias as $item)
-                            @if ($item->id === $profiles->membership_id)
-                            <option value="{{ $item->id }}" selected > {{ $item->title   }}</option>
-                            @else
-                            <option value="{{ $item->id }}" > {{ $item->title   }}</option>
-                            @endif
-                             
+                                @if ($item->id === $profiles->membership_id)
+                                    <option value="{{ $item->id }}" selected > {{ $item->title   }}</option>
+                                @else
+                                    <option value="{{ $item->id }}" > {{ $item->title   }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

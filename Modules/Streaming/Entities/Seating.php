@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\CashFlow\Entities;
+namespace Modules\Streaming\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Seating extends Model
 {
     use SoftDeletes;

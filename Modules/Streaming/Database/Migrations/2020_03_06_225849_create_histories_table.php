@@ -15,15 +15,16 @@ class CreateHistoriesTable extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-
             $table->string('type');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('profile_id');
             
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            
+            $table->unsignedBigInteger('profile_id');
             $table->foreign('profile_id')->references('id')->on('profiles');
             
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -52,7 +52,7 @@ class PermissionsTableSeeder extends Seeder
 
         $keys = [
             'browse_modules',
-            'edit_modules',
+            // 'edit_modules',
         ];
 
         foreach ($keys as $key) {

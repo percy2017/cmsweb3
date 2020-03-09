@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCartStorageTable extends Migration
+class CreateBoxesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,16 @@ class CreateCartStorageTable extends Migration
      */
     public function up()
     {
-        Schema::create('cart_storage', function (Blueprint $table) {
+        Schema::create('boxes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('cart_data');
+            $table->string('title');
+            $table->decimal('start_amount',8,2);
+            $table->decimal('balance',8,2)->nullable();
+            $table->boolean('status')->nullable();
+
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +35,6 @@ class CreateCartStorageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_storage');
+        Schema::dropIfExists('boxes');
     }
 }
