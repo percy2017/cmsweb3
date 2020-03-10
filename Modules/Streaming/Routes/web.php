@@ -26,4 +26,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('seating/{box_id}', 'StreamingController@index')->name('seating_index'); 
     Route::post('seating/ingresos', 'StreamingController@store')->name('seating_storage'); 
     Route::get('seating/cerrar/{box_id}', 'StreamingController@close')->name('box_close'); 
+
+    Route::resource('boxe', 'BoxController');
   });

@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use TCG\Voyager\Facades\Voyager;
+
 use Modules\Streaming\Entities\Profile;
 use Modules\Streaming\Entities\History;
 use Modules\Streaming\Entities\Membership;
 use Modules\Streaming\Entities\Account;
-
 use Modules\Streaming\Entities\Seating;
 use Modules\Streaming\Entities\Box;
+
 use NumerosEnLetras;
 class StreamingController extends Controller
 {
@@ -116,14 +117,29 @@ class StreamingController extends Controller
         
         $profile = Profile::findOrFail($id);
         $profile->membership_id = $request->membership_id;
-        $profile->finaldate = $request->finaldate;      
+        $profile->finaldate = date('Y-m-d H:i:s', strtotime($request->finaldate));      
         $profile->save();
+
         History::create([
             'type'=>'Renovacion',
             'profile_id'=>$id,
             'user_id'=>auth()->user()->id
 
         ]);
+
+        $membership=Membership::find($request->membership_id);  
+        $box=Box::where('status', true)->first();    
+            
+        Seating::create([
+            'concept'   => 'Renovacion del Perfil '.$profile->fullname.' con la membresia '.$membership->title,
+            'amount'    => $membership->price,
+            'type'      => 'INGRESOS',
+            'box_id'    => $box->id,
+            'user_id'   => auth()->user()->id
+
+        ]);
+        
+
         return redirect()->route('profile_history', $id)->with([
             'message'    =>  $profile->fullname.' Actualizado Correctamente',
             'alert-type' => 'success',

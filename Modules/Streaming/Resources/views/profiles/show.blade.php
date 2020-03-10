@@ -89,7 +89,7 @@
                     </div>
                     <div class="form-group" >
                         <label>Fecha</label>
-                        <input type="date" class="form-control" name="finaldate">
+                        <input type="datetime-local" class="form-control" name="finaldate">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Guardar</button>

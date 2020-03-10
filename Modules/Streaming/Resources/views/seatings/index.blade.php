@@ -1,6 +1,6 @@
 @extends('voyager::master')
 @php
-$box=Modules\CashFlow\Entities\Box::where('id', $box_id)->first();
+$box=Modules\Streaming\Entities\Box::where('id', $box_id)->first();
 @endphp
 @section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural')) 
 

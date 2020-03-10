@@ -113,7 +113,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'name'                  => 'boxes',
                 'display_name_singular' => 'Cajas',
                 'display_name_plural'   => 'Caja',
-                'icon'                  => 'fa fa-boxes',
+                'icon'                  => 'voyager-logbook',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Box',
                 'policy_name'           => null,
                 'controller'            => null,
@@ -1275,7 +1275,19 @@ class StreamingDatabaseSeeder extends Seeder
         // -------------------------------------------------
         Permission::generateFor('accounts');
         Permission::generateFor('memberships');
-        Permission::generateFor('profiles');
+        //Permission::generateFor('profiles');
+        $keys = [
+            'browse_profiles',
+            'add_profiles',
+            'edit_profiles'
+        ];
+
+        foreach ($keys as $key) {
+            Permission::firstOrCreate([
+                'key'        => $key,
+                'table_name' => 'profiles',
+            ]);
+        }
 
         Permission::generateFor('boxes');
         Permission::generateFor('seatings');
@@ -1936,7 +1948,9 @@ class StreamingDatabaseSeeder extends Seeder
 
         $box = Box::create([
             'title'        => 'Title #1',
-            'start_amount' => 0,
+            'status'       =>  1,
+            'balance'      =>  0,
+            'start_amount' =>  0,
             'user_id'      =>  1
         ]);
         Seating::create([
