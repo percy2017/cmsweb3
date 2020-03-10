@@ -1,0 +1,13 @@
+{
+    "name": "Farmapp",
+    "alias": "farmapp",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Farmapp\\Providers\\FarmappServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
