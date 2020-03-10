@@ -38,6 +38,7 @@ class Modules extends AbstractAction
         } else {
             return [
                 'class' => 'btn btn-primary',
+                'onclick' => 'return confirm("Are you sure?")'
             ];
         }
 

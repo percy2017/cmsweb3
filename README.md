@@ -8,13 +8,34 @@ La herramienta inscluye paquete de terceros:
 - [Laravel Framework v6](#)
 - [Voyager Packages v1.3](#)
 - [VueJs Framework v2.5](#)
+- [Websockets v1.3](#)
 
-# Installed
+# Servidor
+### Step #1
+- LEMP (Ubuntu 18.04)
+- Let’s Encrypt 
+- Php Extenciones
+> php7.2-mbstring
+
+> php7.2-bcmath
+
+> php7.2-gd
+
+> hp7.2-json
+
+> php7.2-dom
+
+> php7.2-curl
+
+> php7.2-zip
+
+# Instalador
 ### Step #1
 Clona el repositorio oficial e install las dependencias
 - https://github.com/percy2017/cmsweb3.git
 - composer install
 - npm install
+- npm run prod
 
 ### Step #2
 Configurar el erchivo .env (Variales de Entorno) y permisos
@@ -24,7 +45,7 @@ Configurar el erchivo .env (Variales de Entorno) y permisos
 
 ### Step #3
 Realizar la instalcion mediante el comando:
--   php artisan voyager:install
+-   php artisan cmsweb:install
 
 La instalacion el super usuario con el login:
 -   admin@admin.com 
@@ -38,7 +59,8 @@ La empresa detras del Diseño y Creacion del CmsWeb v2020 es:
 ### Contributing
 
 Los desarrolladores del CmsWeb son los Ingenieros:
-- [Luis Flores](#)
+- [Ing. Percy Alvarez](#)
+- [Ing. Raul Montero](#)
 
 
 ### License

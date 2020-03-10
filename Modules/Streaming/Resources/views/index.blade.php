@@ -363,6 +363,9 @@ $('#myWP').floatingWhatsApp({
         iconShadow: 6
       });
 
+    Echo.channel('home').listen('NewMessage', (e) => {
+        alert(e.message);
+    });
 </script>
 </body>
 </html>

@@ -327,9 +327,8 @@
   </script>
 
   <script>
-    alert(window.location.hostname);
       Echo.channel('home').listen('NewMessage', (e) => {
-          console.log(e.message);
+          alert(e.message);
       });
   </script>
 

@@ -889,6 +889,10 @@
       $("#mdb-lightbox-ui").load("../mdb-addons/mdb-lightbox-ui.html");
     });
 
+    Echo.channel('home').listen('NewMessage', (e) => {
+        alert(e.message);
+    });
+
   </script>
 
 </body>
