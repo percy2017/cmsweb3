@@ -763,12 +763,12 @@ class StreamingDatabaseSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
-                'display_name' => 'Fin',
+                'display_name' => 'Proximo pago',
                 'required'     => 0,
-                'browse'       => 0,
+                'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => 2,
                 'details'      => [
@@ -1273,7 +1273,19 @@ class StreamingDatabaseSeeder extends Seeder
 
         //Permisos----------------------------------------
         // -------------------------------------------------
-        Permission::generateFor('accounts');
+        //Permission::generateFor('accounts');
+        $keys = [
+            'browse_accounts',
+            'edit_accounts',
+            'delete_accounts',
+        ];
+
+        foreach ($keys as $key) {
+            Permission::firstOrCreate([
+                'key'        => $key,
+                'table_name' => 'accounts',
+            ]);
+        }
         Permission::generateFor('memberships');
         //Permission::generateFor('profiles');
         $keys = [
@@ -1289,7 +1301,19 @@ class StreamingDatabaseSeeder extends Seeder
             ]);
         }
 
-        Permission::generateFor('boxes');
+        //Permission::generateFor('boxes');
+        $keys = [
+            'browse_boxes',
+            'edit_boxes',
+            'delete_boxes'
+        ];
+
+        foreach ($keys as $key) {
+            Permission::firstOrCreate([
+                'key'        => $key,
+                'table_name' => 'boxes',
+            ]);
+        }
         Permission::generateFor('seatings');
 
         $role = Role::where('name', 'admin')->firstOrFail();

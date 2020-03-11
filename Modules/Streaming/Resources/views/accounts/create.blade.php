@@ -16,7 +16,7 @@
         <i class="{{ $dataType->icon }}"></i>
         {{ __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
     </h1>
-    <a href="{{ route('voyager.boxes.index') }}" class="btn btn-warning">
+    <a href="{{ route('voyager.accounts.index') }}" class="btn btn-warning">
         <span class="glyphicon glyphicon-list"></span>&nbsp;
         {{ __('voyager::generic.return_to_list') }}
     </a>
