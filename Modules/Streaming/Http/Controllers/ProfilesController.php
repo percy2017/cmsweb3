@@ -2,13 +2,11 @@
 
 namespace Modules\Streaming\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Database\Schema\SchemaManager;
@@ -20,18 +18,20 @@ use TCG\Voyager\Events\BreadImagesDeleted;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
+use Modules\Streaming\Entities\Profile;
+use Modules\Streaming\Entities\History;
+use Modules\Streaming\Entities\Membership;
 use Modules\Streaming\Entities\Account;
-use Modules\Streaming\Entities\Seating;
-class AccountController extends Controller
+class ProfilesController extends Controller
 {
-    use BreadRelationshipParser;
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        return view('streaming::index');
+ 
+      
     }
 
     /**
@@ -40,8 +40,8 @@ class AccountController extends Controller
      */
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
+     
         $dataTypeContent = (strlen($dataType->model_name) != 0)
                             ? new $dataType->model_name()
                             : false;
@@ -49,15 +49,14 @@ class AccountController extends Controller
         foreach ($dataType->addRows as $key => $row) {
             $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
         }
-
+       
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
-
-        return view('streaming::accounts.create', [
-            'dataType'=>$dataType,
+        
+        return view('streaming::profiles.create', [
+            'dataType' => $dataType,
             'dataTypeContent'=>$dataTypeContent,
             'isModelTranslatable'=>$isModelTranslatable
-
-        ]);
+        ]); 
     }
 
     /**
@@ -67,30 +66,8 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
-        $account = Account::create([
-            'type' => $request->type,
-            'statu' =>  $request->statu,
-            'name' =>  $request->name,
-            'email' =>  $request->email,
-            'password' =>  $request->password,
-            'price' =>  $request->price,
-            'renovation' =>  $request->renovation,
-            'quantity_profiles' =>  $request->quantity_profiles,
-            'description' =>  $request->description,
-            'user_id' =>  $request->user_id
-        ]);
-
-        $asiento = Seating::create([
-            'concept' => 'Pago poc compra de Cuenta de, '.$request->type,
-            'amount' => $request->price,
-            'type' => ''
-        ]);
-        return redirect()->route('voyager.accounts.index')->with([
-            'message'    =>  $request->type . ' Registrado',
-            'alert-type' => 'success',
-        ]);
-
+          
+        return $request;
     }
 
     /**
@@ -132,5 +109,23 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function history($id){
+        
+        $profiles   = Profile::find($id);
+        $dataType   = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
+        $histories  = History::where('profile_id', $id)->get();
+        $membresias = Membership::all();
+        $accounts   = Account::all();
+        
+        return view('streaming::profiles.show', [
+            'dataType'   =>  $dataType,
+            'profiles'   =>  $profiles,
+            'histories'  =>  $histories,
+            'membresias' =>  $membresias,
+            'accounts' => $accounts
+        ]);
     }
 }

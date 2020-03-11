@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Profiles;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class AllAccount2 extends AbstractAction
+class HistoryProfiles extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Cuentas';
+        return 'Historial';
     }
 
     public function getIcon()
     {
-         return 'voyager-credit-cards';
+        return 'voyager-eye';
     }
 
     public function getPolicy()
@@ -24,21 +24,18 @@ class AllAccount2 extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-md btn-primary',
+            'class' => 'btn btn-sm btn-warning pull-right',
+            'style'=>'margib:5px;'
         ];
     }
 
     public function getDefaultRoute()
     {
-        // return route('voyager.details.index');
+        return route('profile_history', $this->data->{$this->data->getKeyName()});
     }
+
     public function shouldActionDisplayOnDataType()
     {
         return $this->dataType->slug == 'profiles';
     }
-    public function massAction($ids, $comingFrom)
-{
-    // Do something with the IDs
-    return redirect()->route('voyager.accounts.index');
-}
 }

@@ -8,7 +8,7 @@
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }} - {{ $profiles->fullname }}
         </h1>
-        <a href="#" class="btn btn-success" data-toggle="modal" data-target="#add_modal">
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#add_modal">
             <span class="voyager-calendar"></span>&nbsp;
             Renovar
         </a>
@@ -19,6 +19,10 @@
         <a href="#" class="btn btn-danger">
             <span class="voyager-power"></span>&nbsp;
             Dar de Baja
+        </a>
+        <a href="{{ route('voyager.profiles.index') }}" class="btn btn-warning">
+            <span class="voyager-list"></span>&nbsp;
+            Volver
         </a>
     </div>
 @stop

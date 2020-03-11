@@ -20,11 +20,6 @@
         <span class="glyphicon glyphicon-list"></span>&nbsp;
         {{ __('voyager::generic.return_to_list') }}
     </a>
-<a href="{{ route('voyager.bread.edit', 'accounts')}}" class="btn btn-dark">
-        <span class="
-        glyphicon glyphicon-share-alt"></span>&nbsp;
-        Bread
-    </a>
     @include('voyager::multilingual.language-selector')
 @stop
 
@@ -37,7 +32,7 @@
                     <!-- form start -->
                     <form role="form"
                             class="form-edit-add"
-                            action="{{ route('myaccount.store') }}"
+                            action="{{ route('myaccounts.store') }}"
                             method="POST" enctype="multipart/form-data">
                         <!-- PUT Method if we are editing -->
 

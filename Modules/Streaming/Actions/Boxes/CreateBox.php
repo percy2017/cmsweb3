@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Boxes;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class AllMembership extends AbstractAction
+class CreateBox extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Membresias';
+        return 'Crear';
     }
 
     public function getIcon()
     {
-         return 'voyager-bolt';
+        return 'voyager-plus';
     }
 
     public function getPolicy()
@@ -34,11 +34,11 @@ class AllMembership extends AbstractAction
     }
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'accounts';
+        return $this->dataType->slug == 'boxes';
     }
     public function massAction($ids, $comingFrom)
-{
-    // Do something with the IDs
-    return redirect()->route('voyager.memberships.index');
-}
+    {
+        // Do something with the IDs
+        return redirect()->route('myboxes.create');
+    }
 }

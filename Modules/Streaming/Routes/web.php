@@ -19,7 +19,7 @@
 
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::get('profile/{id}','StreamingController@history')->name('profile_history');
+    
     Route::post('profile/{id}/update', 'StreamingController@update')->name('profile_renovation');
     Route::post('profile/change', 'StreamingController@change')->name('profile_change');
   
@@ -27,7 +27,12 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('seating/ingresos', 'StreamingController@store')->name('seating_storage'); 
     Route::get('seating/cerrar/{box_id}', 'StreamingController@close')->name('box_close'); 
 
-    Route::resource('boxe', 'BoxController');
+    Route::resource('myboxes', 'BoxController');
 
-    Route::resource('myaccount', 'AccountController');
+    Route::resource('myaccounts', 'AccountController');
+
+    Route::resource('myprofiles', 'ProfilesController');
+    Route::get('myprofiles/history/{id}','ProfilesController@history')->name('profile_history');
+
+    Route::resource('myseatings', 'SeatingsController');
   });

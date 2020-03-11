@@ -156,22 +156,7 @@ class StreamingController extends Controller
         //
     }
 
-    public function history($id){
-        
-        $profiles   = Profile::find($id);
-        $dataType   = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $histories  = History::where('profile_id', $id)->get();
-        $membresias = Membership::all();
-        $accounts   = Account::all();
-        
-        return view('streaming::profiles.show', [
-            'dataType'   =>  $dataType,
-            'profiles'   =>  $profiles,
-            'histories'  =>  $histories,
-            'membresias' =>  $membresias,
-            'accounts' => $accounts
-        ]);
-    }
+
 
     public function change(Request $request){
         //return $request;

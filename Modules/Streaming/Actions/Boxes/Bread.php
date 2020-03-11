@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Boxes;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class AllSeating extends AbstractAction
+class Bread extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Asientos';
+        return 'Bread';
     }
 
     public function getIcon()
     {
-        // return 'voyager-pen';
+         return 'glyphicon glyphicon-share-alt';
     }
 
     public function getPolicy()
@@ -24,7 +24,8 @@ class AllSeating extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-md btn-primary',
+            'class' => 'btn btn-md btn-dark',
+            'target' => '_blank'
         ];
     }
 
@@ -39,6 +40,6 @@ class AllSeating extends AbstractAction
     public function massAction($ids, $comingFrom)
     {
         // Do something with the IDs
-        return redirect()->route('voyager.seatings.index');
+        return redirect()->route('voyager.bread.edit', 'boxes');
     }
 }

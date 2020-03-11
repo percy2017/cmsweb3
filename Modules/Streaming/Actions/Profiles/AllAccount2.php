@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Profiles;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class CreateAccount extends AbstractAction
+class AllAccount2 extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Crear';
+        return 'Cuentas';
     }
 
     public function getIcon()
     {
-         return 'voyager-plus';
+         return 'voyager-credit-cards';
     }
 
     public function getPolicy()
@@ -24,7 +24,7 @@ class CreateAccount extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-md btn-primary',
+            'class' => 'btn btn-md btn-warning',
         ];
     }
 
@@ -34,11 +34,11 @@ class CreateAccount extends AbstractAction
     }
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'accounts';
+        return $this->dataType->slug == 'profiles';
     }
     public function massAction($ids, $comingFrom)
-    {
-        // Do something with the IDs
-        return redirect()->route('myaccount.create');
-    }
+{
+    // Do something with the IDs
+    return redirect()->route('voyager.accounts.index');
+}
 }

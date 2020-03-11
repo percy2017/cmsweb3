@@ -20,17 +20,34 @@ class StreamingServiceProvider extends ServiceProvider
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path('Streaming', 'Database/Migrations'));
 
+        //nose 
         Voyager::addAction(\Modules\Streaming\Actions\AllAccount::class);
-        Voyager::addAction(\Modules\Streaming\Actions\AllAccount2::class);
-        Voyager::addAction(\Modules\Streaming\Actions\AllMembership::class);
-        Voyager::addAction(\Modules\Streaming\Actions\AllProfile::class);
         Voyager::addAction(\Modules\Streaming\Actions\Profiles::class);
-        Voyager::addAction(\Modules\Streaming\Actions\HistoryProfiles::class);
-        Voyager::addAction(\Modules\Streaming\Actions\AllBox::class);
-        Voyager::addAction(\Modules\Streaming\Actions\AllSeating::class);
+        
+        
         Voyager::addAction(\Modules\Streaming\Actions\ViewSeating::class);
-        Voyager::addAction(\Modules\Streaming\Actions\CreateBox::class);
-        Voyager::addAction(\Modules\Streaming\Actions\CreateAccount::class);
+        
+
+        //Accounts-----------------------------------------------------------------
+        Voyager::addAction(\Modules\Streaming\Actions\Accounts\CreateAccount::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Accounts\AllProfile::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Accounts\AllMembership::class);
+        voyager::addAction(\Modules\Streaming\Actions\Accounts\Bread::class);
+
+        //Profiles-----------------------------------------------------------
+        voyager::addAction(\Modules\Streaming\Actions\Profiles\Create::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Profiles\AllAccount2::class);
+        voyager::addAction(\Modules\Streaming\Actions\Profiles\Bread::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Profiles\HistoryProfiles::class);
+        
+        //Boxes----------------------------------------------------------------
+        Voyager::addAction(\Modules\Streaming\Actions\Boxes\CreateBox::class);
+        Voyager::addAction(\Modules\Streaming\Actions\Boxes\AllSeating::class);
+        voyager::addAction(\Modules\Streaming\Actions\Boxes\Bread::class);
+
+        //Seatings
+        Voyager::addAction(\Modules\Streaming\Actions\Seatings\AllBox::class);
+        voyager::addAction(\Modules\Streaming\Actions\Seatings\Bread::class);
     }
 
     /**

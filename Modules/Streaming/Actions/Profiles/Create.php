@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Profiles;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class AllProfile extends AbstractAction
+class Create extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Perfiles';
+        return 'Crear';
     }
 
     public function getIcon()
     {
-        return 'fa fa-users';
+         return 'voyager-plus';
     }
 
     public function getPolicy()
@@ -24,7 +24,8 @@ class AllProfile extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-md btn-success',
+            'class' => 'btn btn-md btn-primary',
+            'target' => '_blank'
         ];
     }
 
@@ -34,11 +35,11 @@ class AllProfile extends AbstractAction
     }
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'accounts';
+        return $this->dataType->slug == 'profiles';
     }
     public function massAction($ids, $comingFrom)
 {
     // Do something with the IDs
-    return redirect()->route('voyager.profiles.index');
+    return redirect()->route('myprofiles.create');
 }
 }

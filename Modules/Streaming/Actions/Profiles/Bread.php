@@ -1,19 +1,19 @@
 <?php
 
-namespace Modules\Streaming\Actions;
+namespace Modules\Streaming\Actions\Profiles;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class HistoryProfiles extends AbstractAction
+class Bread extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Historial';
+        return 'Bread';
     }
 
     public function getIcon()
     {
-        return 'voyager-eye';
+         return 'glyphicon glyphicon-share-alt';
     }
 
     public function getPolicy()
@@ -24,18 +24,22 @@ class HistoryProfiles extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-sm btn-warning pull-right',
-            'style'=>'margib:5px;'
+            'class' => 'btn btn-md btn-dark',
+            'target' => '_blank'
         ];
     }
 
     public function getDefaultRoute()
     {
-        return route('profile_history', $this->data->{$this->data->getKeyName()});
+        // return route('voyager.details.index');
     }
-
     public function shouldActionDisplayOnDataType()
     {
         return $this->dataType->slug == 'profiles';
+    }
+    public function massAction($ids, $comingFrom)
+    {
+        // Do something with the IDs
+        return redirect()->route('voyager.bread.edit', 'profiles');
     }
 }
