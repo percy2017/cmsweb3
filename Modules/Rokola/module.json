@@ -1,0 +1,13 @@
+{
+    "name": "Rokola",
+    "alias": "rokola",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Rokola\\Providers\\RokolaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
