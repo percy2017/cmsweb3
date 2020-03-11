@@ -28,4 +28,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('seating/cerrar/{box_id}', 'StreamingController@close')->name('box_close'); 
 
     Route::resource('boxe', 'BoxController');
+
+    Route::resource('myaccount', 'AccountController');
   });

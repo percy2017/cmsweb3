@@ -2,18 +2,30 @@
 
 namespace Modules\Streaming\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-use TCG\Voyager\Facades\Voyager;
-use Illuminate\Support\Facades\DB;
 
-use Modules\Streaming\Entities\Box;
-use Modules\Streaming\Entities\Seating;
-use App\User;
-class BoxController extends Controller
+use Modules\Streaming\Entities\Account;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use TCG\Voyager\Database\Schema\SchemaManager;
+use TCG\Voyager\Events\BreadDataAdded;
+use TCG\Voyager\Events\BreadDataDeleted;
+use TCG\Voyager\Events\BreadDataRestored;
+use TCG\Voyager\Events\BreadDataUpdated;
+use TCG\Voyager\Events\BreadImagesDeleted;
+use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
+
+class AccountController extends Controller
 {
+    use BreadRelationshipParser;
     /**
      * Display a listing of the resource.
      * @return Response
@@ -29,7 +41,7 @@ class BoxController extends Controller
      */
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'boxes')->first();
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
         
         $dataTypeContent = (strlen($dataType->model_name) != 0)
                             ? new $dataType->model_name()
@@ -41,13 +53,12 @@ class BoxController extends Controller
 
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
 
-        return view('streaming::boxes.create', [
+        return view('streaming::accounts.create', [
             'dataType'=>$dataType,
             'dataTypeContent'=>$dataTypeContent,
             'isModelTranslatable'=>$isModelTranslatable
 
         ]);
-
     }
 
     /**
@@ -57,22 +68,8 @@ class BoxController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
-        $box = Box::create([
-         'title'        =>  $request->title,
-         'start_amount' =>  $request->start_amount,
-         'balance'      =>  $request->balance,
-         'status'       =>  $request->status ? 1 : 0,
-         'user_id'      =>  auth()->user()->id
-        ]);
+        return $request;
 
-        
-        return redirect()->route('voyager.boxes.index')->with([
-            'message'    =>  $box->title.' creada Correctamente',
-            'alert-type' => 'success',
-        ]);    
-        
     }
 
     /**
