@@ -51,11 +51,15 @@ class ProfilesController extends Controller
         }
        
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
-        
+        $membresias= Membership::all();
+        $accounts=Account::All();
+
         return view('streaming::profiles.create', [
             'dataType' => $dataType,
             'dataTypeContent'=>$dataTypeContent,
-            'isModelTranslatable'=>$isModelTranslatable
+            'isModelTranslatable'=>$isModelTranslatable,
+            'membresias'=>$membresias,
+            'accounts'=>$accounts
         ]); 
     }
 

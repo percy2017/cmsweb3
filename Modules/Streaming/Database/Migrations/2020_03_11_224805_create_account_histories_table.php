@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountsTable extends Migration
+class CreateAccountHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('account_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type')->nullable();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('password')->nullable();
-            $table->double('price')->nullable();
-            $table->dateTime('renovation')->nullable();
-            $table->string('description')->nullable();
-            $table->bigInteger('quantity_profiles')->nullable();
+            $table->string('type');
+            
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            
+            $table->unsignedBigInteger('account_id');
+            $table->foreign('account_id')->references('id')->on('accounts');
 
             $table->timestamps();
             $table->softDeletes();
@@ -38,6 +35,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('account_histories');
     }
 }
