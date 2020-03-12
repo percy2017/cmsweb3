@@ -4,16 +4,16 @@ namespace App\Actions;
 
 use TCG\Voyager\Actions\AbstractAction;
 
-class Roles extends AbstractAction
+class Users extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Roles';
+        return 'Usuarios';
     }
 
     public function getIcon()
     {
-        return 'voyager-lock';
+        return 'voyager-group';
     }
 
     public function getPolicy()
@@ -35,11 +35,11 @@ class Roles extends AbstractAction
 
     public function shouldActionDisplayOnDataType()
     {
-        return $this->dataType->slug == 'users';
+        return $this->dataType->slug == 'roles';
     }
 
     public function massAction($ids, $comingFrom)
     {
-        return redirect()->route('voyager.roles.index');
+        return redirect()->route('voyager.users.index');
     }
 }

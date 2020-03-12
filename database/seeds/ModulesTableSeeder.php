@@ -35,5 +35,11 @@ class ModulesTableSeeder extends Seeder
             'description_short' => 'Modulo de Comercio Electronico'
         ]);
 
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'Rokola',
+            'description_short' => 'Modulo Rokola'
+        ]);
+
     }
 }
