@@ -70,29 +70,6 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataRow = $this->dataRow($AccountDataType, 'statu');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => 'Estado',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => 2,
-                'details'      => [
-                    'options'=>[
-                        'Activo'=>'Activo',
-                        'Inactivo'=>'Inactivo'
-                    ],
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                ]
-            ])->save();
-        }
         $dataRow = $this->dataRow($AccountDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([

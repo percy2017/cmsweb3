@@ -32,7 +32,7 @@
                     <!-- form start -->
                     <form role="form"
                             class="form-edit-add"
-                            action="{{ route('myaccounts.store') }}"
+                            action="{{ route('myboxes.store') }}"
                             method="POST" enctype="multipart/form-data">
                         <!-- PUT Method if we are editing -->
 

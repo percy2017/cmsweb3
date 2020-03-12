@@ -77,18 +77,7 @@
                                     @if (isset($row->details->view))
                                         @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'action' => ($edit ? 'edit' : 'add'), 'view' => ($edit ? 'edit' : 'add'), 'options' => $row->details])
                                     @elseif ($row->type == 'relationship')
-                                        {{-- @include('voyager::formfields.relationship', ['options' => $row->details]) --}}
-                                        @if($row->details->type == 'belongsTo')
-                                            <select class="form-control select2" name="{{ $row->details->column }}">
-                                                @php
-                                                    $model = app($row->details->model);
-                                                    $query = $model::all();
-                                                @endphp
-                                                @foreach($query as $relationshipData)
-                                                    <option value="{{ $relationshipData->{$row->details->key} }}" @if($dataTypeContent->{$row->details->column} == $relationshipData->{$row->details->key}) selected="selected" @endif>{{ $relationshipData->{$row->details->label} }}</option>
-                                                @endforeach
-                                            </select>
-                                        @endif
+                                        @include('voyager::formfields.relationship', ['options' => $row->details])
                                         
                                     @else
                                         {!! app('voyager')->formField($row, $dataType, $dataTypeContent) !!}

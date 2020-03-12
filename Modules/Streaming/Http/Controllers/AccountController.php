@@ -21,6 +21,7 @@ use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
 use Modules\Streaming\Entities\Account;
+use Modules\Streaming\Entities\Box;
 use Modules\Streaming\Entities\Seating;
 class AccountController extends Controller
 {
@@ -67,29 +68,45 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        $box= Box::where('status', 1)->first();
+  
+        if (!isset($box)) {
+            return redirect()->back()->with([
+                'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
+                'alert-type' => 'error',
+            ]);
+        }else{
+        //return $request;
         $account = Account::create([
             'type' => $request->type,
-            'statu' =>  $request->statu,
             'name' =>  $request->name,
             'email' =>  $request->email,
             'password' =>  $request->password,
             'price' =>  $request->price,
-            'renovation' =>  $request->renovation,
+            'renovation' => date('Y-m-d H:i:s', strtotime($request->renovation)),
             'quantity_profiles' =>  $request->quantity_profiles,
             'description' =>  $request->description,
             'user_id' =>  $request->user_id
         ]);
-
+        
+        
+        
         $asiento = Seating::create([
-            'concept' => 'Pago poc compra de Cuenta de, '.$request->type,
+            'concept' => 'Pago por compra de Cuenta de, '.$request->type,
             'amount' => $request->price,
-            'type' => ''
+            'type' => 'EGRESOS',
+            'box_id' => $box->id,
+            'user_id' =>  $request->user_id
         ]);
+
+        $box->balance = $box->balance - $request->price;
+        $box->save();     
+
         return redirect()->route('voyager.accounts.index')->with([
             'message'    =>  $request->type . ' Registrado',
             'alert-type' => 'success',
         ]);
+     }
 
     }
 
