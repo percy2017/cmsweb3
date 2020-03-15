@@ -13,6 +13,7 @@
   <link href="resources/landingpage/css/bootstrap.min.css" rel="stylesheet">
   <!-- Material Design Bootstrap -->
   <link href="resources/landingpage/css/mdb.min.css" rel="stylesheet">
+  
   <style type="text/css">
     html,
     body,
@@ -48,6 +49,7 @@
   <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
 
   @laravelPWA
+  
 </head>
 
 <body class="software-lp">
@@ -137,13 +139,13 @@
 
   </header>
   <!--Main Navigation-->
-
-  <main>
-    @foreach ($blocks as $item) 
-      @include('vendor.blocks.'.$item->name, ['data' => json_decode($item->details)])
-    @endforeach
-  </main>
-
+  <div id="app">
+    <main>
+      @foreach ($blocks as $item) 
+        @include('vendor.blocks.'.$item->name, ['data' => json_decode($item->details)])
+      @endforeach
+    </main>
+  </div>
   <!--Footer-->
   <footer class="page-footer text-center text-md-left blue-grey lighten-5 pt-0">
 
@@ -243,8 +245,6 @@
   <!--/.Footer-->
 
   <div id="myWP"></div>
-  
-  <!-- SCRIPTS -->
 
   <!-- JQuery -->
    
@@ -252,18 +252,19 @@
 
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="{{ asset('resources/landingpage/js/popper.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
   <!-- Bootstrap core JavaScript -->
   <script type="text/javascript" src="{{ asset('resources/landingpage/js/bootstrap.min.js') }}"></script>
 
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="{{ asset('resources/landingpage/js/mdb.min.js') }}"></script>
 
+  
 
   <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
   <script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
   <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
   <script>
     //Animation init
@@ -327,9 +328,17 @@
   </script>
 
   <script>
-      Echo.channel('home').listen('NewMessage', (e) => {
-          alert(e.message);
-      });
+ 
+    Echo.channel('home').listen('NewMessage', (e) => {
+      setTimeout(location.reload(), 3000);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Plantilla '+e.message+' Instalada',
+        showConfirmButton: false,
+        timer: 2500
+      })
+    });
   </script>
 
 </body>

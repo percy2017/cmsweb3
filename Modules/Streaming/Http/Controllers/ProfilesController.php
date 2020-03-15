@@ -41,25 +41,12 @@ class ProfilesController extends Controller
     public function create()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
+ 
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
      
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-                            ? new $dataType->model_name()
-                            : false;
-
-        foreach ($dataType->addRows as $key => $row) {
-            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
-        }
-       
-        $isModelTranslatable = is_bread_translatable($dataTypeContent);
-        $membresias= Membership::all();
-        $accounts=Account::All();
-
         return view('streaming::profiles.create', [
             'dataType' => $dataType,
-            'dataTypeContent'=>$dataTypeContent,
-            'isModelTranslatable'=>$isModelTranslatable,
-            'membresias'=>$membresias,
-            'accounts'=>$accounts
+            'dataRows'=>$dataRows
         ]); 
     }
 

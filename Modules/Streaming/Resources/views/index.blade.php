@@ -231,14 +231,16 @@
     <!--/.Controls-->
 </div>
 <!--/.Carousel Wrapper-->
-<main>
-    <div class="container">
-    @foreach ($blocks as $item) 
-  
-      @include('streaming::blocks.'.$item->name, ['data' => json_decode($item->details)])
-    @endforeach
-    </div>
-</main>
+<div id="app">
+  <main>
+      <div class="container">
+      @foreach ($blocks as $item) 
+    
+        @include('streaming::blocks.'.$item->name, ['data' => json_decode($item->details)])
+      @endforeach
+      </div>
+  </main>
+</div>
 <!--Footer-->
 <footer class="page-footer text-center font-small mt-4 wow fadeIn">
 
@@ -316,6 +318,7 @@
 <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
 <script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
 <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script type="text/javascript">
 // Animations initialization
@@ -364,7 +367,14 @@ $('#myWP').floatingWhatsApp({
       });
 
     Echo.channel('home').listen('NewMessage', (e) => {
-        alert(e.message);
+      setTimeout(location.reload(), 5000);
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Plantilla '+e.message+' Instalada',
+        showConfirmButton: false,
+        timer: 3000
+      })
     });
 </script>
 </body>

@@ -299,13 +299,14 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataRow = $this->dataRow($MembershipDataType, 'description');
+ 
+        $dataRow = $this->dataRow($MembershipDataType, 'price');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text_area',
-                'display_name' => 'Descripcion',
+                'type'         => 'number',
+                'display_name' => 'Precio',
                 'required'     => 0,
-                'browse'       => 0,
+                'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
@@ -318,13 +319,13 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataRow = $this->dataRow($MembershipDataType, 'price');
+        $dataRow = $this->dataRow($MembershipDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'number',
-                'display_name' => 'Precio',
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
                 'required'     => 0,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,

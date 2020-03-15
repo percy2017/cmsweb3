@@ -23,6 +23,7 @@ use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 use Modules\Streaming\Entities\Account;
 use Modules\Streaming\Entities\Box;
 use Modules\Streaming\Entities\Seating;
+use Modules\Streaming\Entities\Profile;
 class AccountController extends Controller
 {
     use BreadRelationshipParser;
@@ -42,15 +43,12 @@ class AccountController extends Controller
     public function create()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        
         $dataTypeContent = (strlen($dataType->model_name) != 0)
                             ? new $dataType->model_name()
                             : false;
-
         foreach ($dataType->addRows as $key => $row) {
             $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
         }
-
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
 
         return view('streaming::accounts.create', [
@@ -76,7 +74,7 @@ class AccountController extends Controller
                 'alert-type' => 'error',
             ]);
         }else{
-        //return $request;
+
         $account = Account::create([
             'type' => $request->type,
             'name' =>  $request->name,
@@ -89,8 +87,6 @@ class AccountController extends Controller
             'user_id' =>  $request->user_id
         ]);
         
-        
-        
         $asiento = Seating::create([
             'concept' => 'Pago por compra de Cuenta de, '.$request->type,
             'amount' => $request->price,
@@ -102,6 +98,15 @@ class AccountController extends Controller
         $box->balance = $box->balance - $request->price;
         $box->save();     
 
+        for ($i=0; $i < $request->quantity_profiles; $i++) { 
+            profile::create([
+                'concept' => 'Pago por compra de Cuenta de, '.$request->type,
+                'amount' => $request->price,
+                'type' => 'EGRESOS',
+                'box_id' => $box->id,
+                'user_id' =>  $request->user_id
+            ]);
+        }
         return redirect()->route('voyager.accounts.index')->with([
             'message'    =>  $request->type . ' Registrado',
             'alert-type' => 'success',

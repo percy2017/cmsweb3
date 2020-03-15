@@ -40,9 +40,11 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('{module_name}/installer', function($module_name) {
+   
     $module=App\Module::where('id', $module_name)->first();//busca el primero
     Artisan::call('module:seed '.$module->name);//run seeder
     $module->installed=true;//logica boleana
     $module->save();
+    event(new App\Events\NewMessage($module->name));
     return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
 })->name('module_installer');
