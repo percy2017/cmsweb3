@@ -360,6 +360,25 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
+        $dataRow = $this->dataRow($MembershipDataType, 'days');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Dias',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 1,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
         $dataRow = $this->dataRow($MembershipDataType, 'user_id');
         if (!$dataRow->exists) {
             $dataRow->fill([

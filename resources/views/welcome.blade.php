@@ -328,15 +328,19 @@
   </script>
 
   <script>
- 
     Echo.channel('home').listen('NewMessage', (e) => {
-      setTimeout(location.reload(), 3000);
       Swal.fire({
-        position: 'top-end',
+        title: 'CmsWeb v3.0',
+        text: "Plantilla "+e.message+" Instalada.",
         icon: 'success',
-        title: 'Plantilla '+e.message+' Instalada',
-        showConfirmButton: false,
-        timer: 2500
+        //showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        //cancelButtonColor: '#d33',
+        confirmButtonText: 'Recargar'
+      }).then((result) => {
+        if (result.value) {
+          location.reload();
+        }
       })
     });
   </script>

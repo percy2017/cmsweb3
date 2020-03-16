@@ -201,6 +201,7 @@ class AccountController extends Controller
         $box->balance = $box->balance - $request->price;
         $box->save();  
 
+        event(new \App\Events\NewMessage($asiento->concept));
         return redirect()->back()->with([
             'message'    => 'Perfil registrado correctamente',
             'alert-type' => 'success',

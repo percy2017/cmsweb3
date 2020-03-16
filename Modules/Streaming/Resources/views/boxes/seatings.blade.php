@@ -27,7 +27,7 @@
 @stop
 
 @section('content')
-     <div class="page-content container-fluid">
+    <div class="page-content container-fluid">
         @include('voyager::alerts')
         <div class="row">
             <div class="col-md-12">
@@ -149,39 +149,45 @@
             </div>
         </div>
         <!-- Modal -->
-    <div class="modal fade" id="IngresosModal" tabindex="-1" role="dialog" aria-labelledby="IngresosModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ingresos
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </h5>
-            </div>
-            <div class="modal-body">
-            <form action="{{ route('box_conta') }}" method="POST">
-                @csrf
-                    <input type="hidden" name="box_id" value="{{ $box_id }}">
-                    <input type="hidden" name="type" value="INGRESOS">
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Monto</label>
-                        <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter"">
+        <div class="modal fade" id="IngresosModal" tabindex="-1" role="dialog" aria-labelledby="IngresosModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ingresos
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+                </div>
+                <div class="modal-body">
+                <form action="{{ route('box_conta') }}" method="POST">
+                    @csrf
+                        <input type="hidden" name="box_id" value="{{ $box_id }}">
+                        <input type="hidden" name="type" value="INGRESOS">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Monto</label>
+                            <input type="number" class="form-control" name="amount" id="amount" placeholder="Enter"">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Concepto</label>
+                            <textarea name="concept" id="concept" cols="30" rows="5" class="form-control" ></textarea>
+                            {{-- <input type="text" class="form-control" name="concept" id="concept" placeholder="Enter"> --}}
+                        </div>
                         
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Concepto</label>
-                        <textarea name="concept" id="concept" cols="30" rows="5" class="form-control" ></textarea>
-                        {{-- <input type="text" class="form-control" name="concept" id="concept" placeholder="Enter"> --}}
-                    </div>
                     
-                
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
             </div>
-        </div>
+            </div>
         </div>
     </div>
+
+
+
+
+
     <div class="modal fade" id="EgresosModal" tabindex="-1" role="dialog" aria-labelledby="EgresosModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
         <div class="modal-content">

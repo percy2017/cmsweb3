@@ -22,7 +22,7 @@
                 <div class="row">
                   <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
-                      <img src="..." alt="...">
+                      <img src="@if($item->avatar){{ Voyager::image($item->avatar) }}@else{{ Voyager::image('users/default.png') }}@endif" alt="{{ $item->fullname }}">
                       <div class="caption">
                         <h3>{{ $item->fullname }}</h3>
                         <p>{{ $item->phone }}</p>
@@ -92,10 +92,5 @@
 
 @stop
 @section('javascript')
-     <script src="{{ asset('js/app.js') }}"></script>
-  <script>
-    Echo.channel('home').listen('NewMessage', (e) => {
-        alert(e.message);
-    });
-  </script>
+
 @endsection

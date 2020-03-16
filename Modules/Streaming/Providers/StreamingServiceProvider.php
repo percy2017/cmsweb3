@@ -21,10 +21,8 @@ class StreamingServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path('Streaming', 'Database/Migrations'));
 
         //nose 
-        Voyager::addAction(\Modules\Streaming\Actions\AllAccount::class);
+        // Voyager::addAction(\Modules\Streaming\Actions\AllAccount::class);
         Voyager::addAction(\Modules\Streaming\Actions\Profiles::class);
-        
-        
         Voyager::addAction(\Modules\Streaming\Actions\ViewSeating::class);
         
 

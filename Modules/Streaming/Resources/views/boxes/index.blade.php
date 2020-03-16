@@ -1,5 +1,7 @@
 @extends('voyager::master')
+
 @section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural'))
+
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
@@ -11,6 +13,7 @@
         <a href="{{ route('myboxes.create') }}" class="btn btn-primary">
             <i class="voyager-plus"></i> <span>Nuevo</span>
         </a>
+      
     </div>
 @stop
 

@@ -20,7 +20,7 @@ class Modules extends AbstractAction
 
     public function getIcon()
     {
-        // return 'voyager-lock';
+        return 'voyager-edit';
     }
 
     public function getPolicy()

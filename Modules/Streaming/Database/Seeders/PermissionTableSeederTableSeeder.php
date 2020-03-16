@@ -23,62 +23,62 @@ class PermissionTableSeederTableSeeder extends Seeder
         
         //Permisos----------------------------------------
         // -------------------------------------------------
-        //Permission::generateFor('accounts');
-        $keys = [
-            'browse_accounts',
-            'edit_accounts',
-            'delete_accounts',
-        ];
-        foreach ($keys as $key) {
-            Permission::firstOrCreate([
-                'key'        => $key,
-                'table_name' => 'accounts',
-            ]);
-        }
+        Permission::generateFor('accounts');
+        // $keys = [
+        //     'browse_accounts',
+        //     'edit_accounts',
+        //     'delete_accounts',
+        // ];
+        // foreach ($keys as $key) {
+        //     Permission::firstOrCreate([
+        //         'key'        => $key,
+        //         'table_name' => 'accounts',
+        //     ]);
+        // }
 
         Permission::generateFor('memberships');
 
 
-        //Permission::generateFor('profiles');
-        $keys = [
-            'browse_profiles',
-            'edit_profiles',
-            'delete_profiles',
-        ];
-        foreach ($keys as $key) {
-            Permission::firstOrCreate([
-                'key'        => $key,
-                'table_name' => 'profiles',
-            ]);
-        }
+        Permission::generateFor('profiles');
+        // $keys = [
+        //     'browse_profiles',
+        //     'edit_profiles',
+        //     'delete_profiles',
+        // ];
+        // foreach ($keys as $key) {
+        //     Permission::firstOrCreate([
+        //         'key'        => $key,
+        //         'table_name' => 'profiles',
+        //     ]);
+        // }
 
         
-        //Permission::generateFor('boxes');
-        $keys = [
-            'browse_boxes',
-            'edit_boxes',
-            'delete_boxes'
-        ];
-        foreach ($keys as $key) {
-            Permission::firstOrCreate([
-                'key'        => $key,
-                'table_name' => 'boxes',
-            ]);
-        }
+        Permission::generateFor('boxes');
+        // $keys = [
+        //     'browse_boxes',
+        //     'edit_boxes',
+        //     'delete_boxes'
+        // ];
+        // foreach ($keys as $key) {
+        //     Permission::firstOrCreate([
+        //         'key'        => $key,
+        //         'table_name' => 'boxes',
+        //     ]);
+        // }
 
 
-        // Permission::generateFor('seatings');
-        $keys = [
-            'browse_seatings',
-            'edit_seatings',
-            'delete_seatings'
-        ];
-        foreach ($keys as $key) {
-            Permission::firstOrCreate([
-                'key'        => $key,
-                'table_name' => 'seatings',
-            ]);
-        }
+        Permission::generateFor('seatings');
+        // $keys = [
+        //     'browse_seatings',
+        //     'edit_seatings',
+        //     'delete_seatings'
+        // ];
+        // foreach ($keys as $key) {
+        //     Permission::firstOrCreate([
+        //         'key'        => $key,
+        //         'table_name' => 'seatings',
+        //     ]);
+        // }
 
 
 

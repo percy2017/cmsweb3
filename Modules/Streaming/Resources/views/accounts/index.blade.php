@@ -11,6 +11,13 @@
         <a href="{{ route('myaccounts.create') }}" class="btn btn-primary">
             <i class="voyager-plus"></i> <span>Nuevo</span>
         </a>
+        <a href="{{ route('myprofiles.index') }}" class="btn btn-warning">
+            <i class="voyager-group"></i> <span>Perfiles</span>
+        </a>
+        <a href="{{ route('voyager.memberships.index') }}" class="btn btn-success">
+            <i class="voyager-list"></i> <span>Menbresias</span>
+        </a>
+        
     </div>
 @stop
 
