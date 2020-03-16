@@ -49,7 +49,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Account',
                 'policy_name'           => null,
-                'controller'            => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\AccountController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
@@ -115,7 +115,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'icon'                  => 'voyager-logbook',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Box',
                 'policy_name'           => null,
-                'controller'            => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\BoxController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
@@ -194,42 +194,44 @@ class StreamingDatabaseSeeder extends Seeder
 
         //Datos Default -------------------------------------
         //-----------------------------------------------------
-        $account = Account::create([
-            'name' => 'Cuenta #1',
-            'user_id' => 1
-        ]);
+        // $account = Account::create([
+        //     'name' => 'Cuenta #1',
+        //     'user_id' => 1
+        // ]);
         $menbership = Membership::create([
-            'title'          => 'Membresia #1',
-            'user_id'       => 1,
+            'title' => 'Membresia #1 Netflix (40 Bs)',
+            'price' => 40,
+            'days' => 30,
+            'user_id' => 1,
         ]);
                 
-            Profile::create([
-                'fullname'       => 'Perfil #1',
-                'account_id'     => $account->id,
-                'membership_id'  => $menbership->id,
-                'user_id'        => 1,
-            ]); 
-            Profile::create([
-                'fullname'       => 'Perfil #2',
-                'account_id'     => $account->id,
-                'membership_id'  => $menbership->id,
-                'user_id'        => 1,
-            ]);  
+        //     Profile::create([
+        //         'fullname'       => 'Perfil #1',
+        //         'account_id'     => $account->id,
+        //         'membership_id'  => $menbership->id,
+        //         'user_id'        => 1,
+        //     ]); 
+            // Profile::create([
+            //     'fullname'       => 'Perfil #2',
+            //     'account_id'     => $account->id,
+            //     'membership_id'  => $menbership->id,
+            //     'user_id'        => 1,
+            // ]);  
 
         $box = Box::create([
-            'title'        => 'Title #1',
+            'title'        => 'Caja de Apertura #1',
             'status'       =>  1,
             'balance'      =>  0,
             'start_amount' =>  0,
             'user_id'      =>  1
         ]);
-        Seating::create([
-            'concept'   => 'cocepto  #1',
-            'amount'    => 100,
-            'type'      => 'INGRESOS',
-            'box_id'    => $box->id,
-            'user_id'   => 1
-        ]);
+        // Seating::create([
+        //     'concept'   => 'cocepto  #1',
+        //     'amount'    => 100,
+        //     'type'      => 'INGRESOS',
+        //     'box_id'    => $box->id,
+        //     'user_id'   => 1
+        // ]);
 
         //datos default----------------------------------------
         //-----------------------------------------------------     

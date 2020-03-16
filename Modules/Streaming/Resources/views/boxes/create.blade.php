@@ -5,10 +5,6 @@
 
 @extends('voyager::master')
 
-@section('css')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@stop
-
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('page_header')
@@ -16,11 +12,6 @@
         <i class="{{ $dataType->icon }}"></i>
         {{ __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
     </h1>
-    <a href="{{ route('voyager.boxes.index') }}" class="btn btn-warning">
-        <span class="glyphicon glyphicon-list"></span>&nbsp;
-        {{ __('voyager::generic.return_to_list') }}
-    </a>
-    @include('voyager::multilingual.language-selector')
 @stop
 
 @section('content')
@@ -98,7 +89,6 @@
                             @section('submit-buttons')
                                 <button type="submit" class="btn btn-primary save">{{ __('voyager::generic.save') }}</button>
                             @stop
-                            @yield('submit-buttons')
                         </div>
                     </form>
 

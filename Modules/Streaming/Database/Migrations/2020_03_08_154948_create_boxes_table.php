@@ -16,7 +16,7 @@ class CreateBoxesTable extends Migration
         Schema::create('boxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->decimal('start_amount',8,2);
+            $table->decimal('start_amount',8,2)->nullable();
             $table->decimal('balance',8,2)->nullable();
             $table->boolean('status')->nullable();
 

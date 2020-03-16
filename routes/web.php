@@ -45,6 +45,6 @@ Route::get('{module_name}/installer', function($module_name) {
     Artisan::call('module:seed '.$module->name);//run seeder
     $module->installed=true;//logica boleana
     $module->save();
-    event(new App\Events\NewMessage($module->name));
+    // event(new App\Events\NewMessage($module->name));
     return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
 })->name('module_installer');

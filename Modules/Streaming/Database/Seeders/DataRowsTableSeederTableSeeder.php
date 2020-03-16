@@ -39,7 +39,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'type'         => 'number',
                 'display_name' => __('voyager::seeders.data_rows.id'),
                 'required'     => 1,
-                'browse'       => 0,
+                'browse'       => 1,
                 'read'         => 0,
                 'edit'         => 0,
                 'add'          => 0,
@@ -181,6 +181,28 @@ class DataRowsTableSeederTableSeeder extends Seeder
                     'display'   => [
                         'width'  => '6',
                     ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($AccountDataType, 'status');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'checkbox',
+                'display_name' => 'Estado',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    "on" => "Activo",
+                    "off" => "Inactivo",
+                    "checked" => true
                 ]
             ])->save();
         }
@@ -519,6 +541,25 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
+        $dataRow = $this->dataRow($ProfileDataType, 'avatar');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Avatar',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
         $dataRow = $this->dataRow($ProfileDataType, 'phone');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -538,10 +579,10 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataRow = $this->dataRow($ProfileDataType, 'statu');
+        $dataRow = $this->dataRow($ProfileDataType, 'status');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'select_dropdown',
+                'type'         => 'checkbox',
                 'display_name' => 'Estado',
                 'required'     => 0,
                 'browse'       => 1,
@@ -551,13 +592,12 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 2,
                 'details'      => [
-                    'options'=>[
-                        'Vigente'=>'Vigente',
-                        'Finalizado'=>'Finalizado'
-                    ],
                     'display'   => [
                         'width'  => '6',
                     ],
+                    "on" => "Activo",
+                    "off" => "Inactivo",
+                    "checked" => true
                 ]
             ])->save();
         }
@@ -792,11 +832,12 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 5,
                 'details'      => [
-                    
-                        "on" => "Caja Abierta",
-                        "off" => "Caja Cerrada",
-                        "checked" => true
-                   
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    "on" => "Caja Abierta",
+                    "off" => "Caja Cerrada",
+                    "checked" => true
                 ]
             ])->save();
         }

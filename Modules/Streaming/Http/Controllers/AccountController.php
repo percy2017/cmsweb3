@@ -24,6 +24,7 @@ use Modules\Streaming\Entities\Account;
 use Modules\Streaming\Entities\Box;
 use Modules\Streaming\Entities\Seating;
 use Modules\Streaming\Entities\Profile;
+use Modules\Streaming\Entities\Membership;
 class AccountController extends Controller
 {
     use BreadRelationshipParser;
@@ -33,7 +34,14 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('streaming::index');
+        
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
+        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
+
+        return view('streaming::accounts.index', compact(
+            'dataType',
+            'dataTypeContent'
+        ));
     }
 
     /**
@@ -43,20 +51,13 @@ class AccountController extends Controller
     public function create()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-                            ? new $dataType->model_name()
-                            : false;
-        foreach ($dataType->addRows as $key => $row) {
-            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
-        }
-        $isModelTranslatable = is_bread_translatable($dataTypeContent);
-
+ 
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
+     
         return view('streaming::accounts.create', [
-            'dataType'=>$dataType,
-            'dataTypeContent'=>$dataTypeContent,
-            'isModelTranslatable'=>$isModelTranslatable
-
-        ]);
+            'dataType' => $dataType,
+            'dataRows'=>$dataRows
+        ]); 
     }
 
     /**
@@ -66,6 +67,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $box= Box::where('status', 1)->first();
   
         if (!isset($box)) {
@@ -82,32 +84,26 @@ class AccountController extends Controller
             'password' =>  $request->password,
             'price' =>  $request->price,
             'renovation' => date('Y-m-d H:i:s', strtotime($request->renovation)),
-            'quantity_profiles' =>  $request->quantity_profiles,
+            'quantity_profiles' => $request->quantity_profiles,
             'description' =>  $request->description,
-            'user_id' =>  $request->user_id
+            'status' =>  $request->status ? 1 : 0,
+            'user_id' =>  Auth::user()->id
         ]);
         
         $asiento = Seating::create([
-            'concept' => 'Pago por compra de Cuenta de, '.$request->type,
+            'concept' => 'Pago por compra de un cuenta de, '.$request->type.' - '.$request->name,
             'amount' => $request->price,
             'type' => 'EGRESOS',
             'box_id' => $box->id,
-            'user_id' =>  $request->user_id
+            'user_id' => Auth::user()->id
         ]);
 
         $box->balance = $box->balance - $request->price;
         $box->save();     
+        
+        event(new \App\Events\NewMessage($asiento->concept));
 
-        for ($i=0; $i < $request->quantity_profiles; $i++) { 
-            profile::create([
-                'concept' => 'Pago por compra de Cuenta de, '.$request->type,
-                'amount' => $request->price,
-                'type' => 'EGRESOS',
-                'box_id' => $box->id,
-                'user_id' =>  $request->user_id
-            ]);
-        }
-        return redirect()->route('voyager.accounts.index')->with([
+        return redirect()->route('myaccounts.index')->with([
             'message'    =>  $request->type . ' Registrado',
             'alert-type' => 'success',
         ]);
@@ -155,4 +151,61 @@ class AccountController extends Controller
     {
         //
     }
+
+    function profiles($account_id)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
+        $account = Account::where('id', $account_id)->first();
+        $profiles = Profile::where('account_id', $account_id)->get();
+        $memberships = Membership::all();
+        return view('streaming::accounts.profiles', [
+            'dataType' => $dataType,
+            'account'=>$account,
+            'profiles'=>$profiles,
+            'memberships'=>$memberships
+        ]); 
+    }
+
+    function profiles_save(Request $request)
+    {
+        // return $request;
+
+        $box= Box::where('status', 1)->first();
+  
+        if (!isset($box)) {
+            return redirect()->back()->with([
+                'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
+                'alert-type' => 'error',
+            ]);
+        }else{
+
+        Profile::create([
+           'account_id' =>  $request->account_id,
+           'membership_id' =>  $request->membership_id,
+           'fullname' =>  $request->fullname,
+           'phone' =>  $request->phone,
+           'status' =>  1,
+           'observation' =>  $request->observation,
+           'user_id' => Auth::user()->id
+        ]);
+
+        $membership = Membership::where('id', $request->membership_id)->first();
+        $asiento = Seating::create([
+            'concept' => 'Ingreso  por venta del Perfil, '.$request->fullname,
+            'amount' => $membership->price,
+            'type' => 'INGRESOS',
+            'box_id' => $box->id,
+            'user_id' => Auth::user()->id
+        ]);
+
+        $box->balance = $box->balance - $request->price;
+        $box->save();  
+
+        return redirect()->back()->with([
+            'message'    => 'Perfil registrado correctamente',
+            'alert-type' => 'success',
+        ]);
+      }
+    }
+
 }

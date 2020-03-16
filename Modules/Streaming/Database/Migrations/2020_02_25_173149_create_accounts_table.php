@@ -23,6 +23,8 @@ class CreateAccountsTable extends Migration
             $table->dateTime('renovation')->nullable();
             $table->string('description')->nullable();
             $table->bigInteger('quantity_profiles')->nullable();
+            $table->boolean('status')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
