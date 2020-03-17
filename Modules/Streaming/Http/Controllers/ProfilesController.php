@@ -119,4 +119,24 @@ class ProfilesController extends Controller
             'accounts' => $accounts
         ]);
     }
+
+    public function change($id){
+        //return $request;
+        $profile = Profile::find($id);
+        $profile->status = false;
+        $profile->save();
+
+        History::create([
+            'type'=>'Cuenta dada de baja',
+            'profile_id'=>$id,
+            'user_id'=>auth()->user()->id
+
+        ]);
+        return redirect()->route('profile_history', $id)->with([
+            'message'    =>  $profile->fullname.' Actualizado Correctamente',
+            'alert-type' => 'success',
+        ]);
+    
+
+    }
 }

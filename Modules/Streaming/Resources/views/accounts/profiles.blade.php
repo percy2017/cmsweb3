@@ -19,17 +19,23 @@
         <div class="panel panel-bordered">
           <div class="panel-body">
             @foreach ($profiles as $item)
-                <div class="row">
+                <div class="">
                   <div class="col-sm-6 col-md-4">
                     <div class="thumbnail">
                       <img src="@if($item->avatar){{ Voyager::image($item->avatar) }}@else{{ Voyager::image('users/default.png') }}@endif" alt="{{ $item->fullname }}">
                       <div class="caption">
                         <h3>{{ $item->fullname }}</h3>
                         <p>{{ $item->phone }}</p>
-                        <p>{{ $item->statu }}</p>
+                        <input type="checkbox" name="{{ $item->fullname }}" class="toggleswitch"  @if($item->status == 1)checked="checked"@endif>
+                        @foreach ($memberships as $item2)
+                            @if ($item2->id === $item->membership_id)
+                            <p>{{ $item2->title }}</p>
+                            @endif
+                        @endforeach
+                        <p>{{ $item->finaldate}}</p>
                         <p>
-                          <a href="#" class="btn btn-primary" role="button">Button</a> 
-                          <a href="#" class="btn btn-default" role="button">Button</a>
+                        <a href="{{ route('profile_history', $item->id) }}" class="btn btn-primary" role="button">Historial</a> 
+                          {{-- <a href="#" class="btn btn-default" role="button">Button</a> --}}
                         </p>
                       </div>
                     </div>
@@ -79,6 +85,10 @@
                     <input type="datetime" class="form-control datepicker" name="startdate">
                 </div>
                 <div class="form-group">
+                  <label for="">Fecha de Pago</label>
+                  <input type="datetime" class="form-control datepicker" name="finaldate">
+              </div>
+                <div class="form-group">
                     <label for="">Observacion</label>
                     
                     <textarea name="observation" cols="30" rows="3" class="form-control" ></textarea>
@@ -92,5 +102,9 @@
 
 @stop
 @section('javascript')
-
+<script>
+  $('document').ready(function () {
+      $('.toggleswitch').bootstrapToggle();
+  });
+</script>
 @endsection

@@ -33,9 +33,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('myaccounts', 'AccountController');
     Route::get('myaccounts/myprofiles/{account_id}', 'AccountController@profiles')->name('account_profiles');
     Route::post('myaccounts/profiles_save', 'AccountController@profiles_save')->name('account_profiles_save');
+    
 
     Route::resource('myprofiles', 'ProfilesController');
     Route::get('myprofiles/history/{id}','ProfilesController@history')->name('profile_history');
+    Route::get('myprofiles/change/{id}', 'ProfilesController@change')->name('profile_changeStatus');
 
     Route::resource('myseatings', 'SeatingsController');
   });

@@ -16,7 +16,7 @@
             <span class="voyager-resize-full"></span>&nbsp;
             Cambiar de cuenta
         </a>
-        <a href="#" class="btn btn-danger">
+         <a href="{{ route('profile_changeStatus', $profiles->id) }}" class="btn btn-danger">
             <span class="voyager-power"></span>&nbsp;
             Dar de Baja
         </a>

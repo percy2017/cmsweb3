@@ -171,42 +171,52 @@ class AccountController extends Controller
         // return $request;
 
         $box= Box::where('status', 1)->first();
-  
+        $account= Account::where('id',  $request->account_id)->first();
+        $profile=Profile::where('account_id', $request->account_id)->count();
+        //return $profile;
         if (!isset($box)) {
             return redirect()->back()->with([
                 'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
                 'alert-type' => 'error',
             ]);
-        }else{
+            }else{
+            if(!($profile < $account->quantity_profiles)){
+                return redirect()->back()->with([
+                    'message'    =>  'El limite perfiles'.$profile ,
+                    'alert-type' => 'error',
+                ]);
 
-        Profile::create([
-           'account_id' =>  $request->account_id,
-           'membership_id' =>  $request->membership_id,
-           'fullname' =>  $request->fullname,
-           'phone' =>  $request->phone,
-           'status' =>  1,
-           'observation' =>  $request->observation,
-           'user_id' => Auth::user()->id
-        ]);
+            }else {
+                Profile::create([
+                'account_id' =>  $request->account_id,
+                'membership_id' =>  $request->membership_id,
+                'fullname' =>  $request->fullname,
+                'phone' =>  $request->phone,
+                'status' =>  1,
+                'finaldate'=> date('Y-m-d H:i:s', strtotime($request->finaldate)),
+                'observation' =>  $request->observation,
+                'user_id' => Auth::user()->id
+                ]);
 
-        $membership = Membership::where('id', $request->membership_id)->first();
-        $asiento = Seating::create([
-            'concept' => 'Ingreso  por venta del Perfil, '.$request->fullname,
-            'amount' => $membership->price,
-            'type' => 'INGRESOS',
-            'box_id' => $box->id,
-            'user_id' => Auth::user()->id
-        ]);
+                $membership = Membership::where('id', $request->membership_id)->first();
+                $asiento = Seating::create([
+                    'concept' => 'Ingreso  por venta del Perfil, '.$request->fullname,
+                    'amount' => $membership->price,
+                    'type' => 'INGRESOS',
+                    'box_id' => $box->id,
+                    'user_id' => Auth::user()->id
+                ]);
 
-        $box->balance = $box->balance - $request->price;
-        $box->save();  
+                $box->balance = $box->balance - $request->price;
+                $box->save();  
 
-        event(new \App\Events\NewMessage($asiento->concept));
-        return redirect()->back()->with([
-            'message'    => 'Perfil registrado correctamente',
-            'alert-type' => 'success',
-        ]);
-      }
+                event(new \App\Events\NewMessage($asiento->concept));
+                return redirect()->back()->with([
+                    'message'    => 'Perfil registrado correctamente',
+                    'alert-type' => 'success',
+                ]);
+            }  
+        }
     }
 
 }
