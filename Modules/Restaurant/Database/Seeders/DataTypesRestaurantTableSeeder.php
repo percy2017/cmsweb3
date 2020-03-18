@@ -28,7 +28,7 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'name'                  => 'products',
                 'display_name_singular' => 'Producto',
                 'display_name_plural'   => 'Productos',
-                'icon'                  => 'voyager-',
+                'icon'                  => 'voyager-bag',
                 'model_name'            => 'Modules\\Restaurant\\Entities\\Product',
                 'policy_name'           => null,
                 'controller'            => 'Modules\\Restaurant\\Http\\Controllers\\ProductController',

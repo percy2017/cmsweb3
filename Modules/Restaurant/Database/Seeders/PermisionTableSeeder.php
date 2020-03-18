@@ -16,22 +16,15 @@ class PermisionTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $keys = [
-            'browse_admin',
-            'browse_bread',
-            'browse_database',
-            'browse_media',
-            'browse_compass',
-        ];
-
-        foreach ($keys as $key) {
-            Permission::firstOrCreate([
-                'key'        => $key,
-                'table_name' => null,
-            ]);
-        }
-
-        // $this->call("OthersTableSeeder");
-        Permission::generateFor('accounts');
+ 
+        Permission::generateFor('products');
+        Permission::generateFor('categories');
+        Permission::generateFor('sub_categories');
+        Permission::generateFor('branch_offices'); //sucurales
+        Permission::generateFor('supplies'); //suministros
+        Permission::generateFor('extras');
+        // Permission::generateFor('branchOffice_product');
+        // Permission::generateFor('extra_product');
+        // Permission::generateFor('branchOffice_extra');
     }
 }

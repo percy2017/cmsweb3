@@ -15,13 +15,13 @@ class PageTableSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
+        // Model::unguard();
 
         $page = Page::create([
-            'name'      => 'Landing Page Restorant',
+            'name'      => 'Landing Page Restaurant',
             'slug'      => 'index',
             'direction' => 'restaurant::index',
-            'description' => 'Pagina de Destino para Restorant',
+            'description' => 'Pagina de destino para restaurant y venta de comida de rapida.',
             'details'   => json_encode([
                 'image_header' => [
                     'type' => 'image',
@@ -357,15 +357,6 @@ class PageTableSeeder extends Seeder
                 ],
             ])
         ]); 
-
-
-        DB::table('settings')
-        ->where('key', 'site.page')
-        ->update(['value' => 'index']);
-        
-        DB::table('settings')
-        ->where('key', 'site.page')
-        ->update(['value' => 'index']);
 
     }
 }

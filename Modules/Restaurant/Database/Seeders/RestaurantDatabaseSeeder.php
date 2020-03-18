@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\DB;
 class RestaurantDatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeds.  
      *
      * @return void
      */
     public function run()
     {
-        Model::unguard();
+        // Model::unguard();
+        $this->call(SettingsTableSeeder::class);
+        $this->call(PageTableSeeder::class);
         $this->call(DataTypesRestaurantTableSeeder::class);
         $this->call(DataRowsRestaurantTableSeeder::class);
         $this->call(PermisionTableSeeder::class);
