@@ -41,5 +41,11 @@ class ModulesTableSeeder extends Seeder
             'description_short' => 'Modulo Rokola'
         ]);
 
+        $module = Module::create([
+            'installed'         => false,
+            'name'              => 'Restaurant',
+            'description_short' => 'Modulo Restaurant'
+        ]);
+
     }
 }

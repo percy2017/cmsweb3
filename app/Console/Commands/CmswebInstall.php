@@ -72,7 +72,7 @@ class CmswebInstall extends Command
         //     $this->warn('You will need to update this manually.  Change "extends Authenticatable" to "extends \TCG\Voyager\Models\User" in your User model');
         // }
 
-        $this->info('Volcar los archivos con carga automática y volver a cargar todos los archivos nuevos');
+        $this->info('Volcando los archivos con carga automática y volver a cargar todos los archivos nuevos');
 
         $composer = $this->findComposer();
 
@@ -115,6 +115,9 @@ class CmswebInstall extends Command
 
         $this->info('Agregar el enlace simbólico de almacenamiento a su carpeta pública');
         $this->call('storage:link');
+            
+        $this->info('Generando llave del CmsWeb v3.0');
+        $this->call('key:generate');
 
         $this->info('CmsWeb v3.0 instalado con éxito! Disfrutalo');
  

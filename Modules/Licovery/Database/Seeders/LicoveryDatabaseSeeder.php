@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Restaurant\Database\Seeders;
+namespace Modules\Licovery\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-class RestaurantDatabaseSeeder extends Seeder
+
+class LicoveryDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

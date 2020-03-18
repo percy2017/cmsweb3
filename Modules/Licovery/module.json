@@ -1,0 +1,13 @@
+{
+    "name": "Licovery",
+    "alias": "licovery",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Licovery\\Providers\\LicoveryServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
