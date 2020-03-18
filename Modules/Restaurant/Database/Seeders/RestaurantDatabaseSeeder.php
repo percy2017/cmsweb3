@@ -15,7 +15,9 @@ class RestaurantDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
+        $this->call(DataTypesRestaurantTableSeeder::class);
+        $this->call(DataRowsRestaurantTableSeeder::class);
+        $this->call(PermisionTableSeeder::class);
         // $this->call("OthersTableSeeder");
     }
 }
