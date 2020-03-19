@@ -20,7 +20,7 @@
                 <div class="col-lg-5 col-md-12 mb-3 wow fadeIn" data-wow-delay="0.4s">
 
                     <!--Image-->
-                    <img src="{{ voyager::Image($data->image->value) }}" alt="" class="z-depth-0 img-fluid">
+                    <img src="{{ voyager::Image($data->image1->value) }}" alt="" class="z-depth-0 img-fluid">
 
                 </div>
                 <!--/First column-->

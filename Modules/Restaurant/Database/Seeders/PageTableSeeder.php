@@ -34,14 +34,14 @@ class PageTableSeeder extends Seeder
                     'type' => 'text',
                     'name' => 'title_header',
                     'label' => 'Titulo',
-                    'value' => 'Restaurant',
+                    'value' => 'YIMBO v1.0',
                     'width' => 4
                 ],
                 'description_header' => [
                     'type' => 'text_area',
                     'name' => 'description_header',
                     'label' => 'Descripcion',
-                    'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti consequuntur, nihil voluptatem modi nobis veniam.',
+                    'value' => 'Software inteligente para la administracion y gestion de restaurant y venta de comida rapida.',
                     'width' => 4
                 ],
                 'space1' => [
@@ -52,15 +52,22 @@ class PageTableSeeder extends Seeder
                     'type' => 'text',
                     'name' => 'text_button',
                     'label' => 'Texto del Boton',
-                    'value' => 'Reservar',
-                    'width' => 6
+                    'value' => 'Comprar con Delivery',
+                    'width' => 4
+                ],
+                'link_button' => [
+                    'type' => 'text',
+                    'name' => 'link_button',
+                    'label' => 'Linkk del Boton',
+                    'value' => '#',
+                    'width' => 4
                 ],
                 'icons1' => [
                     'type'  => 'select_dropdown',
                     'name'  => 'icons1',
                     'label' => 'Icon #1',
                     'value' => 'far fa-calendar-alt mr-2',
-                    'width'  => 6
+                    'width'  => 4
                 ],
             ])
         ]);
@@ -334,29 +341,6 @@ class PageTableSeeder extends Seeder
             ])
         ]);
         
-        Block::create([
-            'name'        => 'lps_block6',
-            'title'       => 'Blocke #6 (THE MENU)',
-            'description' => 'Seccion THE MENU para la plantilla LPR',
-            'page_id' => $page->id,
-            'position'    => 5,
-            'details'     => json_encode([
-                'title_strong' => [
-                    'type'   => 'text',
-                    'name'   => 'title_strong',
-                    'label'  => 'Titulo en Negrita',
-                    'value'  => 'THE MENU',
-                    'width'  => 6
-                ],
-                'description' => [
-                    'type'  => 'text_area',
-                    'name'  => 'description',
-                    'label' => 'Descripcion',
-                    'value' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam eum porro a pariatur accusamus veniam.',
-                    'width'  => 4
-                ],
-            ])
-        ]); 
 
     }
 }

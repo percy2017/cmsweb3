@@ -280,8 +280,6 @@
       $('.mdb-select').material_select();
     });
 
-
-
     // whatsapp ------------------------------------
       $('#myWP').floatingWhatsApp({
         phone: '{{ setting('whatsapp.phone') }}',

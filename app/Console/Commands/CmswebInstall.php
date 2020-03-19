@@ -116,8 +116,11 @@ class CmswebInstall extends Command
         $this->info('Agregar el enlace simbólico de almacenamiento a su carpeta pública');
         $this->call('storage:link');
             
-        $this->info('Generando llave del CmsWeb v3.0');
+        $this->info('Generando llave de Identificacion del CmsWeb v3.0');
         $this->call('key:generate');
+
+        $this->info('Realizando Limpieza');
+        $this->call('optimize:clear');
 
         $this->info('CmsWeb v3.0 instalado con éxito! Disfrutalo');
  
