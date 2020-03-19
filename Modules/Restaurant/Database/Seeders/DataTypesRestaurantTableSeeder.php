@@ -38,7 +38,102 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'details'               => null
             ])->save();
         }
-
+         /**
+         * ---------SUB CSTEGORIAS-------------------------
+         */
+        $dataType = $this->dataType('slug', 'sub_categories');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'sub_categories',
+                'display_name_singular' => 'Sub Categoria',
+                'display_name_plural'   => 'Sub Categorias',
+                'icon'                  => 'voyager-bag',
+                'model_name'            => 'Modules\\Restaurant\\Entities\\SubCategory',
+                'policy_name'           => null,
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => null
+            ])->save();
+        }
+        /**
+         * --------- CATEGORIAS-------------------------
+         */
+        $dataType = $this->dataType('slug', 'categories');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'categories',
+                'display_name_singular' => 'Categoria',
+                'display_name_plural'   => 'Categorias',
+                'icon'                  => 'voyager',
+                'model_name'            => 'Modules\\Restaurant\\Entities\\Category',
+                'policy_name'           => null,
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => null
+            ])->save();
+        }
+        /**
+         * --------- SUCURSALES-------------------------
+         */
+        $dataType = $this->dataType('slug', 'branch_offices');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'branch_offices',
+                'display_name_singular' => 'Sucursale',
+                'display_name_plural'   => 'Sucursales',
+                'icon'                  => 'voyager',
+                'model_name'            => 'Modules\\Restaurant\\Entities\\BranchOffice',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Restaurant\\Http\\Controllers\\BranchOfficeController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => null
+            ])->save();
+        }
+        /**
+         * --------- INSUMOS-------------------------
+         */
+        $dataType = $this->dataType('slug', 'supplies');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'supplies',
+                'display_name_singular' => 'Insumo',
+                'display_name_plural'   => 'Insumos',
+                'icon'                  => 'voyager',
+                'model_name'            => 'Modules\\Restaurant\\Entities\\Supply',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Restaurant\\Http\\Controllers\\SupplyController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => null
+            ])->save();
+        }
+        /**
+         * --------- EXTRAS-------------------------
+         */
+        $dataType = $this->dataType('slug', 'extras');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'extras',
+                'display_name_singular' => 'Extra',
+                'display_name_plural'   => 'Extras',
+                'icon'                  => 'voyager',
+                'model_name'            => 'Modules\\Restaurant\\Entities\\Extra',
+                'policy_name'           => null,
+                'controller'            => null,
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => null
+            ])->save();
+        }
+        
 
 
 

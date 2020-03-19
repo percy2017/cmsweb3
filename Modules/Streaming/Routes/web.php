@@ -39,5 +39,5 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('myprofiles/history/{id}','ProfilesController@history')->name('profile_history');
     Route::get('myprofiles/change/{id}', 'ProfilesController@change')->name('profile_changeStatus');
 
-    Route::resource('myseatings', 'SeatingsController');
+    Route::resource('myseatings', 'SeatingController');
   });

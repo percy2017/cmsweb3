@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\Permission;
 
+use TCG\Voyager\Models\Role;
+use Illuminate\Support\Facades\DB;
 class PermisionTableSeeder extends Seeder
 {
     /**
@@ -26,5 +28,73 @@ class PermisionTableSeeder extends Seeder
         // Permission::generateFor('branchOffice_product');
         // Permission::generateFor('extra_product');
         // Permission::generateFor('branchOffice_extra');
+        $role = Role::where('name', 'admin')->firstOrFail();
+
+        $permissions = Permission::where('table_name', 'products')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'categories')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'sub_categories')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'branch_offices')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'supplies')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'extras')->get();
+        foreach ($permissions as $key){
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp){
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+        
     }
 }

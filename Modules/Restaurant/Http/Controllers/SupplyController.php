@@ -6,12 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Facades\Voyager;
-use Modules\Streaming\Entities\Product;
-
-class ProductController extends Controller
+class SupplyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,13 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'products')->first();
-        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
-
-        return view('restaurant::products.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
+        return view('restaurant::index');
     }
 
     /**
@@ -34,13 +23,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'products')->first();
- 
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
-        return view('restaurant::products.create', [
-            'dataType' => $dataType,
-            'dataRows'=>$dataRows
-        ]); 
+        return view('restaurant::create');
     }
 
     /**
@@ -51,7 +34,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
-        return $request;
     }
 
     /**

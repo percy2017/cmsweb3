@@ -11,6 +11,12 @@
 |
 */
 
-Route::prefix('restaurant')->group(function() {
-    Route::get('/', 'RestaurantController@index');
+Route::prefix('admin')->group(function() {
+    Route::resource('myproducts', 'ProductController');
+    Route::resource('mycategories', 'CategoryController');
+    Route::resource('mysubcategories', 'SubCategoryController');
+    Route::resource('mybranchOfficies', 'BranchOfficeController');
+    Route::resource('mysupplies', 'SupplyController');
+    Route::resource('myextras', 'ExtraController');
+    
 });

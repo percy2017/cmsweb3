@@ -15,8 +15,16 @@ class CreateBranchOfficesTable extends Migration
     {
         Schema::create('branch_offices', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->timestamps();
+            $table->string('name')->nullable();
+			$table->text('address', 65535)->nullable();
+			$table->string('phone')->nullable();
+			$table->string('whtasapp')->nullable();
+			$table->string('latitud')->nullable();
+            $table->string('longitud')->nullable();
+            
+			$table->timestamps();
+			$table->softDeletes();
+           
         });
     }
 
