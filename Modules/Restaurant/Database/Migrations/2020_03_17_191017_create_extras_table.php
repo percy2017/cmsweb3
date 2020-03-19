@@ -15,8 +15,13 @@ class CreateExtrasTable extends Migration
     {
         Schema::create('extras', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            $table->timestamps();
+			$table->string('name')->nullable();
+			$table->decimal('price', 10)->nullable();
+			$table->string('image')->nullable();
+			$table->integer('status')->nullable();
+			$table->timestamps();
+			$table->softDeletes();
+           
         });
     }
 

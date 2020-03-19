@@ -28,6 +28,7 @@ class CreateProductsTable extends Migration
 			$table->string('images')->nullable();
 			$table->integer('views')->default(0);
             $table->string('slug', 191)->unique('slug');
+            $table->integer('category_id')->default(0);
 
             $table->unsignedBigInteger('sub_category_id');
             $table->foreign('sub_category_id')->references('id')->on('sub_categories');

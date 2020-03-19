@@ -21,13 +21,13 @@ class MenusTableSeeder extends Seeder
         // $this->call("OthersTableSeeder");
         $menu = Menu::where('name', 'admin')->firstOrFail();
 
-        $StreamingMenuItem = MenuItem::firstOrNew([
+        $RestaurantMenuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Inventario',
             'url'     => '',
         ]);
-        if (!$StreamingMenuItem->exists) {
-            $StreamingMenuItem->fill([
+        if (!$RestaurantMenuItem->exists) {
+            $RestaurantMenuItem->fill([
                 'target'     => '_self',
                 'icon_class' => 'voyager-categories',
                 'color'      => null,
@@ -38,16 +38,64 @@ class MenusTableSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => 'Cuentas',
+            'title'   => 'Productos',
             'url'     => '',
-            'route'   => 'voyager.products.index',
+            'route'   => 'myproducts.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
                 'icon_class' => 'voyager-double-right',
                 'color'      => null,
-                'parent_id'  => $StreamingMenuItem->id,
+                'parent_id'  => $RestaurantMenuItem->id,
+                'order'      => 1,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Sucursales',
+            'url'     => '',
+            'route'   => 'mybranch_offices.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-double-right',
+                'color'      => null,
+                'parent_id'  => $RestaurantMenuItem->id,
+                'order'      => 1,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Categorias',
+            'url'     => '',
+            'route'   => 'mycategories.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-double-right',
+                'color'      => null,
+                'parent_id'  => $RestaurantMenuItem->id,
+                'order'      => 1,
+            ])->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Sub Categorias',
+            'url'     => '',
+            'route'   => 'mysub_categories.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-double-right',
+                'color'      => null,
+                'parent_id'  => $RestaurantMenuItem->id,
                 'order'      => 1,
             ])->save();
         }
