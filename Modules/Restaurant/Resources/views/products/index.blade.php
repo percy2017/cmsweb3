@@ -8,19 +8,19 @@
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
         <a href="{{ route('voyager.bread.edit', $dataType->slug) }}" class="btn btn-dark" target="_blank">
-            <i class="voyager-params"></i> <span>Configuracion</span>
+            Configuracion
         </a>
         <a href="{{ route('myproducts.create') }}" class="btn btn-primary">
-            <i class="voyager-plus"></i> <span>Nuevo</span>
+            Nuevo
         </a>
         <a href="{{ route('voyager.categories.index') }}" class="btn btn-success">
-          <i class="voyager-plus"></i> <span>Categorias</span>
+          Categoria
         </a>
-        <a href="{{ route('voyager.sub_categories.index') }}" class="btn btn-default">
-          <i class="voyager-plus"></i> <span>Sub Categorias</span>
+        <a href="{{ route('voyager.sub_categories.index') }}" class="btn btn-warning">
+          Sub Categorias
         </a>
-        <a href="{{ route('myextras.index') }}" class="btn btn-warning">
-          <i class="voyager-plus"></i> <span>Extras</span>
+        <a href="{{ route('myextras.index') }}" class="btn btn-danger">
+          Extras
         </a>
     </div>
 @stop

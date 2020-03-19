@@ -21,6 +21,7 @@ class RestaurantDatabaseSeeder extends Seeder
         $this->call(DataRowsRestaurantTableSeeder::class);
         $this->call(PermisionTableSeeder::class);
         $this->call(MenusTableSeeder::class);
+        $this->call(DatosDefaultTableSeeder::class);
         // $this->call("OthersTableSeeder");
     }
 }

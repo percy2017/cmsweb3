@@ -52,43 +52,73 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 0,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => 2,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
-                    ],
+                    ],  'relationship' => [
+                        'key' => 'id',
+                        'label' => 'name',
+                        'model' => 'Modules\\Restaurant\\Entities\\Category'
+                    ]
                 ]
             ])->save();
+                  
         }
-        $dataRow = $this->dataRow($ProductDataType, 'product_belongsto_subcategory_relationship');//----6
+
+        $dataRow = $this->dataRow($ProductDataType, 'sub_category_id');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Sub Categorias',
-                'required'     => 1,
-                'browse'       => 1,
+                'type'         => 'select_dropdown',
+                'display_name' => 'sub_category_id',
+                'required'     => 0,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'details'      => [
-                    'model'       => 'Modules\\Restaurant\\Entities\\SubCategory',
-                    'table'       => 'sub_categories',
-                    'type'        => 'belongsTo',
-                    'column'      => 'sub_category_id',
-                    'key'         => 'id',
-                    'label'       => 'name',
-                    'pivot_table' => 'sub_categories',
-                    'pivot'       => 0,
-                ],
-                'display'   => [
-                    'width'  => '6',
-                ],
                 'order'        => 3,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'relationship' => [
+                        'key' => 'id',
+                        'label' => 'name',
+                        'model' => 'Modules\\Restaurant\\Entities\\SubCategory'
+                    ]
+                ]
             ])->save();
         }
+        // $dataRow = $this->dataRow($ProductDataType, 'product_belongsto_subcategory_relationship');//----6
+        // if (!$dataRow->exists) {
+        //     $dataRow->fill([
+        //         'type'         => 'relationship',
+        //         'display_name' => 'Sub Categorias',
+        //         'required'     => 1,
+        //         'browse'       => 1,
+        //         'read'         => 1,
+        //         'edit'         => 1,
+        //         'add'          => 1,
+        //         'delete'       => 0,
+        //         'details'      => [
+        //             'model'       => 'Modules\\Restaurant\\Entities\\SubCategory',
+        //             'table'       => 'sub_categories',
+        //             'type'        => 'belongsTo',
+        //             'column'      => 'sub_category_id',
+        //             'key'         => 'id',
+        //             'label'       => 'name',
+        //             'pivot_table' => 'sub_categories',
+        //             'pivot'       => 0,
+        //             'display'   => [
+        //                 'width'  => '6',
+        //             ],
+        //         ],
+        //         'order'        => 3,
+        //     ])->save();
+        // }
 
         $dataRow = $this->dataRow($ProductDataType, 'name');
         if (!$dataRow->exists) {
@@ -326,27 +356,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                     ],
                 ]
             ])->save();
-        }                
-        
-        $dataRow = $this->dataRow($ProductDataType, 'sub_category_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'hidden',
-                'display_name' => 'sub_category_id',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => 16,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                ]
-            ])->save();
-        }
+        }               
 
         $dataRow = $this->dataRow($ProductDataType, 'user_id');
         if (!$dataRow->exists) {
@@ -455,9 +465,9 @@ class DataRowsRestaurantTableSeeder extends Seeder
                     'label'       => 'name',
                     'pivot_table' => 'categories',
                     'pivot'       => 0,
-                    ],
                     'display'   => [
                         'width'  => '6',
+                        ]
                     ],
                     'order'        => 2,
             ])->save();

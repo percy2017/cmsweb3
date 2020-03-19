@@ -68,37 +68,37 @@ class MenusTableSeeder extends Seeder
             ])->save();
         }
 
-        $menuItem = MenuItem::firstOrNew([
-            'menu_id' => $menu->id,
-            'title'   => 'Categorias',
-            'url'     => '',
-            'route'   => 'mycategories.index',
-        ]);
-        if (!$menuItem->exists) {
-            $menuItem->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-double-right',
-                'color'      => null,
-                'parent_id'  => $RestaurantMenuItem->id,
-                'order'      => 1,
-            ])->save();
-        }
+        // $menuItem = MenuItem::firstOrNew([
+        //     'menu_id' => $menu->id,
+        //     'title'   => 'Categorias',
+        //     'url'     => '',
+        //     'route'   => 'mycategories.index',
+        // ]);
+        // if (!$menuItem->exists) {
+        //     $menuItem->fill([
+        //         'target'     => '_self',
+        //         'icon_class' => 'voyager-double-right',
+        //         'color'      => null,
+        //         'parent_id'  => $RestaurantMenuItem->id,
+        //         'order'      => 1,
+        //     ])->save();
+        // }
 
-        $menuItem = MenuItem::firstOrNew([
-            'menu_id' => $menu->id,
-            'title'   => 'Sub Categorias',
-            'url'     => '',
-            'route'   => 'mysub_categories.index',
-        ]);
-        if (!$menuItem->exists) {
-            $menuItem->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-double-right',
-                'color'      => null,
-                'parent_id'  => $RestaurantMenuItem->id,
-                'order'      => 1,
-            ])->save();
-        }
+        // $menuItem = MenuItem::firstOrNew([
+        //     'menu_id' => $menu->id,
+        //     'title'   => 'Sub Categorias',
+        //     'url'     => '',
+        //     'route'   => 'mysub_categories.index',
+        // ]);
+        // if (!$menuItem->exists) {
+        //     $menuItem->fill([
+        //         'target'     => '_self',
+        //         'icon_class' => 'voyager-double-right',
+        //         'color'      => null,
+        //         'parent_id'  => $RestaurantMenuItem->id,
+        //         'order'      => 1,
+        //     ])->save();
+        // }
 
     }
 }

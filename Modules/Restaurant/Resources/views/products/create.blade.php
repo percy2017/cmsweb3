@@ -30,7 +30,8 @@
                                @if ($row->add)
                                    @switch($row->type)
                                     @case('relationship')
-                                            <select class="form-control select2" name="{{ $row->details->column }}">
+                                        <label class="control-label" for="name">{{ $row->display_name }}</label>
+                                            <select class="form-control select2" name="{{ $row->details->column }}" @if($row->required == 1) required @endif>
                                                 @php
                                                     $model = app($row->details->model);
                                                     $query = $model::all();
@@ -43,11 +44,25 @@
                                     @case('select_dropdown')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
                                         {{--  {{ dd($row->details) }}  --}}
-                                        <select class="form-control select2" name="{{ $row->field }}">
-                                            @foreach ($row->details->options as $item)
-                                                <option value="{{ $item }}">{{ $item }}</option>
-                                            @endforeach
-                                        </select>
+                                        @if($row->details->relationship)
+                                            @php
+                                                $data=$row->details->relationship->{'model'}::all();
+                                                $dataj = json_encode($data);
+                                                $key=$row->details->relationship->{'key'};
+                                                $label=$row->details->relationship->{'label'};
+                                            @endphp
+                                            <select class="form-control select2" name="{{ $row->field }}" id="{{ $row->field }}" @if($row->required == 1) required @endif>
+                                                @foreach ($data  as $item)
+                                                    <option value="{{ $item->$key }}">{{ $item->$label }}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
+                                            <select class="form-control select2" name="{{ $row->field }}" @if($row->required == 1) required @endif>
+                                                @foreach ($row->details->options  as $item)
+                                                    <option value="{{ $item }}">{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                         @break
                                     @case('text')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
@@ -110,5 +125,23 @@
         $('document').ready(function () {
             $('.toggleswitch').bootstrapToggle();
         });
+
+        $('#category_id').change(function(){
+            $('#category_id').select2('destroy');
+            //let datos = head ? `<option value="">${head}</option>` : '';
+           
+            alert(JSON.parse('{{ json_encode($data) }}'));
+            if(data.length>0){
+                data.forEach(item => {
+                    datos += `<option value="${item.id}">${item.nombre}</option>`;
+                });
+            }
+            $('#select-'+id).html(datos);
+            $('#select-'+id).val(option_active);
+            $(`#select-${id}`).select2();
+            alert($(this).val());
+
+        })
+
     </script>
 @endsection
