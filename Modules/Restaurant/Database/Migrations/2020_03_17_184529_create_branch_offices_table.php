@@ -18,9 +18,10 @@ class CreateBranchOfficesTable extends Migration
             $table->string('name')->nullable();
 			$table->text('address', 65535)->nullable();
 			$table->string('phone')->nullable();
-			$table->string('whtasapp')->nullable();
+			$table->string('whatsapp')->nullable();
 			$table->string('latitud')->nullable();
             $table->string('longitud')->nullable();
+            $table->string('maps')->nullable();
             
 			$table->timestamps();
 			$table->softDeletes();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuppliesTable extends Migration
+class CreateCashesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSuppliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplies', function (Blueprint $table) {
+        Schema::create('cashes', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->string('name')->nullable();
-			$table->integer('unity')->nullable();
-			$table->decimal('price', 10)->nullable();
-			$table->timestamps();
-			$table->softDeletes();
+
+            $table->unsignedBigInteger('branch_office_id');
+            $table->foreign('branch_office_id')->references('id')->on('branch_offices');//sucursal
             
+
+            $table->timestamps();
         });
     }
 
@@ -31,6 +31,6 @@ class CreateSuppliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplies');
+        Schema::dropIfExists('cashes');
     }
 }

@@ -17,7 +17,7 @@ Route::prefix('admin')->group(function() {
 
     Route::resource('mycategories', 'CategoryController');
     Route::resource('mysubcategories', 'SubCategoryController');
-    Route::resource('mybranchOfficies', 'BranchOfficeController');
+    Route::resource('mybranch_offices', 'BranchOfficeController');
     Route::resource('mysupplies', 'SupplyController');
     Route::resource('myextras', 'ExtraController');
     
