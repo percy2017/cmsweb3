@@ -9,8 +9,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
-use Modules\Streaming\Entities\Product;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
+use Modules\Restaurant\Entities\Product;
+use Modules\Restaurant\Entities\SubCategory;
 class ProductController extends Controller
 {
     /**
@@ -50,8 +53,41 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return $request;
+     
+        // return $request;    
+       
+
+        $product = Product::create([
+            'sub_category_id' => $request->sub_category_id,
+            'name' => $request->name,
+            'price_sale' => $request->price_sale,
+            'price_minimum' => $request->price_minimum,
+            'Last_Price_Buy' => $request->Last_Price_Buy,
+            'stock' => $request->stock,
+            'stock_minimum' => $request->stock_minimum,
+            'description_long' => $request->description_long,
+            'description_small' => $request->description_small,
+            'slug' => Str::slug($request->name),
+            'user_id' => Auth::user()->id,
+        ]);
+
+        $image_array = [];
+        if($request->hasFile('images'))
+        {
+            foreach($request->file('images') as $image)
+            {
+                $array = Storage::disk('public')->put('products/'.date('F').date('Y'), $image);
+                array_push($image_array, $array);
+                
+            }
+            $product->images = $image_array;
+           $product->save();
+        }  
+        
+         return redirect()->route('myproducts.index')->with([
+            'message'    =>  $request->name . ' Registrado',
+            'alert-type' => 'success',
+        ]);
     }
 
     /**
@@ -71,7 +107,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return view('restaurant::edit');
+        return view('restaurant::products.edit');
     }
 
     /**
@@ -93,5 +129,11 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    function ajaxdata($id)
+    {
+        $data = SubCategory::where('category_id', $id)->get();
+        return $data;
     }
 }

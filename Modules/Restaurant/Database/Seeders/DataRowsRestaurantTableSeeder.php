@@ -133,6 +133,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 4,
                 'details'      => [
+                    'default' => 'Name Product Default',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -176,6 +177,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 6,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -195,6 +197,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 7,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -216,6 +219,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'order'        => 8,
                 'details'      => [
                     'display'   => [
+                        'default' => '0',
                         'width'  => '6',
                     ],
                 ]
@@ -234,6 +238,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 9,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -254,6 +259,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 10,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -293,6 +299,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => 12,
                 'details'      => [
+                    'default' => 'DEscription Product Default',
                     'display'   => [
                         'width'  => '6',
                     ],

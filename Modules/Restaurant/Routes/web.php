@@ -13,6 +13,8 @@
 
 Route::prefix('admin')->group(function() {
     Route::resource('myproducts', 'ProductController');
+    Route::get('myproducts/ajaxdata/{id}', 'ProductController@ajaxdata')->name('myproducts_ajaxdata');
+
     Route::resource('mycategories', 'CategoryController');
     Route::resource('mysubcategories', 'SubCategoryController');
     Route::resource('mybranchOfficies', 'BranchOfficeController');

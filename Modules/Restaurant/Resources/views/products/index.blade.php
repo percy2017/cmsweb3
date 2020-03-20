@@ -91,9 +91,26 @@
                                       @endif
                                      @elseif($row->type == 'image')
                                         <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
-                                      @elseif($row->type == 'relationship')
-                                        @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
+                                    @elseif($row->type == 'relationship')
+                                        @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details->options])
+                                    @elseif($row->type == 'select_dropdown') 
+                                      @if($row->details->relationship)
+                                     
+                                        @php
+                                            $model=$row->details->relationship->{'model'};  
+                                            $data_browse=$model::all();
+                                            $key=$row->details->relationship->{'key'};
+                                            $label=$row->details->relationship->{'label'};
+                                        @endphp
                                       
+                                        @foreach ($data_browse as $item)
+                                            @if($item->id === $data->sub_category_id)
+                                              {{ $item->name }}
+                                            @endif
+                                       
+                                        @endforeach
+                                      @endif
+                                            
                                     @else
                                       @include('voyager::multilingual.input-hidden-bread-browse')
                                       <span>{{ $data->{$row->field} }}</span>
@@ -103,8 +120,8 @@
                                 @endforeach
                                   
                                   <td class="no-sort no-click bread-actions">
-                                    <a href="{{ route('account_profiles', $data->id) }}" title="#" class="btn btn-dark">
-                                      <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Perfiles</span>
+                                    <a href="{{ route('myproducts.edit', $data->id) }}" title="#" class="btn btn-primary">
+                                      <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
                                     </a>
                                   </td>
                               </tr>

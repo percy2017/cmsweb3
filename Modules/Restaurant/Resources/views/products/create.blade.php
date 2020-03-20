@@ -46,8 +46,8 @@
                                         {{--  {{ dd($row->details) }}  --}}
                                         @if($row->details->relationship)
                                             @php
-                                                $data=$row->details->relationship->{'model'}::all();
-                                                $dataj = json_encode($data);
+                                                $model=$row->details->relationship->{'model'};  
+                                                $data=$model::all();
                                                 $key=$row->details->relationship->{'key'};
                                                 $label=$row->details->relationship->{'label'};
                                             @endphp
@@ -56,6 +56,7 @@
                                                     <option value="{{ $item->$key }}">{{ $item->$label }}</option>
                                                 @endforeach
                                             </select>
+                                        
                                         @else
                                             <select class="form-control select2" name="{{ $row->field }}" @if($row->required == 1) required @endif>
                                                 @foreach ($row->details->options  as $item)
@@ -66,15 +67,17 @@
                                         @break
                                     @case('text')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->field }}">
+                                        
+                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->field }}" @if($row->details->{'default'})value="{{ $row->details->{'default'} }}"@endif>
                                         @break
                                    @case('number')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        <input type="number" class="form-control" name="{{ $row->field }}" type="number" @if($row->required == 1) required @endif @if(isset($options->min)) min="{{ $options->min }}" @endif @if(isset($options->max)) max="{{ $options->max }}" @endif step="{{ $options->step ?? 'any' }}" placeholder="{{ old($row->field, $options->placeholder ?? $row->getTranslatedAttribute('display_name')) }}" value="{{ old($row->field, $dataTypeContent->{$row->field} ?? $options->default ?? '') }}">
+                                        <input type="number" class="form-control" name="{{ $row->field }}" @if($row->required == 1) required @endif @if(isset($row->details->{'default'})) value="{{ $row->details->{'default'} }}" @endif>
+                                      
                                         @break
                                     @case('text_area')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        <textarea @if($row->required == 1) required @endif class="form-control" name="{{ $row->field }}" rows="{{ $options->display->rows ?? 5 }}">{{ old($row->field, $dataTypeContent->{$row->field} ?? $options->default ?? '') }}</textarea>
+                                        <textarea @if($row->required == 1) required @endif class="form-control" name="{{ $row->field }}">@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif</textarea>
                                         @break
                                     @case('timestamp')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
@@ -124,23 +127,28 @@
     <script>
         $('document').ready(function () {
             $('.toggleswitch').bootstrapToggle();
+            $('#category_id').select2();
         });
 
         $('#category_id').change(function(){
-            $('#category_id').select2('destroy');
-            //let datos = head ? `<option value="">${head}</option>` : '';
-           
-            alert(JSON.parse('{{ json_encode($data) }}'));
-            if(data.length>0){
-                data.forEach(item => {
-                    datos += `<option value="${item.id}">${item.nombre}</option>`;
-                });
-            }
-            $('#select-'+id).html(datos);
-            $('#select-'+id).val(option_active);
-            $(`#select-${id}`).select2();
-            alert($(this).val());
+            $('#sub_category_id').select2('destroy');
+            let urli ="{{ route('myproducts_ajaxdata', ':id') }}";
+            urli = urli.replace(':id', $(this).val());
+            $.ajax({
+                type: "get",
+                url: urli,
+                success: function (response) {
+                    console.log( response );
 
+                    response.forEach( function( item ) {
+                    //console.log( item );
+                    response += `<option value="${item.id}">${item.name}</option>`;
+                    });
+                    $('#sub_category_id').html(response);
+                    $('#sub_category_id').select2();
+                }
+            });
+            
         })
 
     </script>
