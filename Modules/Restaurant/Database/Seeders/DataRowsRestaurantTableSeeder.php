@@ -23,6 +23,8 @@ class DataRowsRestaurantTableSeeder extends Seeder
         $SubCategoryDataType = DataType::where('slug', 'sub_categories')->firstOrFail();
         $CategoryDataType = DataType::where('slug', 'categories')->firstOrFail();
         $ExtraDataType = DataType::where('slug', 'extras')->firstOrFail();
+        $BranchOfficeDataType = DataType::where('slug', 'branch_offices')->firstOrFail();
+        $SupplyDataType = DataType::where('slug', 'supplies')->firstOrFail();
         /**
          * ---------------------------------------------------------------------
          * BREAD formulario de Productos
@@ -955,7 +957,381 @@ class DataRowsRestaurantTableSeeder extends Seeder
          * ---------------------------------------------------------------------
          */
 
-         
+         /**
+         * ---------------------------------------------------------------------
+         * BREAD  formulario de Sucursales
+         * ---------------------------------------------------------------------
+         */
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Nombre',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'phone');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Telefono',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 3,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'whatsapp');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Whatsapp',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 4,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'latitud');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'Latitud',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 5,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'longitud');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'Longitud',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 6,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'maps');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Map',
+                'display_name' => 'Mapas',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 7,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'address');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Dirección',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 7,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 8,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 9,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 10,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BranchOfficeDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 11,
+            ])->save();
+        }
+        /**
+         * ---------------------------------------------------------------------
+         * BREAD END formulario de Sucursales
+         * ---------------------------------------------------------------------
+         */
+
+         /**
+         * ---------------------------------------------------------------------
+         * BREAD END formulario de Insumos
+         * ---------------------------------------------------------------------
+         */
+        $dataRow = $this->dataRow($SupplyDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 1,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'name');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Nombre',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 2,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Precio',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 3,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'unity');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Unidades',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 4,
+                'details'      => [
+                    'default' => '1',
+                    'options'=>[
+                        '1'=>'selcciones',
+                        '2'=>'Por defecto',
+                        '3'=>'Kilogramos',
+                        '4'=>'Litros',
+                        '5'=>'Piezas'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'supply_belongstomany_branchOffice_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Sucursales',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'model'       => 'Modules\\Restaurant\\Entities\\BranchOffice',
+                    'table'       => 'branch_offices',
+                    'type'        => 'belongsToMany',
+                    'column'      => 'id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'branchOffice_supply',
+                    'pivot'       => '1',
+                    'taggable'    => '0',
+                    'display'   => [
+                        'width'  => '6',
+                    ]
+                ],
+                'order'        => 11,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 6,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 7,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($SupplyDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 8,
+            ])->save();
+        }
+
     }
 
 

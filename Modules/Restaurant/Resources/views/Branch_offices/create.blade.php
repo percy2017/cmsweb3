@@ -10,7 +10,12 @@
     </div>
 @stop
 @section('css')
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <style>
+            #map {
+                height: 340px;
+            }
+        </style>
 @stop
 @section('content')
 <div class="page-content container-fluid" id="voyagerBreadEditAdd">
@@ -18,7 +23,7 @@
     <div class="row">
         <div class="col-md-12">
              <div class="panel panel-primary panel-bordered">
-                <form role="form" action="{{ route('myproducts.store') }}" method="POST" enctype="multipart/form-data">
+                <form role="form" action="{{ route('mybranch_offices.store') }}" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                     <div class="panel-body">
                         @foreach($dataRows as $row)
@@ -65,7 +70,7 @@
                                         @break
                                     @case('text')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" placeholder="{{ $row->field }}">
+                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" id="{{ $row->field }}" placeholder="{{ $row->field }}">
                                         @break
                                    @case('number')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
@@ -87,6 +92,13 @@
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
                                         <input type="file" name="{{ $row->field }}[]" multiple="multiple" accept="image/*">
 
+                                        @break
+                                    @case('Map')
+                                        <label class="control-label" for="name">{{ $row->display_name }}</label>
+                                         <div id="map"></div>   
+                                        @break
+                                    @case('hidden')                     
+                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" id="{{ $row->field }}" placeholder="{{ $row->field }}">  
                                         @break
                                     @case('checkbox')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
@@ -120,27 +132,45 @@
 
 @stop
 @section('javascript')
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script>
+var map;
+var marcador;
+
         $('document').ready(function () {
             $('.toggleswitch').bootstrapToggle();
-        });
-
-        $('#category_id').change(function(){
-            $('#category_id').select2('destroy');
-            //let datos = head ? `<option value="">${head}</option>` : '';
-           
-            alert(JSON.parse('{{ json_encode($data) }}'));
-            if(data.length>0){
-                data.forEach(item => {
-                    datos += `<option value="${item.id}">${item.nombre}</option>`;
+            map = L.map('map').fitWorld();
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                maxZoom: 20,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(map);
+            function onLocationFound(e) {
+        $('#latitud').val(e.latlng.lat);
+        $('#longitud').val(e.latlng.lng);
+        marcador =  L.marker(e.latlng, {
+                    draggable: true
+                }).addTo(map)
+                .bindPopup("Localización actual").openPopup()
+                .on('drag', function(e) {
+                    $('#latitud').val(e.latlng.lat);
+                    $('#longitud').val(e.latlng.lng);
                 });
-            }
-            $('#select-'+id).html(datos);
-            $('#select-'+id).val(option_active);
-            $(`#select-${id}`).select2();
-            alert($(this).val());
+        map.setView(e.latlng);
+    }
 
-        })
+    function onLocationError(e) {
+        alert(e.message);
+    }
 
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+
+    map.locate();
+    map.setZoom(13);
+        });
+        
     </script>
 @endsection

@@ -4,7 +4,7 @@ namespace Modules\Restaurant\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-
+use TCG\Voyager\Facades\Voyager;
 class RestaurantServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +19,9 @@ class RestaurantServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path('Restaurant', 'Database/Migrations'));
+        
+        voyager::addAction(\Modules\Restaurant\Actions\CreateSupply::class);
+
     }
 
     /**
