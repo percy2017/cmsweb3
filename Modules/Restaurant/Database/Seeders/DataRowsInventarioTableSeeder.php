@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
 
-class DataRowsRestaurantTableSeeder extends Seeder
+class DataRowsInventarioTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -447,7 +447,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
                 'order'        => 1,
             ])->save();
         }
-        $dataRow = $this->dataRow($SubCategoryDataType, 'subCategory_belongsto_category_relationship');//----6
+        $dataRow = $this->dataRow($SubCategoryDataType, 'subCategory_belongsto_category_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'relationship',
