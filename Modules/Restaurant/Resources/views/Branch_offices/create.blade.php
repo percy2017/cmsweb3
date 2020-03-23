@@ -48,7 +48,6 @@
                                         @break
                                     @case('select_dropdown')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        {{--  {{ dd($row->details) }}  --}}
                                         @if($row->details->relationship)
                                             @php
                                                 $data=$row->details->relationship->{'model'}::all();
@@ -70,7 +69,7 @@
                                         @break
                                     @case('text')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" id="{{ $row->field }}" placeholder="{{ $row->field }}">
+                                        <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" id="{{ $row->field }}" placeholder="{{ $row->field }}" data-toggle="tooltip" data-placement="top" title="Tooltip on left">
                                         @break
                                    @case('number')
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
@@ -94,8 +93,13 @@
 
                                         @break
                                     @case('Map')
-                                        <label class="control-label" for="name">{{ $row->display_name }}</label>
-                                         <div id="map"></div>   
+                                        {{--  <label class="control-label" for="name">{{ $row->display_name }}</label>  --}}
+                                        <div data-field-name="{{ $row->field }}">
+                                            <button type="button" class="btn-xs btn-dark" data-toggle="modal" data-target="#myModal">
+                                                <i class="voyager-photo"></i> <span class="hidden-xs hidden-sm">Images</span>
+                                            </button>
+                                        </div>
+                                         {{--  <div id="map"></div>     --}}
                                         @break
                                     @case('hidden')                     
                                         <input @if($row->required == 1) required @endif type="text" class="form-control" name="{{ $row->field }}" id="{{ $row->field }}" placeholder="{{ $row->field }}">  
@@ -104,15 +108,12 @@
                                         <label class="control-label" for="name">{{ $row->display_name }}</label>
                                         <br>
                                            
-                                            <?php $checked = $row->details->checked ?>
-                                            {{--  @if(isset($row->details->on) && isset($row->details->off))  --}}
-                                                <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
+                                        <?php $checked = $row->details->checked ?>
+                                         
+                                        <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
                                                     data-on="{{ $row->details->on }}" {!! $checked ? 'checked="checked"' : '' !!}
                                                     data-off="{{ $row->details->off }}">
-                                            {{--  @else
-                                                <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
-                                                    @if($checked) checked @endif>
-                                            @endif  --}}
+
                                         
                                         @break
                                     @endswitch                                   
@@ -130,47 +131,71 @@
     </div>
 </div> 
 
+<div class="modal  modal-primary fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Mapa</h4>
+      </div>
+      <div class="modal-body">
+
+      
+
+      </div>
+    </div>
+  </div>
+</div>
 @stop
 @section('javascript')
 <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
     <script>
-var map;
-var marcador;
+    var map;
+    var marcador;
+    $('document').ready(function () {
 
-        $('document').ready(function () {
-            $('.toggleswitch').bootstrapToggle();
-            map = L.map('map').fitWorld();
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                maxZoom: 20,
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                id: 'mapbox.streets'
-            }).addTo(map);
-            function onLocationFound(e) {
-        $('#latitud').val(e.latlng.lat);
-        $('#longitud').val(e.latlng.lng);
-        marcador =  L.marker(e.latlng, {
-                    draggable: true
-                }).addTo(map)
-                .bindPopup("Localización actual").openPopup()
-                .on('drag', function(e) {
-                    $('#latitud').val(e.latlng.lat);
-                    $('#longitud').val(e.latlng.lng);
-                });
-        map.setView(e.latlng);
-    }
+        $('.toggleswitch').bootstrapToggle();
 
-    function onLocationError(e) {
-        alert(e.message);
-    }
-
-    map.on('locationfound', onLocationFound);
-    map.on('locationerror', onLocationError);
-
-    map.locate();
-    map.setZoom(13);
+        $('.side-body input[data-slug-origin]').each(function(i, el) {
+            $(el).slugify();
         });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        map = L.map('map').fitWorld();
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 20,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            id: 'mapbox.streets'
+        }).addTo(map);
+
+        function onLocationFound(e) 
+        {
+            $('#latitud').val(e.latlng.lat);
+            $('#longitud').val(e.latlng.lng);
+            marcador =  L.marker(e.latlng, {
+                        draggable: true
+                        }).addTo(map)
+                        .bindPopup("Localización actual").openPopup()
+                        .on('drag', function(e) {
+                            $('#latitud').val(e.latlng.lat);
+                            $('#longitud').val(e.latlng.lng);
+                        });
+            map.setView(e.latlng);
+        }
+
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+
+        map.locate();
+        map.setZoom(13);
+    });
         
     </script>
 @endsection

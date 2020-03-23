@@ -14,19 +14,16 @@ class CreateSalesTable extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->bigIncrements('id');
-
-           
+            $table->bigIncrements('id');        
 			$table->integer('nro_tiket')->nullable();
-
 			$table->decimal('subtotal', 10)->nullable();
 			$table->decimal('descuento', 10)->nullable();
 			$table->decimal('importe_base', 10)->nullable();
 			
-			$table->integer('user_id')->nullable();
+			
 			$table->string('venta_tipo')->nullable();//json
-            $table->string('venta_estado')->default(1);//json
-            $table->string('tipo_pago')->default(1);//json
+            $table->string('venta_estado')->default();//json
+            $table->string('tipo_pago')->default();//json
             
 			$table->integer('nro_mesa')->nullable();
 			$table->decimal('monto_recibido', 10)->nullable();
@@ -38,7 +35,11 @@ class CreateSalesTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');//cliente
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

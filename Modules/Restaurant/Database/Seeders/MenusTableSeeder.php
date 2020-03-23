@@ -67,21 +67,21 @@ class MenusTableSeeder extends Seeder
                 'order'      => 1,
             ])->save();
         }
-        $menuItem = MenuItem::firstOrNew([
-            'menu_id' => $menu->id,
-            'title'   => 'Insumos',
-            'url'     => '',
-            'route'   => 'voyager.supplies.index',
-        ]);
-        if (!$menuItem->exists) {
-            $menuItem->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-double-right',
-                'color'      => null,
-                'parent_id'  => $RestaurantMenuItem->id,
-                'order'      => 1,
-            ])->save();
-        }
+        // $menuItem = MenuItem::firstOrNew([
+        //     'menu_id' => $menu->id,
+        //     'title'   => 'Insumos',
+        //     'url'     => '',
+        //     'route'   => 'voyager.supplies.index',
+        // ]);
+        // if (!$menuItem->exists) {
+        //     $menuItem->fill([
+        //         'target'     => '_self',
+        //         'icon_class' => 'voyager-double-right',
+        //         'color'      => null,
+        //         'parent_id'  => $RestaurantMenuItem->id,
+        //         'order'      => 1,
+        //     ])->save();
+        // }
 
         // $menuItem = MenuItem::firstOrNew([
         //     'menu_id' => $menu->id,

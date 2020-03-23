@@ -16,7 +16,7 @@ class CreateBranchOfficeProductTable extends Migration
         Schema::create('branchOffice_product', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('branch_office_id');
+            $table->unsignedBigInteger('branch_office_id'); //sucurasl
             $table->foreign('branch_office_id')->references('id')->on('branch_offices');
 
             $table->unsignedBigInteger('product_id');

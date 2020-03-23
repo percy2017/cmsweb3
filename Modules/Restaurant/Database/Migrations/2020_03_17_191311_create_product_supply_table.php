@@ -18,12 +18,11 @@ class CreateProductSupplyTable extends Migration
 
             $table->bigInteger('product_id')->unsigned();
             $table->bigInteger('supply_id')->unsigned();
-
-            $table->timestamps();
-
+            
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('supply_id')->references('id')->on('supplies');
-            
+
+            $table->timestamps();
         });
     }
 

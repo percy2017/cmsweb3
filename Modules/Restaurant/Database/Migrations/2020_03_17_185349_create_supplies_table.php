@@ -15,8 +15,8 @@ class CreateSuppliesTable extends Migration
     {
         Schema::create('supplies', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->string('name')->nullable();
-			$table->integer('unity')->nullable();
+			$table->string('name');
+			$table->string('unity')->nullable();
 			$table->decimal('price', 10)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
