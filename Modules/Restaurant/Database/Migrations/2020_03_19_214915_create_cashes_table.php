@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductSupplyTable extends Migration
+class CreateCashesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateProductSupplyTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_supply', function (Blueprint $table) {
+        Schema::create('cashes', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('supply_id')->unsigned();
+            $table->unsignedBigInteger('branch_office_id');
+            $table->foreign('branch_office_id')->references('id')->on('branch_offices');//sucursal
             
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('supply_id')->references('id')->on('supplies');
 
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ class CreateProductSupplyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_supply');
+        Schema::dropIfExists('cashes');
     }
 }

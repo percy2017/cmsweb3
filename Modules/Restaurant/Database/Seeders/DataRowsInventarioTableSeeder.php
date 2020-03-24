@@ -30,6 +30,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD formulario de Productos
          * ---------------------------------------------------------------------
          */
+        $postion = 0;
         $dataRow = $this->dataRow($ProductDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -41,7 +42,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
 
@@ -56,7 +57,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -74,14 +75,14 @@ class DataRowsInventarioTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => 'sub_category_id',
+                'display_name' => 'Sub Categorias',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -94,33 +95,6 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        // $dataRow = $this->dataRow($ProductDataType, 'product_belongsto_subcategory_relationship');//----6
-        // if (!$dataRow->exists) {
-        //     $dataRow->fill([
-        //         'type'         => 'relationship',
-        //         'display_name' => 'Sub Categorias',
-        //         'required'     => 1,
-        //         'browse'       => 1,
-        //         'read'         => 1,
-        //         'edit'         => 1,
-        //         'add'          => 1,
-        //         'delete'       => 0,
-        //         'details'      => [
-        //             'model'       => 'Modules\\Restaurant\\Entities\\SubCategory',
-        //             'table'       => 'sub_categories',
-        //             'type'        => 'belongsTo',
-        //             'column'      => 'sub_category_id',
-        //             'key'         => 'id',
-        //             'label'       => 'name',
-        //             'pivot_table' => 'sub_categories',
-        //             'pivot'       => 0,
-        //             'display'   => [
-        //                 'width'  => '6',
-        //             ],
-        //         ],
-        //         'order'        => 3,
-        //     ])->save();
-        // }
 
         $dataRow = $this->dataRow($ProductDataType, 'name');
         if (!$dataRow->exists) {
@@ -133,26 +107,32 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => 'Name Product Default',
+                    'tooltip' => [
+                        'ubication' => 'top',
+                        'message' => 'Nombre comercial del producto (sea explico)'
+                    ],
                     'display'   => [
                         'width'  => '6',
                     ],
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
                 'display_name' => 'Slug',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
+                'edit'         => 0,
+                'add'          => 0,
                 'delete'       => 0,
-                'order'        => 5,
+                'order'        => $postion++,
                 'details'      => [
                     "slugify"=> [
                         'origin'=> 'name',
@@ -165,6 +145,7 @@ class DataRowsInventarioTableSeeder extends Seeder
             ])->save();
         }
 
+        
         $dataRow = $this->dataRow($ProductDataType, 'price_sale');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -176,27 +157,89 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 6,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
                 ]
             ])->save();
         }
+
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_supplys_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Insumos',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'model'       => 'Modules\\Restaurant\\Entities\\Supply',
+                    'table'       => 'Extras',
+                    'type'        => 'belongsToMany',
+                    'column'      => 'id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'product_supply',
+                    'pivot'       => '1',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_extras_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Extras',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'model'       => 'Modules\\Restaurant\\Entities\\Extra',
+                    'table'       => 'roles',
+                    'type'        => 'belongsToMany',
+                    'column'      => 'id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'extra_product',
+                    'pivot'       => '1',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+
         $dataRow = $this->dataRow($ProductDataType, 'price_minimum');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'number',
                 'display_name' => 'Precio Minimo',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 7,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -210,19 +253,21 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'type'         => 'number',
                 'display_name' => 'Ultimo Precio de Compra',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 8,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'stock');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -234,8 +279,9 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 9,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -249,19 +295,21 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'type'         => 'number',
                 'display_name' => 'Stock Minimo',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 10,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => '0',
                     'display'   => [
                         'width'  => '6',
                     ],
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'images');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -273,7 +321,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 11,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -288,19 +336,21 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'type'         => 'text_area',
                 'display_name' => 'Descripcion Corta',
                 'required'     => 1,
-                'browse'       => 1,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 12,
+                'order'        => $postion++,
                 'details'      => [
+                    'default' => 'Description Product Default',
                     'display'   => [
                         'width'  => '6',
                     ],
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'views');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -312,7 +362,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 13,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -332,7 +382,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 14,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '12',
@@ -340,6 +390,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'it_storage');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -351,7 +402,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 15,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -371,7 +422,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 16,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '12',
@@ -379,6 +430,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -390,9 +442,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 17,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -404,9 +457,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 18,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($ProductDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -418,7 +472,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 19,
+                'order'        => $postion++,
             ])->save();
         }
         /**
@@ -433,6 +487,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD formulario de SubCategorias
          * ---------------------------------------------------------------------
          */
+        $postion = 0;
         $dataRow = $this->dataRow($SubCategoryDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -444,10 +499,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
-        $dataRow = $this->dataRow($SubCategoryDataType, 'subCategory_belongsto_category_relationship');
+
+        $dataRow = $this->dataRow($SubCategoryDataType, 'subCategory_belongsto_category_relationship');//----6
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'relationship',
@@ -471,9 +527,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                         'width'  => '6',
                         ]
                     ],
-                    'order'        => 2,
+                    'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -485,7 +542,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -493,10 +550,31 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
+        $dataRow = $this->dataRow($SubCategoryDataType, 'image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Imagen',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'hidden',
                 'display_name' => 'Slug',
                 'required'     => 1,
                 'browse'       => 1,
@@ -504,7 +582,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     "slugify"=> [
                         'origin'=> 'name',
@@ -516,10 +594,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }  
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'text_area',
                 'display_name' => 'Descripción',
                 'required'     => 1,
                 'browse'       => 1,
@@ -527,7 +606,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -535,25 +614,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataRow = $this->dataRow($SubCategoryDataType, 'user_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'Traking',
-                'display_name' => 'Traking',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => 16,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '12',
-                    ],
-                ]
-            ])->save();
-        }
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -565,9 +626,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 17,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -579,9 +641,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 18,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SubCategoryDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -593,7 +656,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 19,
+                'order'        => $postion++,
             ])->save();
         }
          /**
@@ -607,6 +670,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD formulario de Categorias
          * ---------------------------------------------------------------------
          */
+        $postion=0;
         $dataRow = $this->dataRow($CategoryDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -618,9 +682,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($CategoryDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -632,7 +697,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -640,10 +705,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($CategoryDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'hidden',
                 'display_name' => 'Slug',
                 'required'     => 1,
                 'browse'       => 1,
@@ -651,7 +717,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     "slugify"=> [
                         'origin'=> 'name',
@@ -663,18 +729,19 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         } 
-        $dataRow = $this->dataRow($CategoryDataType, 'colour');
+
+        $dataRow = $this->dataRow($CategoryDataType, 'image');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => 'Color',
-                'required'     => 1,
+                'type'         => 'image',
+                'display_name' => 'Imagen',
+                'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -682,6 +749,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         } 
+
         $dataRow = $this->dataRow($CategoryDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -693,26 +761,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                ]
-            ])->save();
-        }
-        $dataRow = $this->dataRow($CategoryDataType, 'user_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'Traking',
-                'display_name' => 'Traking',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => 16,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '12',
@@ -720,6 +769,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($CategoryDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -731,9 +781,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 17,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($CategoryDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -745,9 +796,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 18,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($CategoryDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -759,7 +811,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 19,
+                'order'        => $postion++,
             ])->save();
         }
          /**
@@ -773,6 +825,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD formulario de Extras
          * ---------------------------------------------------------------------
          */
+        $postion=0;
         $dataRow = $this->dataRow($ExtraDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -784,9 +837,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
+        
         $dataRow = $this->dataRow($ExtraDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -798,7 +852,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -806,6 +860,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -817,7 +872,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     "slugify"=> [
                         'origin'=> 'name',
@@ -829,18 +884,19 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         } 
+
         $dataRow = $this->dataRow($ExtraDataType, 'price');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'number',
-                'display_name' => 'Color',
+                'display_name' => 'Precio',
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -848,6 +904,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'image');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -859,7 +916,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -867,6 +924,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'status');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -878,7 +936,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'on' => 'Abierta',
                     'off' => 'Cerrada',
@@ -890,6 +948,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }  
+
         $dataRow = $this->dataRow($ExtraDataType, 'user_id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -901,7 +960,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 16,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '12',
@@ -909,6 +968,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -920,9 +980,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 17,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -934,9 +995,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 18,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($ExtraDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -948,7 +1010,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 19,
+                'order'        => $postion++,
             ])->save();
         }
          /**
@@ -962,6 +1024,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD  formulario de Sucursales
          * ---------------------------------------------------------------------
          */
+        $postion=0;
         $dataRow = $this->dataRow($BranchOfficeDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -973,9 +1036,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -987,7 +1051,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -995,6 +1059,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'phone');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1006,7 +1071,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1015,6 +1080,7 @@ class DataRowsInventarioTableSeeder extends Seeder
             ])->save();
 
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'whatsapp');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1026,7 +1092,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1034,6 +1100,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'latitud');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1045,7 +1112,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 5,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1053,6 +1120,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'longitud');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1064,7 +1132,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 6,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1072,6 +1140,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'maps');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1083,7 +1152,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 7,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1091,6 +1160,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'address');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1102,7 +1172,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 7,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1110,6 +1180,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'user_id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1121,7 +1192,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 8,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '12',
@@ -1129,6 +1200,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1140,9 +1212,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 9,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1154,9 +1227,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 10,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($BranchOfficeDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1168,7 +1242,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 11,
+                'order'        => $postion++,
             ])->save();
         }
         /**
@@ -1182,6 +1256,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD END formulario de Insumos
          * ---------------------------------------------------------------------
          */
+        $postion=0;
         $dataRow = $this->dataRow($SupplyDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1193,9 +1268,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1207,7 +1283,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1215,6 +1291,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'price');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1226,7 +1303,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -1234,6 +1311,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'unity');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1245,15 +1323,12 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $postion++,
                 'details'      => [
-                    'default' => '1',
                     'options'=>[
-                        '1'=>'selcciones',
-                        '2'=>'Por defecto',
-                        '3'=>'Kilogramos',
-                        '4'=>'Litros',
-                        '5'=>'Piezas'
+                        'Kilogramos'=>'Kilogramos',
+                        'Litros'=>'Litros',
+                        'Piezas'=>'Piezas'
                     ],
                     'display'   => [
                         'width'  => '6',
@@ -1261,6 +1336,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'supply_belongstomany_branchOffice_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1286,9 +1362,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                         'width'  => '6',
                     ]
                 ],
-                'order'        => 11,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1300,9 +1377,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 6,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'updated_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1314,9 +1392,10 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 7,
+                'order'        => $postion++,
             ])->save();
         }
+
         $dataRow = $this->dataRow($SupplyDataType, 'deleted_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1328,7 +1407,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 8,
+                'order'        => $postion++,
             ])->save();
         }
 
