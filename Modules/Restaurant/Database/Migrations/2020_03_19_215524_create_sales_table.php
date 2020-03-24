@@ -29,9 +29,6 @@ class CreateSalesTable extends Migration
 			$table->decimal('monto_recibido', 10)->nullable();
 			$table->text('observaciones', 65535)->nullable();
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');//usuario
-
             $table->unsignedBigInteger('cashe_id');
             $table->foreign('cashe_id')->references('id')->on('cashes');//caja
 

@@ -17,7 +17,8 @@ class CreateSuppliesTable extends Migration
             $table->bigIncrements('id');
 			$table->string('name');
 			$table->string('unity')->nullable();
-			$table->decimal('price', 10)->nullable();
+            $table->decimal('price', 10)->nullable();
+            
 			$table->timestamps();
 			$table->softDeletes();
             

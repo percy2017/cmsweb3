@@ -75,7 +75,7 @@ class DataRowsInventarioTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => 'Sub Categorias',
+                'display_name' => 'SubCategorias',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
