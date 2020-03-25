@@ -17,6 +17,12 @@ use Modules\Restaurant\Entities\Category;
 use Modules\Restaurant\Entities\SubCategory;
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -24,10 +30,8 @@ class ProductController extends Controller
     public function index()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'products')->first();
-        // return $dataType;
-        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
-        // $dataTypeContent = DB::table('data_rows')->where('data_type_id', $dataType->id)->orderBy('order', 'asc')->paginate(5);
-        // return $dataTypeContent;
+        $dataTypeContent = Product::paginate(6);
+
         return view('restaurant::products.index', compact(
             'dataType',
             'dataTypeContent'
@@ -56,7 +60,11 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-     
+        
+        $validatedData = $request->validate([
+            'name' => ['unique:products']
+        ]);
+
         // return $request;    
         $product = Product::create([
             'category_id' => $request->category_id,
@@ -156,7 +164,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        $product->deleted_at = \Carbon\Carbon::now();
+        $product->save();
+        return back()->with([
+            'message'    =>  $product->name .' Eliminado',
+            'alert-type' => 'danger',
+        ]);
     }
 
     function ajax_index($id, $model)
@@ -205,14 +219,29 @@ class ProductController extends Controller
                 break;
         }
     }
-
-    function ajax_images($id, $model)
+    
+    function ajax_destroy($id, $model)
+    {
+        switch ($model) {
+            case 'products':
+                $product = Product::find($id);
+                $product->deleted_at = \Carbon\Carbon::now();
+                $product->save();
+                return $product;
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+     
+    }
+    function ajax_first($id, $model)
     {
 
         switch ($model) {
             case 'products':
                 $data = Product::find($id);
-              
                 return view('restaurant::products.views.images', compact('data'));
                 break;
             

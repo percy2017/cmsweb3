@@ -19,25 +19,18 @@
 
 Route::group(['prefix' => 'admin'], function () {
 
-    
-    Route::post('profile/{id}/update', 'StreamingController@update')->name('profile_renovation');
-    Route::post('profile/change', 'StreamingController@change')->name('profile_change');
+  Route::resource('myaccounts', 'AccountController');
+  Route::get('myaccounts/ajax_destroy/{id}/{model}', 'AccountController@ajax_destroy')->name('myaccounts_ajax_destroy');
+  Route::get('myaccounts/ajax/profiles/create', 'AccountController@ajax_profiles_create')->name('myaccounts_ajax_profile_create');
+  Route::post('myaccounts/ajax/profiles/store', 'AccountController@ajax_profiles_store')->name('myaccounts_ajax_profile_store');
+  Route::post('myaccounts/ajax/profiles/destroy', 'AccountController@ajax_profiles_detroy')->name('myaccounts_ajax_profile_detroy');
+  Route::get('myaccounts/ajax/profiles/{account_id}', 'AccountController@ajax_profiles')->name('myaccounts_ajax_profile');
   
 
-    Route::resource('myboxes', 'BoxController');
-    Route::post('myboxes/myseatings/contabilizar', 'BoxController@contabilizar')->name('box_conta');
-    Route::get('myboxes/myseatings/{box_id}', 'BoxController@seatings')->name('box_seatings');
-    Route::get('myboxes/myseatings/close/{box_id}', 'StreamingController@close')->name('box_close'); 
-    
+  Route::resource('myprofiles', 'ProfilesController');
 
-    Route::resource('myaccounts', 'AccountController');
-    Route::get('myaccounts/myprofiles/{account_id}', 'AccountController@profiles')->name('account_profiles');
-    Route::post('myaccounts/profiles_save', 'AccountController@profiles_save')->name('account_profiles_save');
-    
+  Route::resource('myboxes', 'BoxController');
+ 
+  Route::resource('myseatings', 'SeatingController');
 
-    Route::resource('myprofiles', 'ProfilesController');
-    Route::get('myprofiles/history/{id}','ProfilesController@history')->name('profile_history');
-    Route::get('myprofiles/change/{id}', 'ProfilesController@change')->name('profile_changeStatus');
-
-    Route::resource('myseatings', 'SeatingController');
   });

@@ -7,6 +7,7 @@
     <h1 class="page-title">
         <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
     </h1>
+
       <div class="btn-group">
         <button type="button" class="btn btn-dark"><i class="voyager-tools"></i> <span>Acciones</span></button>
         <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -14,14 +15,10 @@
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu">
-          <li><a href="{{ route('myproducts.create') }}">(ctrl+q) Nuevo Producto</a></li>
+          <li><a href="{{ route('myprofiles.create') }}">(ctrl+q) Nuevo Perfil</a></li>
+          <li><a href="javascript:;" id="eliminados">Mostrar Elimnados</a></li>
           <li role="separator" class="divider"></li>
-          <li><a href="{{ route('voyager.supplies.index') }}" id="supllies_index">Insumos</a></li>
-          <li><a href="{{ route('voyager.extras.index') }}">Extras</a></li>
-          <li><a href="{{ route('voyager.categories.index') }}">Categorias</a></li>
-          <li><a href="{{ route('voyager.sub_categories.index') }}">Sub Categorias</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="{{ route('voyager.bread.edit', $dataType->slug) }}">Configuracion</a></li>
+          <li><a href="{{ route('voyager.bread.edit', $dataType->slug) }}">(ctrl+i) Configuracion</a></li>
         </ul>
       </div>
   </div>
@@ -96,7 +93,7 @@
                                               {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
                                               @break
                                             @case('image')
-                                              <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
+                                              <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
                                               @break
                                             @case('multiple_images')
                                               @php
@@ -133,14 +130,11 @@
                                     @endforeach
                                       
                                       <td class="no-sort no-click bread-actions">
-                                        <a href="{{ route('myproducts.edit', $data->id) }}" title="#" class="btn btn-warning">
-                                            <i class="voyager-bread"></i> <span class="hidden-xs hidden-sm">Ducplicar</span>
-                                          </a>
                                           <a href="{{ route('myproducts.edit', $data->id) }}" title="#" class="btn btn-primary">
                                             <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
                                           </a>
                                         
-                                          <a href="javascript:;" onclick="destroy('{{ $data->id }}' ,'{{ route('myproducts_ajax_destroy', [$data->id, 'products'])   }}')" title="Eliminar" class="btn btn-danger">
+                                          <a href="javascript:;" onclick="destroy('{{ $data->id }}' ,'{{ route('myaccount_ajax_destroy', [$data->id, 'accounts'])   }}')" title="Eliminar" class="btn btn-danger">
                                             <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
                                           </a>
                                       </td>
@@ -155,6 +149,7 @@
         </div>
     </div>
   </div>
+
   <!-- Modal -->
   <div class="modal modal-info fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -170,80 +165,63 @@
     </div>
   </div>
 @stop
+
 @section('javascript')
-  {{--  <script src="{{ asset('js/app.js') }}"></script>  --}}
+ 
+  <script src="{{ asset('js/app.js') }}"></script>
+
   <script>
-      $(document).ready(function () {
-         
-      });
-
-      //Echo.channel('home').listen('NewMessage', (e) => {
-        //toastr.success(e.message);
-      //});
-
-      $(window).bind('keydown', function(event) {
-        if(event.ctrlKey || event.metaKey) {
-          switch (String.fromCharCode(event.which).toLowerCase()) {
-          case 'q':
-              event.preventDefault();
-              window.location = '{{ route('myproducts.create') }}';
-              break;
-          case 'y':
-              event.preventDefault();
-              $('#supllies_index').click();
-              alert('ctrl-f');
-              break;
-          case 'i':
-              event.preventDefault();
-              alert('ctrl-g');
-              break;
-          }
-        }
-      });
-
-      //Events-----------------------
-
-
-      //---funciones ---------------
-      //----------------------------
-      function ajax_first(id, model){
+    $(document).ready(function () {
         
-        let urli = '{{ route('myproducts_ajax_first', [':id', ':model']) }}';
-        urli = urli.replace(':id', id);
-        urli = urli.replace(':model', model);
-         $.ajax({
-            type: "get",
-            url: urli,
-            success: function (response) {
-                $('#modal_title').html('<h4 class="modal-title"><i class="voyager-photo"></i> Imagenes</h4>');
-                $('#modal_body').html(response);
-                $('#myModal').modal('show');
-            }
-        });
-      }
+    });
 
-      function destroy(id, urli)
-      {
-      
-        Swal.fire({
-              title: 'Elimando Dato',
-              text: "Estas Seguro de Realizar la accion ?",
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              }).then((result) => {
-              if (result.value) {
-                $.ajax({
-                  type: "get",
-                  url: urli,
-                  success: function (response) {
-                    $('#'+id).remove();
-                  }
-                });
+
+    //events ------------------
+    //-------------------------
+
+    $('#eliminados').click(function(){
+      alert('evento en construccion...');
+    });
+
+    $(window).bind('keydown', function(event) {
+      if(event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+        case 'q':
+            event.preventDefault();
+            window.location = '{{ route('myprofiles.create') }}';
+            break;
+        case 'y':
+            event.preventDefault();
+          
+            break;
+        case 'i':
+            event.preventDefault();
+            window.location = '{{ route('voyager.bread.edit', $dataType->slug) }}';
+            break;
+        }
+      }
+    });
+
+    function destroy(id, urli)
+    {
+      Swal.fire({
+          title: 'Elimando Dato',
+          text: "Estas Seguro de Realizar la accion ?",
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          }).then((result) => {
+          if (result.value) {
+            $.ajax({
+              type: "get",
+              url: urli,
+              success: function (response) {
+                $('#'+id).remove();
               }
-          })
-      }
-
+            });
+          }
+      })
+    }
   </script>
 @stop

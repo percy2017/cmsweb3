@@ -17,6 +17,7 @@ use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Events\BreadImagesDeleted;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
+use Illuminate\Support\Facades\Storage;
 
 use Modules\Streaming\Entities\Profile;
 use Modules\Streaming\Entities\History;
@@ -24,13 +25,24 @@ use Modules\Streaming\Entities\Membership;
 use Modules\Streaming\Entities\Account;
 class ProfilesController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
- 
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
+        $dataTypeContent = Profile::paginate(3);
+
+        return view('streaming::profiles.index', compact(
+            'dataType',
+            'dataTypeContent'
+        ));
       
     }
 

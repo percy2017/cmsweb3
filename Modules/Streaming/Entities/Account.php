@@ -9,5 +9,5 @@ class Account extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'accounts';
-    protected $fillable = ['type', 'name', 'email', 'password', 'price', 'renovation', 'quantity_profiles', 'description', 'user_id', 'status'];
+    protected $fillable = ['type', 'name', 'email', 'password', 'price', 'renovation', 'quantity_profiles', 'description', 'user_id', 'image'];
 }

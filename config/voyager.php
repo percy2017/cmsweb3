@@ -197,6 +197,7 @@ return [
     'additional_js' => [
         //'js/custom.js',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/fontawesome.min.js',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@9',
         'jquery.validate.js',
     ],
 

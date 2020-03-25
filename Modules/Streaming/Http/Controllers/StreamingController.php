@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\DB;
 
 use Modules\Streaming\Entities\Profile;
 use Modules\Streaming\Entities\History;
@@ -21,9 +22,9 @@ class StreamingController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index($box_id)
+    public function index()
     {
-        
+
     }
 
     /**
@@ -74,35 +75,6 @@ class StreamingController extends Controller
     public function update(Request $request, $id)
     {
         
-        $profile = Profile::findOrFail($id);
-        $profile->membership_id = $request->membership_id;
-        $profile->finaldate = date('Y-m-d H:i:s', strtotime($request->finaldate));      
-        $profile->save();
-
-        History::create([
-            'type'=>'Renovacion',
-            'profile_id'=>$id,
-            'user_id'=>auth()->user()->id
-
-        ]);
-
-        $membership=Membership::find($request->membership_id);  
-        $box=Box::where('status', true)->first();    
-            
-        Seating::create([
-            'concept'   => 'Renovacion del Perfil '.$profile->fullname.' con la membresia '.$membership->title,
-            'amount'    => $membership->price,
-            'type'      => 'INGRESOS',
-            'box_id'    => $box->id,
-            'user_id'   => auth()->user()->id
-
-        ]);
-        
-
-        return redirect()->route('profile_history', $id)->with([
-            'message'    =>  $profile->fullname.' Actualizado Correctamente',
-            'alert-type' => 'success',
-        ]);
     }
 
     /**
@@ -115,36 +87,24 @@ class StreamingController extends Controller
         //
     }
 
-
-
-    public function change(Request $request){
-        //return $request;
-        $profile = Profile::find($request->profile_id);
-        $profile->account_id = $request->account_id;
-        $profile->save();
-
-        History::create([
-            'type'=>'Cambio de Cuenta',
-            'profile_id'=>$request->profile_id,
-            'user_id'=>auth()->user()->id
-
-        ]);
-        return redirect()->route('profile_history', $request->profile_id)->with([
-            'message'    =>  $profile->fullname.' Actualizado Correctamente',
-            'alert-type' => 'success',
-        ]);
-    
-
+    function ajax_index($table, $key, $search)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
+        $dataTypeContent = DB::table('profiles')->where($key, $search)->get();
+        return view('streaming::ajax.index', compact(
+            'dataType',
+            'dataTypeContent'
+        ));
     }
 
-    public function close($box_id){
-        $close=Box::where('id', $box_id)->first();
-        $close->status= false;
-        $close->save();
-
-        return redirect()->route('voyager.boxes.index')->with([
-            'message'    =>  $close->title.' Cerrada Correctamente',
-            'alert-type' => 'success',
-        ]);
+    function ajax_create($table)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
+      
+        return view('streaming::ajax.create', compact(
+            'dataType',
+            'dataRows'
+        ));
     }
 }

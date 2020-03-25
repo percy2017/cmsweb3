@@ -86,6 +86,10 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
+                    'tooltip' => [
+                        'ubication' => 'top',
+                        'message' => 'Nombre del Cuenta (Ser Explicito)'
+                    ],
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -193,11 +197,11 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($AccountDataType, 'status');
+        $dataRow = $this->dataRow($AccountDataType, 'image');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'checkbox',
-                'display_name' => 'Estado',
+                'type'         => 'image',
+                'display_name' => 'Imagen',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -208,10 +212,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
-                    ],
-                    "on" => "Activo",
-                    "off" => "Inactivo",
-                    "checked" => true
+                    ]
                 ]
             ])->save();
         }
@@ -230,7 +231,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
-                        'width'  => '6',
+                        'width'  => '12',
                     ],
                 ]
             ])->save();
@@ -633,29 +634,6 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($ProfileDataType, 'status');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'checkbox',
-                'display_name' => 'Estado',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => $postion++,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                    "on" => "Activo",
-                    "off" => "Inactivo",
-                    "checked" => true
-                ]
-            ])->save();
-        }
-
         $dataRow = $this->dataRow($ProfileDataType, 'startdate');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -730,7 +708,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
-                        'width'  => '6',
+                        'width'  => '12',
                     ],
                 ]
             ])->save();
