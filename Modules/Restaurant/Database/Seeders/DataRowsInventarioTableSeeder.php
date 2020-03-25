@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
 
-class DataRowsRestaurantTableSeeder extends Seeder
+class DataRowsInventarioTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -75,7 +75,7 @@ class DataRowsRestaurantTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => 'Sub Categorias',
+                'display_name' => 'SubCategorias',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,

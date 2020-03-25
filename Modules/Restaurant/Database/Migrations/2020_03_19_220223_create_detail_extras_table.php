@@ -15,8 +15,27 @@ class CreateDetailExtrasTable extends Migration
     {
         Schema::create('detail_extras', function (Blueprint $table) {
             $table->bigIncrements('id');
+            /*
+            --------------------------------------------
+            ELEGIR QUE ATRIBUTO PARA CREAR EL DATA ROWS
+            --------------------------------------------
+			$table->decimal('precio', 10)->nullable();
+			$table->decimal('cantidad', 10)->nullable();
+			$table->integer('producto_adicional')->nullable();
+            $table->text('observaciones', 65535)->nullable();
+            */
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
-            $table->timestamps();
+            $table->unsignedBigInteger('sale_id');
+            $table->foreign('sale_id')->references('id')->on('sales');
+
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            
+			$table->timestamps();
+			$table->softDeletes();
+           
         });
     }
 

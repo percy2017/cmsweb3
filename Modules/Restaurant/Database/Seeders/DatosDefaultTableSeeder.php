@@ -19,9 +19,9 @@ class DatosDefaultTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $categoria=Category::create([
+        $categoria = Category::create([
             'name'      => 'Pizzas',
-            'slug'        => 'pizzas',  
+            'slug'        => 'pizzas',
             'description' => 'Sabor y calidad',
             'image'      =>  null
         ]);

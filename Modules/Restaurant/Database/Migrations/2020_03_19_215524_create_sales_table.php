@@ -14,12 +14,12 @@ class CreateSalesTable extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->bigIncrements('id');        
+            $table->bigIncrements('id');
+
 			$table->integer('nro_tiket')->nullable();
 			$table->decimal('subtotal', 10)->nullable();
 			$table->decimal('descuento', 10)->nullable();
 			$table->decimal('importe_base', 10)->nullable();
-			
 			
 			$table->string('venta_tipo')->nullable();//json
             $table->string('venta_estado')->default();//json
