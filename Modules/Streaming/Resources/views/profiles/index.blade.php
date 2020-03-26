@@ -123,6 +123,16 @@
                                               <span>{{ $data->{$row->field} }}</span>
                                               @endif
                                               @break
+                                            @case('relationship')
+                                          
+                                              @php
+                                                  $model = app($row->details->model);
+                                                  $column = $row->details->{'column'};
+                                                  $query = $model::where('id', $data->$column)->first();
+                                                  $label=$row->details->{'label'};
+                                              @endphp
+                                              <span>{{ $query->$label }}</span>    
+                                              @break
                                             @default
                                               <span>{{ $data->{$row->field} }}</span>
                                         @endswitch
@@ -134,7 +144,7 @@
                                             <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
                                           </a>
                                         
-                                          <a href="javascript:;" onclick="destroy('{{ $data->id }}' ,'{{ route('myaccount_ajax_destroy', [$data->id, 'accounts'])   }}')" title="Eliminar" class="btn btn-danger">
+                                          <a href="javascript:;" onclick="#" title="Eliminar" class="btn btn-danger">
                                             <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
                                           </a>
                                       </td>
@@ -167,8 +177,6 @@
 @stop
 
 @section('javascript')
- 
-  <script src="{{ asset('js/app.js') }}"></script>
 
   <script>
     $(document).ready(function () {

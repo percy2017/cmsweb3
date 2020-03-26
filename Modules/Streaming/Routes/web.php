@@ -19,13 +19,21 @@
 
 Route::group(['prefix' => 'admin'], function () {
 
+  // funciones accounts------------------------------------------------------
   Route::resource('myaccounts', 'AccountController');
   Route::get('myaccounts/ajax_destroy/{id}/{model}', 'AccountController@ajax_destroy')->name('myaccounts_ajax_destroy');
-  Route::get('myaccounts/ajax/profiles/create', 'AccountController@ajax_profiles_create')->name('myaccounts_ajax_profile_create');
-  Route::post('myaccounts/ajax/profiles/store', 'AccountController@ajax_profiles_store')->name('myaccounts_ajax_profile_store');
-  Route::post('myaccounts/ajax/profiles/destroy', 'AccountController@ajax_profiles_detroy')->name('myaccounts_ajax_profile_detroy');
-  Route::get('myaccounts/ajax/profiles/{account_id}', 'AccountController@ajax_profiles')->name('myaccounts_ajax_profile');
+    // ajax profiles
+    Route::get('myaccounts/ajax/profiles/index/{account_id}', 'AccountController@ajax_profiles')->name('myaccounts_ajax_profile');
+    Route::get('myaccounts/ajax/profiles/create/{account_id}', 'AccountController@ajax_profiles_create')->name('myaccounts_ajax_profile_create');
+    Route::post('myaccounts/ajax/profiles/store/{account_id}', 'AccountController@ajax_profiles_store')->name('myaccounts_ajax_profile_store');
+    
   
+
+
+
+
+
+
 
   Route::resource('myprofiles', 'ProfilesController');
 

@@ -185,6 +185,22 @@ class StreamingDatabaseSeeder extends Seeder
             ])->save();
         }
 
+        // DB::table('settings')
+        //     ->where('key', 'site.page')
+        //     ->update(['value' => 'index']);
+
+        DB::table('settings')
+            ->where('key', 'site.title')
+            ->update(['value' => 'SANES v1.0']);
+
+        DB::table('settings')
+            ->where('key', 'admin.title')
+            ->update(['value' => 'SANES v1.0']);
+
+        DB::table('settings')
+            ->where('key', 'site.description')
+            ->update(['value' => 'Software para la administracion y gestion de negocios de entretenimiento por streaming.']);
+
         DB::table('settings')
             ->where('key', 'site.page')
             ->update(['value' => 'index']);
@@ -204,7 +220,7 @@ class StreamingDatabaseSeeder extends Seeder
             'days' => 30,
             'user_id' => 1,
         ]);
-                
+
         //     Profile::create([
         //         'fullname'       => 'Perfil #1',
         //         'account_id'     => $account->id,

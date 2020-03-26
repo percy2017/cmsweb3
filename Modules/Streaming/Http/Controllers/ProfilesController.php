@@ -23,6 +23,8 @@ use Modules\Streaming\Entities\Profile;
 use Modules\Streaming\Entities\History;
 use Modules\Streaming\Entities\Membership;
 use Modules\Streaming\Entities\Account;
+use Modules\Streaming\Entities\Box;
+use Modules\Streaming\Entities\Seating;
 class ProfilesController extends Controller
 {
 
@@ -37,7 +39,7 @@ class ProfilesController extends Controller
     public function index()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $dataTypeContent = Profile::paginate(3);
+        $dataTypeContent = Profile::paginate(6);
 
         return view('streaming::profiles.index', compact(
             'dataType',
@@ -70,7 +72,55 @@ class ProfilesController extends Controller
     public function store(Request $request)
     {
           
-        return $request;
+        // return $request;
+         $box= Box::where('status', 1)->first();
+  
+        if (!isset($box)) {
+            return redirect()->back()->with([
+                'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
+                'alert-type' => 'error',
+            ]);
+        }else{
+
+            //save accounts------------------------
+            $profile = Profile::create([
+                'account_id' => $request->account_id,
+                'membership_id' =>  $request->membership_id,
+                'fullname' =>  $request->fullname,
+                'phone' =>  $request->phone,
+                'startdate' =>  date('Y-m-d H:i:s', strtotime($request->startdate)),
+                'observation' => $request->observation,
+                'user_id' =>  Auth::user()->id
+            ]);
+
+ 
+            if($request->hasFile('avatar'))
+            {
+                $image=Storage::disk('public')->put('profiles/'.date('F').date('Y'), $request->file('avatar'));
+ 
+                $profile->avatar = $image;
+                $profile->save();
+            }  
+
+            //save seatings ------------------------------
+            $membreship= Membership::where('id', $request->membership_id)->first();
+            $asiento = Seating::create([
+                'concept' => 'Ingreso por venta de perfil: '.$membreship->title.' a '.$request->fullname,
+                'amount' => $membreship->price,
+                'type' => 'INGRESOS',
+                'box_id' => $box->id,
+                'user_id' => Auth::user()->id
+            ]);
+            
+            $box->balance = $box->balance + $membreship->price;
+            $box->save();     
+        
+
+            return redirect()->route('myprofiles.index')->with([
+                'message'    =>  $request->fullname . ' Registrado',
+                'alert-type' => 'success',
+            ]);
+        }
     }
 
     /**

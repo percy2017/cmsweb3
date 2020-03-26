@@ -33,7 +33,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
 
 
         // AccountDataType------------------------------------------------
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($AccountDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -64,7 +64,58 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'details'      => [
                     'options' => [
                         'Netflix' => 'Netflix',
-                        'Spotify' => 'Spotify'
+                        'Spotify' => 'Spotify',
+                        'Disney Plus' => 'Disney Plus'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($AccountDataType, 'payment');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Metodo de Pago',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'options' => [
+                        '****3258 - luis flores' => '****3258 - luis flores',
+                        '****2557 - juan peres' => '****2557 - juan peres'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($AccountDataType, 'quantity_profiles');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => '# de Perfiles',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'options' => [
+                        '3' => '3 perfiles',
+                        '4' => '4 perfiles',
+                        '5' => '5 perfiles',
+                        '6' => '6 perfiles'
                     ],
                     'display'   => [
                         'width'  => '6',
@@ -177,25 +228,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($AccountDataType, 'quantity_profiles');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'number',
-                'display_name' => '# de Perfiles',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => $postion++,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                ]
-            ])->save();
-        }
+
 
         $dataRow = $this->dataRow($AccountDataType, 'image');
         if (!$dataRow->exists) {
@@ -236,6 +269,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
+
 
         $dataRow = $this->dataRow($AccountDataType, 'user_id');
         if (!$dataRow->exists) {
@@ -305,7 +339,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
 
 
         // MembershipDataType------------------------------------------------
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($MembershipDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -470,7 +504,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
 
 
         // ProfileDataType------------------------------------------------
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($ProfileDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -783,7 +817,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
 
         // FORM Cajas --------------------------------------------------
         // -----------------------------------------------------------
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($BoxDataType, 'id');  //----1
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -944,7 +978,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
 
         // FORM Asiento --------------------------------------------------
         // -----------------------------------------------------------
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($SeatingDataType, 'id');//----1
         if (!$dataRow->exists) {
             $dataRow->fill([

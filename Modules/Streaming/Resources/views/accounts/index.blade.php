@@ -133,9 +133,9 @@
                                   @endforeach
                                     
                                     <td class="no-sort no-click bread-actions">
-                                      <a href="javascript:;" onclick="ajax('{{ route('myaccounts_ajax_profile', $data->id) }}')" title="#" class="btn btn-success">
-                                          <i class="voyager-group"></i> <span class="hidden-xs hidden-sm">Perfiles</span>
-                                        </a>
+                                      <a href="javascript:;" onclick="ajax('{{ route('myaccounts_ajax_profile', $data->id) }}', 'get')" title="#" class="btn btn-success">
+                                        <i class="voyager-group"></i> <span class="hidden-xs hidden-sm">Perfiles</span>
+                                      </a>
                                       <a href="{{ route('myproducts.edit', $data->id) }}" title="#" class="btn btn-primary">
                                         <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
                                       </a>
@@ -157,7 +157,7 @@
   </div>
 
    <div class="modal modal-info fade" tabindex="-1" id="modal_default" role="dialog">
-        <div class="modal-dialog modal-md">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
@@ -212,16 +212,71 @@
 
     // funciones-----------------------
 
-    function ajax(urli)
+  function ajax(urli, method)
     {
+
       $.ajax({
-        type: "get",
+        type: method,
         url: urli,
         success: function (response) {
-            $('#modal_title').html('<h4 class="modal-title"><i class="voyager-group"></i>Perfiles</h4>');
-            $('#modal_body').html(response);
-            $('#modal_default').modal('show');
+          $('#modal_title').html('<h4 class="modal-title"><i class="voyager-group"></i>Perfiles</h4>');
+          $('#modal_body').html(response);
+          $('#modal_default').modal('show');
+          
+          //incialzar componente jquery------------------------------------
+          $('.form-group input[type=datetime]').each(function (idx, elt) {
+              let id = '#'+elt.id; 
+              $(id).datetimepicker();
+          });
+          $('.form-group select').each(function (idx, elt) {
+              let id = '#'+elt.id; 
+              $(id).select2();
+          });
+          //buscando form con submit
+          $('.form-group button[type=submit]').each(function (idx, elt) {
+          
+            $( "button" ).click(function() {
+              event.preventDefault();
+                  var frm = $('#myform');
+                  $.ajax({
+                      type: frm.attr('method'),
+                      url: frm.attr('action'),
+                      //data: frm.serialize(),
+                      data: new FormData($('#myform')[0]),
+                      contentType : false,
+                      processData : false,
+                      success: function (data) {
+                        //console.log(data);
+                        $('#modal_body').html(data);
+                        const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'bottom-end',
+                          showConfirmButton: false,
+                          timer: 5000,
+                          timerProgressBar: true,
+                          onOpen: (toast) => {
+                              toast.addEventListener('mouseenter', Swal.stopTimer)
+                              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                          }
+                          })
+                          Toast.fire({
+                          icon: 'info',
+                          title: 'Formulario enviado correctamente'
+                      })
+                      },
+                      error: function (data) {
+                          console.log('An error occurred.');
+                          console.log(data);
+                      },
+                  });
+       
+                
+            });
+
+          });
         }
+
+
       });
     }
 

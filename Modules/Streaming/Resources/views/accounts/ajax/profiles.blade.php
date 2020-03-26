@@ -1,6 +1,6 @@
 <div class="table-responsive">
 
-  @if(count($dataTypeContent)>0)
+
     <table id="dataTable" class="table table-hover">
       <thead>
           <tr>
@@ -69,35 +69,55 @@
                       <span>{{ $data->{$row->field} }}</span>
                       @endif
                       @break
+                    @case('relationship')
+                      @php
+                          $model = app($row->details->model);
+                           $column = $row->details->{'column'};
+                          $query = $model::where('id', $data->$column)->first();
+                          $label=$row->details->{'label'};
+                      @endphp
+                      <span>{{ $query->$label }}</span>       
+                      @break
                     @default
                       <span>{{ $data->{$row->field} }}</span>
                 @endswitch
               </td>
             @endforeach
               
-              <td class="no-sort no-click bread-actions">
-                <a href="javascript:;" id="profiles" title="#" class="btn btn-success">
-                    <i class="voyager-group"></i> <span class="hidden-xs hidden-sm">Perfiles</span>
-                  </a>
-                <a href="{{ route('myproducts.edit', $data->id) }}" title="#" class="btn btn-primary">
-                  <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Edit</span>
-                </a>
-              
-                <a href="javascript:;" onclick="destroy('{{ $data->id }}' ,'{{ route('myaccount_ajax_destroy', [$data->id, 'accounts'])   }}')" title="Eliminar" class="btn btn-danger">
-                  <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
-                </a>
+            <td class="no-sort no-click bread-actions">
+              <a href="javascript:;" id="profiles" title="#" class="btn btn-success">
+                  <i class="voyager-group"></i> <span class="hidden-xs hidden-sm">Perfiles</span>
+      
+              </a>
             </td>
+            @php
+                $myrows = $loop->index + 1;
+            @endphp
           </tr>
         @endforeach
 
       </tbody>
     </table>
-  @else
-    <div class="text-center">
-      <h3>No hay datos registrados</h3>
-      <button class="btn btn-primary" onclick="ajax('{{ route('myaccounts_ajax_profile_create') }}')"><i class="voyager-edit"></i> Nuevo ?</button>
 
-    </div>
 
-  @endif
+
+
 </div>
+  <div class="text-center">
+    
+    <hr/>
+    @if (isset($myrows))
+      @if ($myrows< $account->quantity_profiles)
+        <button class="btn btn-primary" onclick="ajax('{{ route('myaccounts_ajax_profile_create', $account->id) }}', 'get')"><i class="voyager-edit"></i> Nuevo ?</button>
+      @else
+      cantidad max : {{ $account->quantity_profiles }}
+      <br />
+      La cantidad esta al maximo.
+      @endif
+    @else
+        <h3>No hay datos registrados</h3>
+        <button class="btn btn-primary" onclick="ajax('{{ route('myaccounts_ajax_profile_create', $account->id) }}', 'get')"><i class="voyager-edit"></i> Nuevo ?</button>
+
+    @endif
+  
+  </div>

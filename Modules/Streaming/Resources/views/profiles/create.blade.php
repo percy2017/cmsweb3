@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-md-12">
              <div class="panel panel-primary panel-bordered">
-                <form class="myform" role="form" action="{{ route('myaccounts.store') }}" id="myform" method="POST" enctype="multipart/form-data">
+                <form class="myform" role="form" action="{{ route('myprofiles.store') }}" id="myform" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
                     <div class="panel-body">
                         @foreach($dataRows as $row)
@@ -58,8 +58,8 @@
                                         @if($row->details->{'type'} == 'belongsTo')
                                                 <select 
                                                     class="form-control select2" 
-                                                    name="{{ $row->field }}"
-                                                    id="{{ $row->field }}" 
+                                                    name="{{ $row->details->{'column'} }}"
+                                                    id="{{ $row->details->{'column'} }}" 
                                                     @if($row->required == 1) required @endif>
                                                     @php
                                                         $model = app($row->details->model);

@@ -334,7 +334,7 @@
 
         });
 
-        //eventos ----------------
+        //eventos --------------------------------------------------------------------------------------------
         $('#save').click(function(){
             Swal.fire({
                 title: 'Guardando Datos',
@@ -350,7 +350,7 @@
             })
         });
 
-        $('#status').change(function(){
+        $('#payment').change(function(){
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'bottom-end',
@@ -364,7 +364,7 @@
                 })
                 Toast.fire({
                 icon: 'info',
-                title: 'Cambio de estado a: '+this.checked
+                title: 'Cambio de pago: '+$(this).val()
             })
         });
 
@@ -373,7 +373,7 @@
                 toast: true,
                 position: 'bottom-end',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 5000,
                 timerProgressBar: true,
                 onOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -387,7 +387,31 @@
         });
 
 
-        //Acciones y Eventos del Teaclado
+        $('#quantity_profiles').change(function(){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+                Toast.fire({
+                icon: 'info',
+                title: 'Actualizando cantidad de Perfiles a: '+$(this).val()
+            })
+        });
+
+
+
+
+
+
+
+        //Acciones y Eventos del Teaclado -------------------------------------------------------------------
         $(window).bind('keydown', function(event) {
             if(event.ctrlKey || event.metaKey) {
             switch (String.fromCharCode(event.which).toLowerCase()) {

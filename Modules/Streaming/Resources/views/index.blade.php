@@ -311,7 +311,7 @@
 <script type="text/javascript" src="resources/streaming/js/jquery-3.4.1.min.js"></script>
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="resources/streaming/js/popper.min.js"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+{{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="resources/streaming/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
@@ -367,22 +367,6 @@ $('#myWP').floatingWhatsApp({
         // from 1 to 16
         iconShadow: 6
       });
-
-    Echo.channel('home').listen('NewMessage', (e) => {
-      Swal.fire({
-        title: 'CmsWeb v3.0',
-        text: "Plantilla "+e.message+" Instalada.",
-        icon: 'success',
-        //showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        //cancelButtonColor: '#d33',
-        confirmButtonText: 'Recargar'
-      }).then((result) => {
-        if (result.value) {
-          location.reload();
-        }
-      })
-    });
 </script>
 </body>
 </html>

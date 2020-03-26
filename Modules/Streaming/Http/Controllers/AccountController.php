@@ -26,6 +26,7 @@ use Modules\Streaming\Entities\Box;
 use Modules\Streaming\Entities\Seating;
 use Modules\Streaming\Entities\Profile;
 use Modules\Streaming\Entities\Membership;
+
 class AccountController extends Controller
 {
     public function __construct()
@@ -41,8 +42,8 @@ class AccountController extends Controller
     {
         
         $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        // $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
-        $dataTypeContent = Account::paginate(3);
+        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
+        // $dataTypeContent = Voyager::model($dataType->name)->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
 
         return view('streaming::accounts.index', compact(
             'dataType',
@@ -58,7 +59,7 @@ class AccountController extends Controller
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
  
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
      
         return view('streaming::accounts.create', [
             'dataType' => $dataType,
@@ -125,7 +126,7 @@ class AccountController extends Controller
         
 
             return redirect()->route('myaccounts.index')->with([
-                'message'    =>  $request->type . ' Registrado',
+                'message'    =>  $request->name . ' Registrado',
                 'alert-type' => 'success',
             ]);
         }
@@ -174,16 +175,70 @@ class AccountController extends Controller
     }
 
     function ajax_profiles($account_id){
+        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
         $dataTypeContent = DB::table('profiles')->where('account_id', $account_id)->get();
+        $account  = Account::where('id', $account_id)->first();
         return view('streaming::accounts.ajax.profiles', compact(
-            'dataTypeContent'
+            'dataType',
+            'dataTypeContent',
+            'account'
         ));
     }
 
-    function ajax_profiles_create(){
+    function ajax_profiles_create($account_id){
         $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
-        return view('streaming::accounts.ajax.profiles_create', compact('dataRows', 'dataType'));
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
+
+        return view('streaming::accounts.ajax.profiles_create', compact(
+            'dataRows', 
+            'dataType',
+            'account_id'
+        ));
+    }
+    function ajax_profiles_store(Request $request, $account_id){
+        // return $request;
+        $box= Box::where('status', 1)->first();
+  
+        if (!isset($box)) {
+            return response()->json(['error' => 'caja cerrada']);
+        }else{
+
+            //save accounts------------------------
+            $profile = Profile::create([
+                'account_id' => $request->account_id,
+                'membership_id' =>  $request->membership_id,
+                'fullname' =>  $request->fullname,
+                'phone' =>  $request->phone,
+                'startdate' =>  date('Y-m-d H:i:s', strtotime($request->startdate)),
+                'observation' => $request->observation,
+                'user_id' =>  Auth::user()->id
+            ]);
+
+ 
+            if($request->hasFile('avatar'))
+            {
+                $image=Storage::disk('public')->put('profiles/'.date('F').date('Y'), $request->file('avatar'));
+ 
+                $profile->avatar = $image;
+                $profile->save();
+            }  
+
+            //save seatings ------------------------------
+            $membreship= Membership::where('id', $request->membership_id)->first();
+            $asiento = Seating::create([
+                'concept' => 'Ingreso por venta de perfil: '.$membreship->title.' a '.$request->fullname,
+                'amount' => $membreship->price,
+                'type' => 'INGRESOS',
+                'box_id' => $box->id,
+                'user_id' => Auth::user()->id
+            ]);
+            
+            $box->balance = $box->balance + $membreship->price;
+            $box->save();     
+        
+
+            return $this->ajax_profiles($account_id);
+        }
     }
 
 }
