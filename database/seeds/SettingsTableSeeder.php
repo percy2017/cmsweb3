@@ -142,11 +142,11 @@ class SettingsTableSeeder extends Seeder
             ])->save();
         }
 
-        $setting = $this->findSetting('admin.paginacion');
+        $setting = $this->findSetting('admin.pagination');
         if (!$setting->exists) {
             $setting->fill([
-                'display_name' => 'paginacion',
-                'value'        => '6',
+                'display_name' => 'Paginacion',
+                'value'        => '12',
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 1,

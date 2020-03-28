@@ -16,54 +16,46 @@ use Modules\Streaming\Entities\Membership;
 use Validator;
 class MembershipController extends Controller
 {
+    public $table = 'memberships';
     public $dataType;
+    public $dataRowsAdd;
+    public $dataRowsEdit;
+
+    public $menu;
+    public $menuItems;
     public function __construct()
     {
         $this->middleware('auth');
-        $this->dataType = Voyager::model('DataType')->where('slug', '=', 'memberships')->first();
+        $this->dataType = Voyager::model('DataType')->where('slug', '=', $this->table)->first();
+        $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
+
+        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
+        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->get();
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    function list(){
-        // return 'hola';
-        // $dataTypeContent = DB::table('memberships')->orderBy('id', 'desc')->paginate(setting('admin.paginacion')); 
-        $dataTypeContent = Membership::orderBy('id', 'desc')->paginate(setting('admin.pagination')); 
-        return view('streaming::memberships.list', [
-            'dataType' =>  $this->dataType,
-            'dataTypeContent' => $dataTypeContent
-        ]);
-    }
     public function index()
     {
-        return view('streaming::memberships.index',[
-            'dataType' =>  $this->dataType
+        // return dd($this->dataType->details);
+        return view('streaming::bread.index',[
+            'dataType' =>  $this->dataType,
+            'menuItems' => $this->menuItems
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
     {
-        $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
-        return view('streaming::memberships.create', [
+        
+        return view('streaming::bread.create', [
             'dataType' => $this->dataType,
-            'dataRows'=>$dataRows
+            'dataRows'=>$this->dataRowsAdd
         ]); 
         
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
+        //------------------------------------------------------------------
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:5|unique:memberships',
             'price' => 'required'
@@ -72,10 +64,10 @@ class MembershipController extends Controller
         {
             return response()->json(['error'=>$validator->errors()]);
         }
+        //-------------------------------------------------------------------
 
-        $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->get();
         $data = new Membership;
-        foreach ($dataRows as $key) {
+        foreach ($this->dataRowsAdd as $key) {
             $aux =  $key->field;
             
             if ($aux == 'user_id') {
@@ -85,44 +77,32 @@ class MembershipController extends Controller
             }
         }
         $data->save();
-        return $this->list();
+        return $this->show();
     }
 
-    /**
-     * Show the specified resource999
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show($id = null)
     {
-        return view('streaming::show');
+        
+        $dataTypeContent = Membership::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
         $data = Membership::find($id);
-        return view('streaming::memberships.edit', [
+        return view('streaming::bread.edit', [
             'dataType' => $this->dataType,
-            'dataRows'=> $dataRows,
+            'dataRows'=> $this->dataRowsEdit,
             'data' => $data
         ]); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        // return $request;
+        //------------------------------------------------------------------
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'price' => 'required'
@@ -131,11 +111,11 @@ class MembershipController extends Controller
         {
             return response()->json(['error'=>$validator->errors()]);
         }
+        //------------------------------------------------------------------
 
-        $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->get();
         $data = Membership::find($id);
         // return $id;
-        foreach ($dataRows as $key) {
+        foreach ($this->dataRowsEdit as $key) {
             $aux =  $key->field;
             if ($aux == 'user_id') {
                 $data->$aux = Auth::user()->id;
@@ -144,18 +124,25 @@ class MembershipController extends Controller
             }
         }
         $data->save();
-        return $this->list();
+        return $this->show();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
     public function destroy($id)
     {
         $data = Membership::find($id)->delete();
-        return $this->list();
+        return $this->show();
     }
 
+    public function search(Request $request)
+    {
+        // return $request->search_type;
+        $dataTypeContent = Membership::where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent,
+            'search_text' => $request->search_text,
+            'search_type' => $request->search_type
+        ]);
+    }
+    
 }
