@@ -14,7 +14,7 @@ class MenuItemsTableSeeder extends Seeder
     public function run()
     {
         $menu = Menu::where('name', 'admin')->firstOrFail();
-
+        $count=1;
 
         $toolsMenuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
@@ -43,7 +43,7 @@ class MenuItemsTableSeeder extends Seeder
                 'icon_class' => 'voyager-person',
                 'color'      => null,
                 'parent_id'  => $toolsMenuItem->id,
-                'order'      => 2,
+                'order'      => $count++,
             ])->save();
         }
 
@@ -59,7 +59,7 @@ class MenuItemsTableSeeder extends Seeder
                 'icon_class' => 'voyager-list',
                 'color'      => null,
                 'parent_id'  => $toolsMenuItem->id,
-                'order'      => 3,
+                'order'      => $count++,
             ])->save();
         }
 
@@ -108,7 +108,7 @@ class MenuItemsTableSeeder extends Seeder
                 'icon_class' => 'voyager-images',
                 'color'      => null,
                 'parent_id'  => $toolsMenuItem->id,
-                'order'      => 4,
+                'order'      => $count++,
             ])->save();
         }
         
@@ -141,7 +141,7 @@ class MenuItemsTableSeeder extends Seeder
                 'icon_class' => 'voyager-paypal',
                 'color'      => null,
                 'parent_id'  => $toolsMenuItem->id,
-                'order'      => 6,
+                'order'      => $count++,
             ])->save();
         }
 
@@ -161,6 +161,21 @@ class MenuItemsTableSeeder extends Seeder
             //     ])->save();
             // }
 
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Notificaciones',
+            'url'     => '',
+            'route'   => 'voyager.notifications.index',
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => 'voyager-sound',
+                'color'      => null,
+                'parent_id'  => $toolsMenuItem->id,
+                'order'      => $count++,
+            ])->save();
+        }
 
 
 

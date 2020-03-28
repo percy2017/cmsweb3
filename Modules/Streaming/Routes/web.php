@@ -20,25 +20,14 @@
 Route::group(['prefix' => 'admin'], function () {
 
   // funciones accounts------------------------------------------------------
-  Route::resource('myaccounts', 'AccountController');
   Route::get('myaccounts/ajax_destroy/{id}/{model}', 'AccountController@ajax_destroy')->name('myaccounts_ajax_destroy');
+  
     // ajax profiles
     Route::get('myaccounts/ajax/profiles/index/{account_id}', 'AccountController@ajax_profiles')->name('myaccounts_ajax_profile');
     Route::get('myaccounts/ajax/profiles/create/{account_id}', 'AccountController@ajax_profiles_create')->name('myaccounts_ajax_profile_create');
     Route::post('myaccounts/ajax/profiles/store/{account_id}', 'AccountController@ajax_profiles_store')->name('myaccounts_ajax_profile_store');
-    
-  
 
 
-
-
-
-
-
-  Route::resource('myprofiles', 'ProfilesController');
-
-  Route::resource('myboxes', 'BoxController');
- 
-  Route::resource('myseatings', 'SeatingController');
-
+    Route::get('memberships/list/ajax', 'MembershipController@list')->name('memberships_ajax_list');
+    Route::get('memberships/delete/ajax/{id}', 'MembershipController@delete')->name('memberships_ajax_delete');
   });

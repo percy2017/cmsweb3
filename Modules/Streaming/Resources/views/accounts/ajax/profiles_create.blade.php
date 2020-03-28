@@ -83,7 +83,7 @@
                                 @endif
                                 @break
                             @case('text')
-                                <label calss="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
+                                <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                 @if(isset($row->details->tooltip))
                                     <span class="voyager-question"
                                     aria-hidden="true"
@@ -235,7 +235,7 @@
             @endforeach
 
             <div class="form-group col-md-12">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" id="button_submit">
                     <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Enviar</span>
                 </button>
               

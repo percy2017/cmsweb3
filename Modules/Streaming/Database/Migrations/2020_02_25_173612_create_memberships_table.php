@@ -18,7 +18,7 @@ class CreateMembershipsTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->double('price')->nullable();
-            $table->bigInteger('days')->nullable();
+            $table->bigInteger('months')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             

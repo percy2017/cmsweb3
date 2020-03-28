@@ -99,6 +99,23 @@ class DataTypesTableSeeder extends Seeder
                 'description'           => null,
             ])->save();
         }
+        //Modulos ------------------------------------
+
+
+        //Notificaiones ----------------------------------
+        $dataType = $this->dataType('slug', 'notifications');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'notifications',
+                'display_name_singular' => 'Notificacion',
+                'display_name_plural'   => 'Notificaciones',
+                'icon'                  => 'voyager-sound',
+                'model_name'            => 'App\\Notification',
+                'controller'            => 'App\\Http\\Controllers\\NotificationController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+            ])->save();
+        }
           //Modulos ------------------------------------
     }
 

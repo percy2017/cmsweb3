@@ -142,6 +142,17 @@ class SettingsTableSeeder extends Seeder
             ])->save();
         }
 
+        $setting = $this->findSetting('admin.paginacion');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'paginacion',
+                'value'        => '6',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Admin',
+            ])->save();
+        }
 
                 // Whatsapp ------------------------------------
         // --------------------------------------------

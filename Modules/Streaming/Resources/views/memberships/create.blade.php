@@ -1,51 +1,16 @@
-@extends('voyager::master')
-
-@section('page_title', 'Agregando '.$dataType->getTranslatedAttribute('display_name_singular')) 
-
-@section('page_header')
-     <div class="container-fluid">
-        <h1 class="page-title">
-            <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
-        </h1>
-
-        <div class="btn-group">
-        <button type="button" class="btn btn-dark"><i class="voyager-tools"></i> <span>Acciones</span></button>
-        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="caret"></span>
-          <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="javascript:;" id="save">(ctrl+q) Guardar</a></li>
-            <li><a href="#" id="continue">Guardar y Continuar</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="{{ route('voyager.bread.edit', $dataType->slug) }}">Configuracion</a></li>
-        </ul>
-      </div>
-    </div>
-@stop
-@section('css')
-    <style>
-        .myform div label span.error { color: red; }
-    </style>
-@stop
-@section('content')
-<div class="page-content container-fluid" id="voyagerBreadEditAdd">
-    @include('voyager::alerts')
+<div class="page-content container-fluid">
     <div class="row">
         <div class="col-md-12">
              <div class="panel panel-primary panel-bordered">
-                <form class="myform" role="form" action="{{ route('voyager.profiles.store') }}" id="myform" method="POST" enctype="multipart/form-data">
-                {{ csrf_field() }}
+                <form class="myform" role="form" action="{{ route('voyager.'.$dataType->name.'.store') }}" id="myform" method="POST" enctype="multipart/form-data">
+                    {{ csrf_field() }}
                     <div class="panel-body">
                         @foreach($dataRows as $row)
-                        
                             @php
                                 $display_options = $row->details->display ?? NULL;
                             @endphp
                             <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
-                                {{ $row->slugify }}
-                               @if ($row->add)
-                                   @switch($row->type)
+                                @switch($row->type)
                                     @case('relationship')
                                         <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                         @if(isset($row->details->tooltip))
@@ -128,7 +93,8 @@
                                         @endif
                                         @break
                                     @case('text')
-                                        <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
+                                        <span class="text-danger">{{ $errors->first($row->field) }}</span>
+                                        <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
                                         @if(isset($row->details->tooltip))
                                             <span class="voyager-question"
                                             aria-hidden="true"
@@ -149,7 +115,7 @@
                                             value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
                                         @break
                                     @case('number')
-                                        <label class="control-label" for="{{ $row->field }}" id="{{ $row->field }}">{{ $row->display_name }}</label>
+                                        <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                         @if(isset($row->details->tooltip))
                                             <span class="voyager-question"
                                             aria-hidden="true"
@@ -167,7 +133,7 @@
                                             @if(isset($row->details->{'step'}))step="{{ $row->details->{'step'} }}"@endif 
                                             @if($row->required == 1) required @endif 
                                             value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
-                                      
+                                        
                                         @break
                                     @case('text_area')
                                         <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -267,156 +233,89 @@
                                                 data-on="{{ $row->details->on }}" {!! $checked ? 'checked="checked"' : '' !!} 
                                                 data-off="{{ $row->details->off }}">
                                         @break
-                                    @endswitch        
-                                     @if ($errors->has($row->field))
-                                        @foreach ($errors->get($row->field) as $error)
-                                            <span class="help-block">{{ $error }}</span>
-                                            
-                                        @endforeach
-                                    @endif                              
-                               @endif
-                                
+                                @endswitch        
+                          
                             </div>
                         @endforeach
+                        <div class="form-group text-center">
+                        <hr/>
+                            <button type="submit" id="button_submit" class="btn btn-sm  btn-primary"><i class="voyager-edit"></i> {{ __('voyager::generic.save') }}</button>
+                            <button type="button" onclick="ajax('{{ route('memberships_ajax_list') }}', 'get')" class="btn btn-sm btn-success"><i class="voyager-double-left"></i>Cancelar</button>
+
+                        </div>
                     </div>
-                    {{-- <div class="panel-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('voyager::generic.save') }}</button>
-                    </div> --}}
+                 
+                    
+         
+                    
                 </form>
             </div>
         </div>
     </div>
 </div> 
 
-  
-<div class="modal modal-info fade" tabindex="-1" id="default_modal" role="dialog">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('voyager::generic.close') }}"><span aria-hidden="true">&times;</span></button>
-                <div id="title_modal"></div>
-            </div>
-            <div class="modal-body">
-                <div id="modal_body"></div>
-            </div>
-            <div class="modal-footer">
-                <div id="modal_footer"></div>
-            </div>
-        </div>
-    </div>
-</div>
-@stop
-@section('javascript')
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script>    
-        $('document').ready(function () {
-            
-            $("#myform").validate({
-                errorPlacement: function(error, element) {
-                // Append error within linked label
-                $( element )
-                    .closest( "form" )
-                        .find( "label[for='" + element.attr( "id" ) + "']" )
-                            .append( error );
-                },
-                errorElement: "span",
-            });
 
-            $('.toggleswitch').bootstrapToggle();
+<script>
 
-            $('.side-body input[data-slug-origin]').each(function(i, el) {
-                $(el).slugify();
-            });
+    $('.form-group input[type=datetime]').each(function (idx, elt) {
+        let id = '#'+elt.id; 
+        $(id).datetimepicker();
+    });
+    $('.form-group select').each(function (idx, elt) {
+        let id = '#'+elt.id;
+        $(id).select2();
+    });
 
-            $('[data-toggle="tooltip"]').tooltip();
+    var frm = $('#myform');
 
-        });
+    $("#button_submit").click(function() {
+        event.preventDefault();
+                
+        Swal.fire({
+        title: 'Agregando',
+        text: "Estas segur@ de realizar la accion ? ",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.value) {
+                
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: new FormData($('#myform')[0]),
+                    contentType : false,
+                    processData : false,
+                    success: function (data) {
+                        
+                        if(data.error)
+                        {
+                            let message='';
+                            $.each(data.error, function(i,item){
+                                message = message+'*'+item+'\n';
+                            })
+                            Swal.fire({
+                                icon: 'error',
+                                title: message,
+                                //text: message,
+                                //footer: '<a href>Why do I have this issue?</a>'
+                            })
 
-        //eventos ----------------
-        $('#save').click(function(){
-            Swal.fire({
-                title: 'Guardando Datos',
-                text: "Estas Seguto de Realizar la accion y Volver al Listado completo ?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                }).then((result) => {
-                if (result.value) {
-                  $('#myform').submit();
-                }
-            })
-        });
-
-        $('#status').change(function(){
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 5000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-                })
-                Toast.fire({
-                icon: 'info',
-                title: 'Cambio de estado a: '+this.checked
-            })
-        });
-
-        $('#type').change(function(){
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-                })
-                Toast.fire({
-                icon: 'info',
-                title: 'Cambio de tipo: '+$(this).val()
-            })
-        });
-
-
-        //Acciones y Eventos del Teaclado
-        $(window).bind('keydown', function(event) {
-            if(event.ctrlKey || event.metaKey) {
-            switch (String.fromCharCode(event.which).toLowerCase()) {
-            case 'q':
-                event.preventDefault();
-                Swal.fire({
-                    title: 'Guardando Datos',
-                    text: "Estas Seguto de Realizar la accion y Volver al Listado completo ?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    }).then((result) => {
-                    if (result.value) {
-                    $('#myform').submit();
-                    }
-                })
-                break;
-            case 'y':
-                event.preventDefault();
-               
-              
-                break;
-            case 'i':
-                event.preventDefault();
-               
-                break;
+                        }else{
+                            
+                            message('success', 'Dato registrado correctamente.')
+                            $('#ajax_body').html(data);
+                        }
+                    },
+                    error: function (data) {
+                        
+                        message('error', 'Error en la accion')
+                    },
+                });
+            }else{
+                message('info', 'accion declinada');
             }
-            }
-        });
-    </script>
-@endsection
+        })
+    });
+</script>

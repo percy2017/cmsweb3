@@ -42,9 +42,7 @@ class AccountController extends Controller
     {
         
         $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
-        // $dataTypeContent = Voyager::model($dataType->name)->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-
+        $dataTypeContent = DB::table('accounts')->paginate(6); 
         return view('streaming::accounts.index', compact(
             'dataType',
             'dataTypeContent'

@@ -71,7 +71,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Membership',
                 'policy_name'           => null,
-                'controller'            => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\MembershipController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
@@ -93,7 +93,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'icon'                  => 'voyager-play',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Profile',
                 'policy_name'           => null,
-                'controller'            => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\ProfilesController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
@@ -217,7 +217,13 @@ class StreamingDatabaseSeeder extends Seeder
         $menbership = Membership::create([
             'title' => 'Membresia #1 Netflix (40 Bs)',
             'price' => 40,
-            'days' => 30,
+            'months' => 1,
+            'user_id' => 1,
+        ]);
+        $menbership = Membership::create([
+            'title' => 'Membresia #2 Netflix (100 Bs)',
+            'price' => 100,
+            'months' => 3,
             'user_id' => 1,
         ]);
 

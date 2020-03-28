@@ -28,3 +28,4 @@
         </div>
     </div>
 </div>
+mierda -  todos los directorios tienen que ser con minusculas

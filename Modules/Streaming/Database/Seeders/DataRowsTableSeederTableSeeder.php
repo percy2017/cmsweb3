@@ -112,10 +112,10 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'options' => [
-                        '3' => '3 perfiles',
-                        '4' => '4 perfiles',
-                        '5' => '5 perfiles',
-                        '6' => '6 perfiles'
+                        '3' => '3',
+                        '4' => '4',
+                        '5' => '5',
+                        '6' => '6'
                     ],
                     'display'   => [
                         'width'  => '6',
@@ -227,7 +227,6 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-
 
 
         $dataRow = $this->dataRow($AccountDataType, 'image');
@@ -368,6 +367,11 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
+                    'autofocus' => true,
+                    'tooltip' => [
+                        'ubication' => 'top',
+                        'message' => 'Titulo de la membresia (Ser Explicito)'
+                    ],
                     'display'   => [
                         'width'  => '6',
                     ],
@@ -394,7 +398,30 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 ]
             ])->save();
         }
-
+        $dataRow = $this->dataRow($MembershipDataType, 'months');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Meses',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'options' => [
+                        '1' => '1',
+                        '3' => '3',
+                        '6' => '6'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
         $dataRow = $this->dataRow($MembershipDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -415,25 +442,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($MembershipDataType, 'days');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'number',
-                'display_name' => 'Dias',
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => $postion++,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                ]
-            ])->save();
-        }
+      
 
         $dataRow = $this->dataRow($MembershipDataType, 'user_id');
         if (!$dataRow->exists) {
@@ -520,6 +529,35 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
+        
+        $dataRow = $this->dataRow($ProfileDataType, 'profile_belongsto_membership_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Membresia',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Membership',
+                    'table'       => 'memberships',
+                    'type'        => 'belongsTo',
+                    'column'      => 'membership_id',
+                    'key'         => 'id',
+                    'label'       => 'title',
+                    'pivot_table' => 'memberships',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+                
+            ])->save();
+        }
         $dataRow = $this->dataRow($ProfileDataType, 'profile_belongsto_account_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -564,34 +602,6 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($ProfileDataType, 'profile_belongsto_membership_relationship');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Membresia',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => [
-                    'display' => [
-                        'width' => 6
-                    ],
-                    'model'       => 'Modules\\Streaming\\Entities\\Membership',
-                    'table'       => 'memberships',
-                    'type'        => 'belongsTo',
-                    'column'      => 'membership_id',
-                    'key'         => 'id',
-                    'label'       => 'title',
-                    'pivot_table' => 'memberships',
-                    'pivot'       => 0,
-                ],
-                'order'        => $postion++,
-                
-            ])->save();
-        }
 
         $dataRow = $this->dataRow($ProfileDataType, 'membership_id');
         if (!$dataRow->exists) {

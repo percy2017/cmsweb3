@@ -17,6 +17,7 @@ class DataRowsTableSeeder extends Seeder
         $PageDataType = DataType::where('slug', 'pages')->firstOrFail();
         $BlockDataType = DataType::where('slug', 'blocks')->firstOrFail();
         $ModuleDataType = DataType::where('slug', 'modules')->firstOrFail();
+        $NotificationDataType = DataType::where('slug', 'notifications')->firstOrFail();
 
         $dataRow = $this->dataRow($userDataType, 'id');
         if (!$dataRow->exists) {
@@ -571,7 +572,8 @@ class DataRowsTableSeeder extends Seeder
 
 
         //Modules------------------------------
-        //-----------------------------------
+        //----------------------------------
+        $count = 1;
         $dataRow = $this->dataRow($ModuleDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -583,7 +585,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($ModuleDataType, 'name');
@@ -597,7 +599,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($ModuleDataType, 'description_short');
@@ -611,7 +613,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($ModuleDataType, 'description_long');
@@ -625,7 +627,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         
@@ -640,7 +642,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($ModuleDataType, 'updated_at');
@@ -654,7 +656,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 5,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($ModuleDataType, 'deleted_at');
@@ -668,11 +670,138 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 6,
+                'order'        => $count++,
             ])->save();
         }
         //Modules------------------------------
 
+
+        //Notifications------------------------------
+        //-----------------------------------
+        $count = 1;
+        $dataRow = $this->dataRow($NotificationDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $count++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'type');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'type',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'notifiable');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'notifiable',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ],
+                'order'        => $count++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'data');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Data',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'read_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'read_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $count++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $count++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($NotificationDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $count++,
+            ])->save();
+        }
+        //Notifications------------------------------
         
     }
 

@@ -41,23 +41,13 @@ class BoxController extends Controller
     public function create()
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', 'boxes')->first();
-        
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-                            ? new $dataType->model_name()
-                            : false;
-
-        foreach ($dataType->addRows as $key => $row) {
-            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
-        }
-
-        $isModelTranslatable = is_bread_translatable($dataTypeContent);
-
+ 
+        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
+     
         return view('streaming::boxes.create', [
-            'dataType'=>$dataType,
-            'dataTypeContent'=>$dataTypeContent,
-            'isModelTranslatable'=>$isModelTranslatable
-
-        ]);
+            'dataType' => $dataType,
+            'dataRows'=>$dataRows
+        ]); 
 
     }
 

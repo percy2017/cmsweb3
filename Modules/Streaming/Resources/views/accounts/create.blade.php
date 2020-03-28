@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col-md-12">
              <div class="panel panel-primary panel-bordered">
-                <form class="myform" role="form" action="{{ route('myaccounts.store') }}" id="myform" method="POST" enctype="multipart/form-data">
+                <form class="myform" role="form" action="{{ route('voyager.accounts.store') }}" id="myform" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="panel-body">
                         @foreach($dataRows as $row)

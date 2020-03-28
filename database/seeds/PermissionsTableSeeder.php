@@ -33,6 +33,7 @@ class PermissionsTableSeeder extends Seeder
 
         Permission::generateFor('settings');
 
+        Permission::generateFor('notifications');
 
         $keys = [
             'browse_pages',

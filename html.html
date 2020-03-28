@@ -20,6 +20,101 @@
         $(document).ready(function () {
             $('.carousel').carousel()
         });
+
+
+            
+        var frm = $('#myform');
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+
+            data: new FormData($('#myform')[0]),
+            contentType : false,
+            processData : false,
+            success: function (data) {
+              if(data.error)
+              {
+                //console.log(data.error.title);
+                let message='';
+                $.each(data.error, function(i,item){
+                  message = message+'*'+item+'\n';
+                  
+                })
+                Swal.fire({
+                icon: 'error',
+                title: message,
+                //text: message,
+                //footer: '<a href>Why do I have this issue?</a>'
+              })
+
+              }else{
+                message('success', data.message)
+                ajax(data.route);
+              }
+              
+            },
+            error: function (data) {
+      
+                message('error', 'Error en la accion')
+            },
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (result.value) {
+                <?php $admin_loader_img = Voyager::setting('admin.loader', ''); ?>
+                $('#ajax_body').html('<div id="voyager-loader"><img src="@if($admin_loader_img == '') {{ voyager_asset('images/logo-icon.png') }} @else {{ Voyager::Image(setting('admin.loader')) }}@endif"></div>');
+                var frm = $('#myform');
+                
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: new FormData($('#myform')[0]),
+                    contentType : false,
+                    processData : false,
+                    success: function (data) {
+                        alert(data.error);
+                        if(data.error)
+                        {
+                            
+                            let message='';
+                            $.each(data.error, function(i,item){
+                                message = message+'*'+item+'\n';
+                            })
+                            Swal.fire({
+                                icon: 'error',
+                                title: message,
+                                //text: message,
+                                //footer: '<a href>Why do I have this issue?</a>'
+                            })
+
+                        }else{
+                            message('success', data.message)
+                            $('#ajax_body').html(data);
+                        }
+                    },
+                    error: function (data) {
+            
+                        message('error', 'Error en la accion')
+                    },
+                });
+            }else{
+                message('info', 'accion declinada');
+            }
     </script>
 </body>
 </html>

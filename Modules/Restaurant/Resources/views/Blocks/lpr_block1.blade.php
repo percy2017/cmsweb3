@@ -19,3 +19,4 @@
         </div>
     </section>
 </div>
+mierda -  todos los directorios tienen que ser con minusculas
