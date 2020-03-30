@@ -5,200 +5,157 @@ namespace Modules\Streaming\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Database\Schema\SchemaManager;
-use TCG\Voyager\Events\BreadDataAdded;
-use TCG\Voyager\Events\BreadDataDeleted;
-use TCG\Voyager\Events\BreadDataRestored;
-use TCG\Voyager\Events\BreadDataUpdated;
-use TCG\Voyager\Events\BreadImagesDeleted;
 use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 use Illuminate\Support\Facades\Storage;
-
-use Modules\Streaming\Entities\Profile;
-use Modules\Streaming\Entities\History;
-use Modules\Streaming\Entities\Membership;
-use Modules\Streaming\Entities\Account;
-use Modules\Streaming\Entities\Box;
-use Modules\Streaming\Entities\Seating;
+use Validator;
 class ProfilesController extends Controller
 {
+
+    public $table = 'profiles';
+    public $dataType;
+    public $dataRowsAdd;
+    public $dataRowsEdit;
+    public $menu;
+    public $menuItems;
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->dataType = Voyager::model('DataType')->where('slug', '=', $this->table)->first();
+        $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
+
+        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
+        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
     }
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
+
     public function index()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $dataTypeContent = Profile::paginate(6);
-
-        return view('streaming::profiles.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
+        return view('streaming::bread.index', [
+            'dataType' =>  $this->dataType,
+            'menuItems' => $this->menuItems
+        ]);
       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
- 
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
-     
-        return view('streaming::profiles.create', [
-            'dataType' => $dataType,
-            'dataRows'=>$dataRows
+        return view('streaming::bread.create', [
+            'dataType' => $this->dataType,
+            'dataRows'=>$this->dataRowsAdd
         ]); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-          
-        // return $request;
-         $box= Box::where('status', 1)->first();
-  
-        if (!isset($box)) {
-            return redirect()->back()->with([
-                'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
-                'alert-type' => 'error',
-            ]);
-        }else{
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
 
-            //save accounts------------------------
-            $profile = Profile::create([
-                'account_id' => $request->account_id,
-                'membership_id' =>  $request->membership_id,
-                'fullname' =>  $request->fullname,
-                'phone' =>  $request->phone,
-                'startdate' =>  date('Y-m-d H:i:s', strtotime($request->startdate)),
-                'observation' => $request->observation,
-                'user_id' =>  Auth::user()->id
-            ]);
-
- 
-            if($request->hasFile('avatar'))
-            {
-                $image=Storage::disk('public')->put('profiles/'.date('F').date('Y'), $request->file('avatar'));
- 
-                $profile->avatar = $image;
-                $profile->save();
-            }  
-
-            //save seatings ------------------------------
-            $membreship= Membership::where('id', $request->membership_id)->first();
-            $asiento = Seating::create([
-                'concept' => 'Ingreso por venta de perfil: '.$membreship->title.' a '.$request->fullname,
-                'amount' => $membreship->price,
-                'type' => 'INGRESOS',
-                'box_id' => $box->id,
-                'user_id' => Auth::user()->id
-            ]);
-            
-            $box->balance = $box->balance + $membreship->price;
-            $box->save();     
-        
-
-            return redirect()->route('myprofiles.index')->with([
-                'message'    =>  $request->fullname . ' Registrado',
-                'alert-type' => 'success',
-            ]);
+        $data = new $this->dataType->model_name;
+        foreach ($this->dataRowsAdd as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
         }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show($id = null)
     {
-        return view('streaming::show');
+        $dataTypeContent = $this->dataType->model_name::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        return view('streaming::edit');
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
+        
+        $data = $this->dataType->model_name::find($id);
+        return view('streaming::bread.edit', [
+            'dataType' => $this->dataType,
+            'dataRows'=> $this->dataRowsEdit,
+            'data' => $data
+        ]); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $data = $this->dataType->model_name::find($id);
+        foreach ($this->dataRowsEdit as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
+        }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        //
+        $data = $this->dataType->model_name::find($id)->delete();
+        return $this->show();
     }
 
-
-    public function history($id){
-        
-        $profiles   = Profile::find($id);
-        $dataType   = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $histories  = History::where('profile_id', $id)->get();
-        $membresias = Membership::all();
-        $accounts   = Account::all();
-        
-        return view('streaming::profiles.show', [
-            'dataType'   =>  $dataType,
-            'profiles'   =>  $profiles,
-            'histories'  =>  $histories,
-            'membresias' =>  $membresias,
-            'accounts' => $accounts
+    public function search(Request $request)
+    {
+        $dataTypeContent = $this->dataType->model_name::where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent,
+            'search_text' => $request->search_text,
+            'search_type' => $request->search_type
         ]);
     }
 
-    public function change($id){
-        //return $request;
-        $profile = Profile::find($id);
-        $profile->status = false;
-        $profile->save();
-
-        History::create([
-            'type'=>'Cuenta dada de baja',
-            'profile_id'=>$id,
-            'user_id'=>auth()->user()->id
-
-        ]);
-        return redirect()->route('profile_history', $id)->with([
-            'message'    =>  $profile->fullname.' Actualizado Correctamente',
-            'alert-type' => 'success',
-        ]);
-    
-
-    }
 }

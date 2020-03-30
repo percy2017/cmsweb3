@@ -11,9 +11,10 @@ use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 use NumerosEnLetras;
-class SeatingController extends Controller
+
+class RProfilesController extends Controller
 {
-    public $table = 'seatings';
+    public $table = 'sanes_renovation_profiles';
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;

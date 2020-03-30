@@ -8,164 +8,145 @@ use Illuminate\Routing\Controller;
 
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Database\Schema\SchemaManager;
 use Illuminate\Support\Facades\Auth;
-
-use Modules\Streaming\Entities\Box;
-use Modules\Streaming\Entities\Seating;
-
-use App\User;
-
 use NumerosEnLetras;
 class BoxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
+
+    public $table = 'boxes';
+    public $dataType;
+    public $dataRowsAdd;
+    public $dataRowsEdit;
+    public $menu;
+    public $menuItems;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->dataType = Voyager::model('DataType')->where('slug', '=', $this->table)->first();
+        $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
+
+        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
+        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
+    }
+
     public function index()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'boxes')->first();
-        $dataTypeContent = call_user_func([DB::table($dataType->name), 'paginate']);
-
-        return view('streaming::boxes.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
+        return view('streaming::bread.index', [
+            'dataType' =>  $this->dataType,
+            'menuItems' => $this->menuItems
+        ]);
+        return view('streaming::bread.create', [
+            'dataType' => $this->dataType,
+            'dataRows'=>$this->dataRowsAdd
+        ]); ;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
-    {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'boxes')->first();
- 
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->get();
-     
-        return view('streaming::boxes.create', [
-            'dataType' => $dataType,
-            'dataRows'=>$dataRows
+    {      
+        return view('streaming::bread.create', [
+            'dataType' => $this->dataType,
+            'dataRows'=>$this->dataRowsAdd
         ]); 
-
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-        //
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
         
-        $box = Box::create([
-         'title'        =>  $request->title,
-         'start_amount' =>  $request->start_amount,
-         'balance'      =>  $request->balance,
-         'status'       =>  $request->status ? 1 : 0,
-         'user_id'      =>  auth()->user()->id
-        ]);
-
-        
-        return redirect()->route('voyager.boxes.index')->with([
-            'message'    =>  $box->title.' creada Correctamente',
-            'alert-type' => 'success',
-        ]);    
-        
+        $data = new $this->dataType->model_name;
+        foreach ($this->dataRowsAdd as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
+        }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show($id = null)
     {
-        return view('streaming::show');
+        $dataTypeContent = $this->dataType->model_name::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        return view('streaming::edit');
+        $data = $this->dataType->model_name::find($id);
+        return view('streaming::bread.edit', [
+            'dataType' => $this->dataType,
+            'dataRows'=> $this->dataRowsEdit,
+            'data' => $data
+        ]); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
+
+        $data = $this->dataType->model_name::find($id);
+        foreach ($this->dataRowsEdit as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
+        }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        //
-    }
-
-    function seatings($box_id)
-    {
-        $seating = Seating::where('box_id', $box_id)->get();
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'seatings')->first();
-        $ingresos = Seating::where('box_id', $box_id)->where('type', 'INGRESOS')->get();
-        $egresos = Seating::where('box_id', $box_id)->where('type', 'EGRESOS')->get();
-
-        $monto_total = Seating::where('box_id', $box_id)->sum('amount');
-
-        $total_literal = NumerosEnLetras::convertir($monto_total, 'Bolivianos', true);
-
-        $box=Box::where('id', $box_id)->first();
-
-        return view('streaming::boxes.seatings', [
-            'seating'  => $seating,
-            'dataType' => $dataType,
-            'ingresos' => $ingresos,
-            'egresos'  => $egresos,
-            'monto_total' => $monto_total,
-            'total_literal' => $total_literal,
-            'box_id' => $box_id,
-            'box'=>$box
-        ]);
-    }
-
-    function contabilizar(Request $request)
-    {
-        Seating::create([
-            'concept'   => $request->concept,
-            'amount'    => $request->amount,
-            'type'      => $request->type,
-            'box_id'    => $request->box_id,
-            'user_id'   => auth()->user()->id
-
-        ]);
-
-        $box = Box::where('id', $request->box_id)->first();
-
-        if ($request->type == 'INGRESOS') {
-            $box->balance = $box->balance + $request->amount;
-        } elseif ($request->type == 'EGRESOS') {
-
-            $box->balance = $box->balance - $request->amount;
-        }
-        $box->save();
-
-        return back()->with([
-            'message'    =>  $request->type . ' Registrado',
-            'alert-type' => 'success',
-        ]);
+        $data = $this->dataType->model_name::find($id)->delete();
+        return $this->show();
     }
 }

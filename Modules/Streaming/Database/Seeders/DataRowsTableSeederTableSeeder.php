@@ -30,6 +30,8 @@ class DataRowsTableSeederTableSeeder extends Seeder
         $ProfileDataType = DataType::where('slug', 'profiles')->firstOrFail();
         $BoxDataType = DataType::where('slug', 'boxes')->firstOrFail();
         $SeatingDataType = DataType::where('slug', 'seatings')->firstOrFail();
+        $RAccounDataType = DataType::where('slug', 'sanes_renovation_accounts')->firstOrFail();
+        $RProfileDataType = DataType::where('slug', 'sanes_renovation_profiles')->firstOrFail();
 
 
         // AccountDataType------------------------------------------------
@@ -45,6 +47,17 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
+                'details'      => [
+                    'displey' => [
+                        'width' => '6'
+                    ],
+                    'actions' => [
+                        'table' => 'profiles',
+                        'key' => 'account_id',
+                        'type' => 'create',
+                        'message' => 'Nuevo Perfil'
+                    ]
+                ],
                 'order'        => $postion++,
             ])->save();
         }
@@ -90,6 +103,31 @@ class DataRowsTableSeederTableSeeder extends Seeder
                     'options' => [
                         '****3258 - luis flores' => '****3258 - luis flores',
                         '****2557 - juan peres' => '****2557 - juan peres'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($AccountDataType, 'plane');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Planes',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'options' => [
+                        'Basico - 1 pantalla SD' => 'Basico - 1 pantalla SD',
+                        'Estandar - 2 pantalla full HD' => 'Estandar - 2 pantalla full HD',
+                        'Premiun - 4 pantalla ultra 4K' => 'Premiun - 4 pantalla ultra 4K'
                     ],
                     'display'   => [
                         'width'  => '6',
@@ -263,7 +301,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
-                        'width'  => '12',
+                        'width'  => '6',
                     ],
                 ]
             ])->save();
@@ -772,7 +810,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
-                        'width'  => '12',
+                        'width'  => '3',
                     ],
                 ]
             ])->save();
@@ -790,6 +828,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -805,6 +846,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -820,6 +864,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -840,6 +887,17 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'displey' => [
+                        'width' => '6'
+                    ],
+                    'actions' => [
+                        'table' => 'seatings',
+                        'key' => 'box_id',
+                        'type' => 'create',
+                        'message' => 'Nuevo Asiento'
+                    ]
+                ],
             ])->save();
         }
         
@@ -926,6 +984,26 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
         
+        $dataRow = $this->dataRow($BoxDataType, 'observation');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Obs',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+        
         $dataRow = $this->dataRow($BoxDataType, 'user_id');//----6
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -938,6 +1016,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -953,6 +1034,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -968,6 +1052,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -983,6 +1070,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -1004,6 +1094,57 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($SeatingDataType, 'seating_belongsto_box_relationship');//----6
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Caja',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Box',
+                    'table'       => 'boxes',
+                    'type'        => 'belongsTo',
+                    'column'      => 'box_id',
+                    'key'         => 'id',
+                    'label'       => 'title',
+                    'pivot_table' => 'boxes',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($SeatingDataType, 'type');//----4
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Tipo',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                        'display' => [
+                            'width' => '6'
+                        ],
+                        'options' => [
+                            'ingresos' => 'INGRESOS',
+                            'egresos' => 'EGRESOS'
+                        ]
+                ]
+            ])->save();
+        }
         $dataRow = $this->dataRow($SeatingDataType, 'concept');//----2
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1044,27 +1185,23 @@ class DataRowsTableSeederTableSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($SeatingDataType, 'type');//----4
+        
+        
+        $dataRow = $this->dataRow($SeatingDataType, 'box_id');//----6
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => 'Tipo',
-                'required'     => 1,
-                'browse'       => 1,
+                'type'         => 'hidden',
+                'display_name' => 'caja',
+                'required'     => 0,
+                'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
                 'order'        => $postion++,
-                'details'      => [
-                      'options' => [
-                          'ingresos' => 'INGRESOS',
-                          'egresos' => 'EGRESOS'
-                      ]
-                ]
             ])->save();
         }
-        
+
         $dataRow = $this->dataRow($SeatingDataType, 'user_id');//----5
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1077,46 +1214,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 0,
                 'order'        => $postion++,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($SeatingDataType, 'box_id');//----6
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'hidden',
-                'display_name' => 'Traking User',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => $postion++,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($SeatingDataType, 'seating_belongsto_box_relationship');//----6
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Cajas',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
                 'details'      => [
-                    'model'       => 'Modules\\Streaming\\Entities\\Box',
-                    'table'       => 'boxes',
-                    'type'        => 'belongsTo',
-                    'column'      => 'box_id',
-                    'key'         => 'id',
-                    'label'       => 'title',
-                    'pivot_table' => 'boxes',
-                    'pivot'       => 0,
-                ],
-                'order'        => $postion++,
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -1132,6 +1232,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -1147,6 +1250,9 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
             ])->save();
         }
 
@@ -1162,6 +1268,414 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
+
+
+        // RAccounDataType------------------------------------------------
+        $postion=1;
+        $dataRow = $this->dataRow($RAccounDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => null,
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'description');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'plane');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Planes',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'options' => [
+                        'Basico - 1 pantalla SD' => 'Basico - 1 pantalla SD',
+                        'Estandar - 2 pantalla full HD' => 'Estandar - 2 pantalla full HD',
+                        'Premiun - 4 pantalla ultra 4K' => 'Premiun - 4 pantalla ultra 4K'
+                    ],
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'account_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'account_id',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => null,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'renovation_belongsto_account_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Cuentas',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Account',
+                    'table'       => 'accounts',
+                    'type'        => 'belongsTo',
+                    'column'      => 'account_id',
+                    'key'         => 'id',
+                    'label'       => 'id',
+                    'pivot_table' => 'accounts',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RAccounDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+
+        
+        // RAccounDataType------------------------------------------------
+        $postion=1;
+        $dataRow = $this->dataRow($RProfileDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => null,
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'description');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'membership_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Planes',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,                
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'renovation_belongsto_membership_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Membresias',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Membership',
+                    'table'       => 'memberships',
+                    'type'        => 'belongsTo',
+                    'column'      => 'membership_id',
+                    'key'         => 'id',
+                    'label'       => 'id',
+                    'pivot_table' => 'memberships',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+        
+        $dataRow = $this->dataRow($RProfileDataType, 'profile_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'account_id',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => null,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'renovation_belongsto_profile_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Perfiles',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ],
+                    'model'       => 'Modules\\Streaming\\Entities\\Profile',
+                    'table'       => 'profiles',
+                    'type'        => 'belongsTo',
+                    'column'      => 'profile_id',
+                    'key'         => 'id',
+                    'label'       => 'id',
+                    'pivot_table' => 'profiles',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($RProfileDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
             ])->save();
         }
         //DataRows----------------------------------------

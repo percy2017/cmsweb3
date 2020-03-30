@@ -11,14 +11,12 @@
 |
 */
 
-// Route::prefix('streaming')->group(function() {
-//     Route::get('/', 'StreamingController@index');
-//     Route::get('profiles/{id}','StreamingController@history')->name('profile_history');
-// });
-
-
 Route::group(['prefix' => 'admin'], function () {
-
-    Route::post('memberships/search', 'MembershipController@search');
+    
+    
+    Route::post('streaming/search', 'StreamingController@search')->name('search');
+    Route::get('streaming/relationship/{id}/{table}/{key}/{type}', 'StreamingController@relationship')->name('relationship');
+    Route::get('streaming/view/{table}/{id}', 'StreamingController@view')->name('view');
+    
  
 });

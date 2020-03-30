@@ -15,9 +15,9 @@ class CreateSeatingsTable extends Migration
     {
         Schema::create('seatings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('concept');
-            $table->decimal('amount',8,2);
-            $table->string('type');
+            $table->string('concept')->nullable();
+            $table->decimal('amount',8,2)->nullable();
+            $table->string('type')->nullable();
             
             
             $table->unsignedBigInteger('user_id');

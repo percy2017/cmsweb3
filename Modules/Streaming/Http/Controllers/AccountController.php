@@ -6,237 +6,144 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Database\Schema\SchemaManager;
-use TCG\Voyager\Events\BreadDataAdded;
-use TCG\Voyager\Events\BreadDataDeleted;
-use TCG\Voyager\Events\BreadDataRestored;
-use TCG\Voyager\Events\BreadDataUpdated;
-use TCG\Voyager\Events\BreadImagesDeleted;
 use TCG\Voyager\Facades\Voyager;
-use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 use Illuminate\Support\Facades\Storage;
-
-use Modules\Streaming\Entities\Account;
-use Modules\Streaming\Entities\Box;
-use Modules\Streaming\Entities\Seating;
-use Modules\Streaming\Entities\Profile;
-use Modules\Streaming\Entities\Membership;
-
+use Validator;
+use NumerosEnLetras;
 class AccountController extends Controller
 {
+    public $table = 'accounts';
+    public $dataType;
+    public $dataRowsAdd;
+    public $dataRowsEdit;
+    public $menu;
+    public $menuItems;
+
     public function __construct()
     {
         $this->middleware('auth');
-    }
-    use BreadRelationshipParser;
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
-    {
-        
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        $dataTypeContent = DB::table('accounts')->paginate(6); 
-        return view('streaming::accounts.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
+        $this->dataType = Voyager::model('DataType')->where('slug', '=', $this->table)->first();
+        $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
+
+        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
+        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
+    public function index()
+    {
+        return view('streaming::bread.index', [
+            'dataType' =>  $this->dataType,
+            'menuItems' => $this->menuItems
+        ]);
+    }
+
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
- 
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-     
-        return view('streaming::accounts.create', [
-            'dataType' => $dataType,
-            'dataRows'=>$dataRows
+        return view('streaming::bread.create', [
+            'dataType' => $this->dataType,
+            'dataRows'=>$this->dataRowsAdd
         ]); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => ['unique:accounts'],
-            'email' => ['unique:accounts'],
-            'password' => ['unique:accounts']
-        ]);
-
-        // return $request;
-        $box= Box::where('status', 1)->first();
-  
-        if (!isset($box)) {
-            return redirect()->back()->with([
-                'message'    =>  'El sistema detecto que no tiene una caja Abierta ',
-                'alert-type' => 'error',
-            ]);
-        }else{
-
-            //save accounts------------------------
-            $account = Account::create([
-                'type' => $request->type,
-                'name' =>  $request->name,
-                'email' =>  $request->email,
-                'password' =>  $request->password,
-                'price' =>  $request->price,
-                'renovation' => date('Y-m-d H:i:s', strtotime($request->renovation)),
-                'quantity_profiles' => $request->quantity_profiles,
-                'description' =>  $request->description,
-                'user_id' =>  Auth::user()->id
-            ]);
-
- 
-            if($request->hasFile('image'))
-            {
-                $image=Storage::disk('public')->put('accounts/'.date('F').date('Y'), $request->file('image'));
- 
-                $account->image = $image;
-                $account->save();
-            }  
-
-            //save seatings ------------------------------
-            $asiento = Seating::create([
-                'concept' => 'Pago por compra de un cuenta de, '.$request->type.' - '.$request->name,
-                'amount' => $request->price,
-                'type' => 'EGRESOS',
-                'box_id' => $box->id,
-                'user_id' => Auth::user()->id
-            ]);
-
-            $box->balance = $box->balance - $request->price;
-            $box->save();     
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
         
-
-            return redirect()->route('myaccounts.index')->with([
-                'message'    =>  $request->name . ' Registrado',
-                'alert-type' => 'success',
-            ]);
+        $data = new $this->dataType->model_name;
+        foreach ($this->dataRowsAdd as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
         }
-
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show($id = null)
     {
-        return view('streaming::show');
+        $dataTypeContent = $this->dataType->model_name::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        return view('streaming::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        return view('streaming::edit');
+        $data = $this->dataType->model_name::find($id);
+        return view('streaming::bread.edit', [
+            'dataType' => $this->dataType,
+            'dataRows'=> $this->dataRowsEdit,
+            'data' => $data
+        ]); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
+
+        $data = $this->dataType->model_name::find($id);
+        foreach ($this->dataRowsEdit as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
+        }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        //
+        $data = $this->dataType->model_name::find($id)->delete();
+        return $this->show();
     }
-
-    function ajax_profiles($account_id){
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $dataTypeContent = DB::table('profiles')->where('account_id', $account_id)->get();
-        $account  = Account::where('id', $account_id)->first();
-        return view('streaming::accounts.ajax.profiles', compact(
-            'dataType',
-            'dataTypeContent',
-            'account'
-        ));
-    }
-
-    function ajax_profiles_create($account_id){
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'profiles')->first();
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-
-        return view('streaming::accounts.ajax.profiles_create', compact(
-            'dataRows', 
-            'dataType',
-            'account_id'
-        ));
-    }
-    function ajax_profiles_store(Request $request, $account_id){
-        // return $request;
-        $box= Box::where('status', 1)->first();
-  
-        if (!isset($box)) {
-            return response()->json(['error' => 'caja cerrada']);
-        }else{
-
-            //save accounts------------------------
-            $profile = Profile::create([
-                'account_id' => $request->account_id,
-                'membership_id' =>  $request->membership_id,
-                'fullname' =>  $request->fullname,
-                'phone' =>  $request->phone,
-                'startdate' =>  date('Y-m-d H:i:s', strtotime($request->startdate)),
-                'observation' => $request->observation,
-                'user_id' =>  Auth::user()->id
-            ]);
-
- 
-            if($request->hasFile('avatar'))
-            {
-                $image=Storage::disk('public')->put('profiles/'.date('F').date('Y'), $request->file('avatar'));
- 
-                $profile->avatar = $image;
-                $profile->save();
-            }  
-
-            //save seatings ------------------------------
-            $membreship= Membership::where('id', $request->membership_id)->first();
-            $asiento = Seating::create([
-                'concept' => 'Ingreso por venta de perfil: '.$membreship->title.' a '.$request->fullname,
-                'amount' => $membreship->price,
-                'type' => 'INGRESOS',
-                'box_id' => $box->id,
-                'user_id' => Auth::user()->id
-            ]);
-            
-            $box->balance = $box->balance + $membreship->price;
-            $box->save();     
-        
-
-            return $this->ajax_profiles($account_id);
-        }
-    }
-
 }

@@ -54,7 +54,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'description'           => null,
                 'server_side'           => 1,
                 'details'               => [
-                    'order_column'         => null,
+                    'order_column'         => 'id',
                     'order_display_column' => null,
                     'order_direction'      => 'desc',
                     'default_search_key'   => 'name',
@@ -76,7 +76,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'description'           => null,
                 'server_side'           => 1,
                 'details'               => [
-                    'order_column'         => null,
+                    'order_column'         => 'id',
                     'order_display_column' => null,
                     'order_direction'      => 'desc',
                     'default_search_key'   => 'title',
@@ -98,7 +98,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'description'           => null,
                 'server_side'           => 1,
                 'details'               => [
-                    'order_column'         => null,
+                    'order_column'         => 'id',
                     'order_display_column' => null,
                     'order_direction'      => 'desc',
                     'default_search_key'   => 'fullname',
@@ -110,8 +110,8 @@ class StreamingDatabaseSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'boxes',
-                'display_name_singular' => 'Cajas',
-                'display_name_plural'   => 'Caja',
+                'display_name_singular' => 'Caja',
+                'display_name_plural'   => 'Cajas',
                 'icon'                  => 'voyager-logbook',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Box',
                 'policy_name'           => null,
@@ -120,7 +120,7 @@ class StreamingDatabaseSeeder extends Seeder
                 'description'           => null,
                 'server_side'           => 1,
                 'details'               => [
-                    'order_column'         => null,
+                    'order_column'         => 'id',
                     'order_display_column' => null,
                     'order_direction'      => 'desc',
                     'default_search_key'   => 'name',
@@ -137,15 +137,60 @@ class StreamingDatabaseSeeder extends Seeder
                 'icon'                  => 'fa fa-calculator',
                 'model_name'            => 'Modules\\Streaming\\Entities\\Seating',
                 'policy_name'           => null,
-                'controller'            => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\SeatingController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
                 'details'               => [
-                    'order_column'         => null,
+                    'order_column'         => 'id',
                     'order_display_column' => null,
                     'order_direction'      => 'desc',
-                    'default_search_key'   => 'title',
+                    'default_search_key'   => 'concept',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'sanes_renovation_accounts');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'sanes_renovation_accounts',
+                'display_name_singular' => 'Renovacion de Cuenta',
+                'display_name_plural'   => 'Renovacion de Cuentas',
+                'icon'                  => 'voyager-data',
+                'model_name'            => 'Modules\\Streaming\\Entities\\SanesRenovationAccount',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\RCuentasController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => null,
+                    'order_direction'      => 'desc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+        $dataType = $this->dataType('slug', 'sanes_renovation_profiles');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'sanes_renovation_profiles',
+                'display_name_singular' => 'Renovacion de Perfil',
+                'display_name_plural'   => 'Renovacion de Perfiles',
+                'icon'                  => 'voyager-data',
+                'model_name'            => 'Modules\\Streaming\\Entities\\SanesRenovationProfile',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Streaming\\Http\\Controllers\\RProfilesController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => null,
+                    'order_direction'      => 'desc',
+                    'default_search_key'   => 'id',
                     'scope'                => null
                 ]
             ])->save();

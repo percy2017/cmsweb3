@@ -5,106 +5,104 @@ namespace Modules\Streaming\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-use Modules\Streaming\Entities\Profile;
-use Modules\Streaming\Entities\History;
-use Modules\Streaming\Entities\Membership;
-use Modules\Streaming\Entities\Account;
-use Modules\Streaming\Entities\Seating;
-use Modules\Streaming\Entities\Box;
-
+use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\Storage;
+use Validator;
 use NumerosEnLetras;
+
 class StreamingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth');;
+    }
     public function index()
     {
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
     {
-        return view('streaming::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-        
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function show($id)
     {
-        return view('streaming::show');
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        return view('streaming::edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
+    {   
+    }
+
+    public function destroy($id)
     {
+    }
+    
+    public function search(Request $request)
+    {
+        
+        $dataTypeContent = DB::table($request->table)->where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination'));
+         $dataType = Voyager::model('DataType')->where('slug', '=', $request->table)->first();
+        return view('streaming::bread.show', [
+            'dataType' =>  $dataType,
+            'dataTypeContent' => $dataTypeContent,
+            'search_text' => $request->search_text,
+            'search_type' => $request->search_type
+        ]);
+    }
+
+    public function relationship($id, $table, $key, $type)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
+
+        switch ($type) {
+            case 'list':
+                $dataTypeContent = DB::table($table)->where($key, $id)->orderBy('id', 'asc')->paginate(setting('admin.pagination')); 
+                return view('streaming::bread.show', [
+                    'dataType' =>  $dataType,
+                    'dataTypeContent' => $dataTypeContent
+                ]);
+                break;
+            case 'create':
+                $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
+                $dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        
+                return view('streaming::bread.create', [
+                    'dataType' => $dataType,
+                    'dataRows'=>$dataRowsAdd,
+                    'key' => $key,
+                    'id' => $id
+                ]);
+                break;
+            default:
+                # code...
+                break;
+        }
         
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    function ajax_index($table, $key, $search)
-    {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'accounts')->first();
-        $dataTypeContent = DB::table('profiles')->where($key, $search)->get();
-        return view('streaming::ajax.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
-    }
-
-    function ajax_create($table)
+    public function view($table, $id)
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-      
-        return view('streaming::ajax.create', compact(
-            'dataType',
-            'dataRows'
-        ));
+        $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $dataType->id], ['read', "=", 1]])->orderBy('order', 'asc')->get();
+        $data = DB::table($table)->where('id', $id)->first();
+    
+        // return response()->json($dataRows);
+        return view('streaming::bread.view', [
+            'dataType' =>  $dataType,
+            'dataRows' => $dataRows,
+            'data' => $data
+
+        ]);
     }
 }

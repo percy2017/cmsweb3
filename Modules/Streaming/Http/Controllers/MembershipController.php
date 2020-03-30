@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Storage;
-
-use Modules\Streaming\Entities\Box;
-use Modules\Streaming\Entities\Seating;
-use Modules\Streaming\Entities\Membership;
 use Validator;
 class MembershipController extends Controller
 {
@@ -20,9 +16,9 @@ class MembershipController extends Controller
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;
-
     public $menu;
     public $menuItems;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -31,13 +27,12 @@ class MembershipController extends Controller
         $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
 
         $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
-        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->get();
+        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
     }
 
     public function index()
     {
-        // return dd($this->dataType->details);
-        return view('streaming::bread.index',[
+        return view('streaming::bread.index', [
             'dataType' =>  $this->dataType,
             'menuItems' => $this->menuItems
         ]);
@@ -45,7 +40,6 @@ class MembershipController extends Controller
 
     public function create()
     {
-        
         return view('streaming::bread.create', [
             'dataType' => $this->dataType,
             'dataRows'=>$this->dataRowsAdd
@@ -66,14 +60,25 @@ class MembershipController extends Controller
         }
         //-------------------------------------------------------------------
 
-        $data = new Membership;
+        $data = new $this->dataType->model_name;
         foreach ($this->dataRowsAdd as $key) {
             $aux =  $key->field;
-            
-            if ($aux == 'user_id') {
-                $data->$aux = Auth::user()->id;
-            }else{
-                $data->$aux = $request->$aux;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
             }
         }
         $data->save();
@@ -82,8 +87,7 @@ class MembershipController extends Controller
 
     public function show($id = null)
     {
-        
-        $dataTypeContent = Membership::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        $dataTypeContent = $this->dataType->model_name::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
         return view('streaming::bread.show', [
             'dataType' =>  $this->dataType,
             'dataTypeContent' => $dataTypeContent
@@ -92,7 +96,7 @@ class MembershipController extends Controller
 
     public function edit($id)
     {
-        $data = Membership::find($id);
+        $data = $this->dataType->model_name::find($id);
         return view('streaming::bread.edit', [
             'dataType' => $this->dataType,
             'dataRows'=> $this->dataRowsEdit,
@@ -113,14 +117,25 @@ class MembershipController extends Controller
         }
         //------------------------------------------------------------------
 
-        $data = Membership::find($id);
-        // return $id;
+        $data = $this->dataType->model_name::find($id);
         foreach ($this->dataRowsEdit as $key) {
             $aux =  $key->field;
-            if ($aux == 'user_id') {
-                $data->$aux = Auth::user()->id;
-            }else{
-                $data->$aux = $request->$aux;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
             }
         }
         $data->save();
@@ -129,14 +144,13 @@ class MembershipController extends Controller
 
     public function destroy($id)
     {
-        $data = Membership::find($id)->delete();
+        $data = $this->dataType->model_name::find($id)->delete();
         return $this->show();
     }
 
     public function search(Request $request)
     {
-        // return $request->search_type;
-        $dataTypeContent = Membership::where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination')); 
+        $dataTypeContent = $this->dataType->model_name::where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination')); 
         return view('streaming::bread.show', [
             'dataType' =>  $this->dataType,
             'dataTypeContent' => $dataTypeContent,

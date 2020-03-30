@@ -80,6 +80,8 @@ class PermissionTableSeederTableSeeder extends Seeder
         //     ]);
         // }
 
+        Permission::generateFor('sanes_renovation_accounts');
+        Permission::generateFor('sanes_renovation_profiles');
 
 
         // -----------------------------------------------------------
@@ -141,6 +143,27 @@ class PermissionTableSeederTableSeeder extends Seeder
             }
         }
 
+        $permissions = Permission::where('table_name', 'sanes_renovation_accounts')->get();
+        foreach ($permissions as $key) {
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp) {
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
+
+        $permissions = Permission::where('table_name', 'sanes_renovation_profiles')->get();
+        foreach ($permissions as $key) {
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp) {
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
         //Permisos----------------------------------------
     }
 }

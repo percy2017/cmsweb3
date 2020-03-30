@@ -1,13 +1,20 @@
-<div class="page-content browse container-fluid">
+@can('browse', app($dataType->model_name))
+  <div class="page-content browse container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="panel panel-bordered">
-            <div class="panel-body">
-                <form method="post" id="search_form" class="form-search" action="{{ url('admin/memberships/search') }}">
+            <div class="panel-body">  
+                 <div class="form-group text-center">
+                        <h4>
+                            <i class="voyager-list"></i> {{ $dataType->display_name_plural }}
+                        </h4>
+                        <hr/>
+                    </div>  
+                <form method="post" id="search_form" class="form-search" action="{{ route('search') }}">
                   {{ csrf_field() }}
                     <div id="search-input">
+                        <input type="hidden" name="table" value="{{ $dataType->name }}" />
                         <div class="input-group col-md-3">
-                        
                             <select class="form-control select2" id="search_type" name="search_type">
                                 @foreach($dataType->browseRows as $row)
                                     @if (isset($search_type))
@@ -64,7 +71,16 @@
                                     @endif
                                     @break
                                   @case('timestamp')
-                                    {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
+                                    @if(isset($row->details->{'actions'}))
+                                      <strong>
+                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
+                                      </strong>
+                                        <small>{{ $data->{$row->field} }}</small>
+                                    @else
+                                      {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
+                                      <br/>
+                                      <small>{{ $data->{$row->field} }}</small>
+                                    @endif
                                     @break
                                   @case('image')
                                     <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
@@ -98,7 +114,7 @@
                                     @endif
                                     @break
                                   @case('relationship')
-                                
+                                  
                                     @php
                                         $model = app($row->details->model);
                                         $column = $row->details->{'column'};
@@ -108,19 +124,36 @@
                                     <span>{{ $query->$label }}</span>    
                                     @break
                                   @default
-                                    <span>{{ $data->{$row->field} }}</span>
+                                    @if(isset($row->details->{'actions'}))
+                                      <strong>
+                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
+                                      </strong>
+                                    
+                                    @else
+                                      <span>{{ $data->{$row->field} }}</span>
+                                    @endif
                               @endswitch
                             </td>
+                        
                           @endforeach
                             
                             <td class="no-sort no-click bread-actions">
-                                <a href="#" onclick="ajax('{{ route('voyager.'.$dataType->name.'.edit', $data->id) }}', 'get')" title="#" class="btn btn-primary">
-                                  <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Editar</span>
-                                </a>
-                              
-                                <a href="#" onclick="ajax('{{ route('voyager.memberships.destroy', $data->id) }}', 'delete')" title="Eliminar" class="btn btn-danger">
-                                  <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
-                                </a>
+                                @can('read', app($dataType->model_name))
+                                  <a href="#" onclick="ajax('{{ route('view', [$dataType->name, $data->id]) }}', 'get')" title="#" class="btn btn-warning">
+                                    <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
+                                  </a>
+                                @endcan
+
+                                @can('edit', app($dataType->model_name))
+                                  <a href="#" onclick="ajax('{{ route('voyager.'.$dataType->name.'.edit', $data->id) }}', 'get')" title="#" class="btn btn-primary">
+                                    <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Editar</span>
+                                  </a>
+                                @endcan
+                                @can('delete', app($dataType->model_name))
+                                  <a href="#" onclick="ajax('{{ route('voyager.'.$dataType->name.'.destroy', $data->id) }}', 'delete')" title="Eliminar" class="btn btn-danger">
+                                    <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
+                                  </a>
+                                @endcan
                             </td>
                         </tr>
                       @endforeach
@@ -132,13 +165,32 @@
                 </div>
             </div>
         </div>
+      </div>
+    </div>
+  </div>      
+
+@else
+  <div class="page-content browse container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-bordered">
+            <div class="panel-body text-center"> 
+              <h3>No tiene los permisos, para Listar</h3>
+              <small>Consulte con el administrador de Sistema, para realizar la accion</small>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+@endcan
+
 
 <script>
 
   $('#search_type').select2();
+   $('[data-toggle="tooltip"]').tooltip();
+   
   //$( "#search_text" ).focus();
 
   $('body').on('click', '.pagination a', function(e) {
@@ -171,6 +223,7 @@
         url: frm.attr('action'),
         data: frm.serialize(),
         success: function (data) {
+         
           $('#ajax_body').html(data);
           //message('info', $('#dataTable >tbody >tr').length);
         },

@@ -192,13 +192,14 @@ return [
         //'css/custom.css',
         'theme.css',
         'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+        'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css'
     ],
 
     'additional_js' => [
         //'js/custom.js',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/js/fontawesome.min.js',
-        'https://cdn.jsdelivr.net/npm/sweetalert2@9',
-        'jquery.validate.js',
+        'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js',
+        'https://cdn.jsdelivr.net/npm/sweetalert2@9'
     ],
 
     'googlemaps' => [

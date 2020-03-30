@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountHistoriesTable extends Migration
+class CreateSanesRenovationProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,21 @@ class CreateAccountHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('account_histories', function (Blueprint $table) {
+        Schema::create('sanes_renovation_profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type');
-            
+      
+            $table->text('description')->nullable();
+
+            $table->unsignedBigInteger('membership_id');
+            $table->foreign('membership_id')->references('id')->on('memberships');
+
+            $table->unsignedBigInteger('profile_id');
+            $table->foreign('profile_id')->references('id')->on('profiles');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+ 
             
-            $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')->references('id')->on('accounts');
-
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +40,6 @@ class CreateAccountHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_histories');
+        Schema::dropIfExists('sanes_renovation_profiles');
     }
 }
