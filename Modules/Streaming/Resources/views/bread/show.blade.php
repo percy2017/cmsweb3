@@ -70,85 +70,99 @@
                           @foreach($dataType->browseRows as $row)
                             <td>
                               @switch($row->type)
-                                  @case('text')
-                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>    
-                                    @break
-                                  @case('checkbox')
-                                  
-                                    @if(isset($row->details->on) && isset($row->details->off))
-                                        @if($data->{$row->field})
-                                            <span class="label label-info">{{ $row->details->on }}</span>
-                                        @else
-                                            <span class="label label-primary">{{ $row->details->off }}</span>
-                                        @endif
-                                    @else
-                                      <span class="label label-info">{{ $row->details->on }}</span>
-                                      {{ $data->{$row->field} }}
-                                    @endif
-                                    @break
-                                  @case('timestamp')
-                                    @if(isset($row->details->{'actions'}))
-                                      <h5>
-                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
-                                      </h5>
-                                      <small>{{ $data->{$row->field} }}</small>
-                                    @else
-                                      {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
-                                      <br/>
-                                      <small>{{ $data->{$row->field} }}</small>
-                                    @endif
-                                    @break
-                                  @case('image')
-                                    <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
-                                    @break
-                                  @case('multiple_images')
+                                @case('text')
+                                  @if(isset($row->details->{'actions'}))
+                                    <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
+                                      <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                    </a>
+                                  @else
+                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                  @endif
+                                  @break
+                                @case('password')
+                                  @if(isset($row->details->{'actions'}))
+                                    <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
+                                      **********
+                                    </a>
+                                  @else
+                                    **********
+                                  @endif
+                                  @break
+                                @case('checkbox')
+                                
+                                  @if(isset($row->details->on) && isset($row->details->off))
+                                      @if($data->{$row->field})
+                                          <span class="label label-info">{{ $row->details->on }}</span>
+                                      @else
+                                          <span class="label label-primary">{{ $row->details->off }}</span>
+                                      @endif
+                                  @else
+                                    <span class="label label-info">{{ $row->details->on }}</span>
+                                    {{ $data->{$row->field} }}
+                                  @endif
+                                  @break
+                                @case('timestamp')
+                                  @if(isset($row->details->{'actions'}))
+                                    <h5>
+                                      <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
+                                    </h5>
+                                    <small>{{ $data->{$row->field} }}</small>
+                                  @else
+                                    {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
+                                    <br/>
+                                    <small>{{ $data->{$row->field} }}</small>
+                                  @endif
+                                  @break
+                                @case('image')
+                                  <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
+                                  @break
+                                @case('multiple_images')
+                                  @php
+                                    $images_field = $data->{$row->field};
+                                  @endphp  
+                                  @if(isset($images_field))
+                                  @foreach (json_decode($images_field) as $item)
+                                      @if($loop->first)
+                                      <a href="javascript:;" onclick="ajax_first('{{ $data->id }}', '{{ $dataType->slug }}')">
+                                          <img src="{{ Voyager::image($item) }}"width="60px">
+                                      </a>
+                                      @endif
+                                      @break
+                                  @endforeach
+                                  @endif
+                                  @break
+                                @case('select_dropdown')
+                                  @if(isset($row->details->relationship))
                                     @php
-                                      $images_field = $data->{$row->field};
-                                    @endphp  
-                                    @if(isset($images_field))
-                                    @foreach (json_decode($images_field) as $item)
-                                        @if($loop->first)
-                                        <a href="javascript:;" onclick="ajax_first('{{ $data->id }}', '{{ $dataType->slug }}')">
-                                            <img src="{{ Voyager::image($item) }}"width="60px">
-                                        </a>
-                                        @endif
-                                        @break
-                                    @endforeach
-                                    @endif
-                                    @break
-                                  @case('select_dropdown')
-                                    @if(isset($row->details->relationship))
-                                      @php
-                                          $model=$row->details->relationship->{'model'};  
-                                          $data_browse=$model::where($row->details->relationship->{'key'} ,$data->{$row->field})->first();
-                                          $key=$row->details->relationship->{'key'};
-                                          $label=$row->details->relationship->{'label'};
-                                      @endphp
-                                      {{ $data_browse->$label }}
-                                    @else
-                                    <span>{{ $data->{$row->field} }}</span>
-                                    @endif
-                                    @break
-                                  @case('relationship')
-                                  
-                                    @php
-                                        $model = app($row->details->model);
-                                        $column = $row->details->{'column'};
-                                        $query = $model::where('id', $data->$column)->first();
-                                        $label=$row->details->{'label'};
+                                        $model=$row->details->relationship->{'model'};  
+                                        $data_browse=$model::where($row->details->relationship->{'key'} ,$data->{$row->field})->first();
+                                        $key=$row->details->relationship->{'key'};
+                                        $label=$row->details->relationship->{'label'};
                                     @endphp
-                                    <span>{{ $query->$label }}</span>    
-                                    @break
-                                  @default
-                                    @if(isset($row->details->{'actions'}))
-                                      <h4>
-                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
-                                      </h4>
-                                    
-                                    @else
-                                      <span>{{ $data->{$row->field} }}</span>
-                                    @endif
-                              @endswitch
+                                    {{ $data_browse->$label }}
+                                  @else
+                                  <span>{{ $data->{$row->field} }}</span>
+                                  @endif
+                                  @break
+                                @case('relationship')
+                                  @php
+                                      $model = app($row->details->model);
+                                      $column = $row->details->{'column'};
+                                      $query = $model::where('id', $data->$column)->first();
+                                      $label=$row->details->{'label'};
+                                  @endphp
+                                  <span>{{ $query->$label }}</span>    
+                                  @break
+                                @default
+                                  @if(isset($row->details->{'actions'}))
+                                    <h4>
+                                      <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
+                                    </h4>
+                                  
+                                  @else
+                                    <span>{{ $data->{$row->field} }}</span>
+                                  @endif
+                            @endswitch
                             </td>
                         
                           @endforeach
@@ -192,7 +206,7 @@
         <div class="panel panel-bordered">
             <div class="panel-body text-center"> 
               <h3>No tiene los permisos, para Listar</h3>
-              <small>Consulte con el administrador de Sistema, para realizar la accion</small>
+              <code>Consulte con el administrador de Sistema, para realizar la accion</code>
             </div>
           </div>
         </div>

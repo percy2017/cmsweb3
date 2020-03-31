@@ -31,7 +31,13 @@
                                         data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                         title="{{ $row->details->tooltip->{'message'} }}"></span>
                                     @endif
-                                
+                                    @php
+                                        $model = app($row->details->model);
+                                        $column = $row->details->{'column'};
+                                        $query = $model::where('id', $data->$column)->first();
+                                        $label=$row->details->{'label'};
+                                    @endphp
+                                     <h4><code> {{ $query->$label }} </code></h4>
                                     @break
                                 @case('select_dropdown')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -45,7 +51,7 @@
                                 
                                     @foreach ($row->details->options  as $item)
                                         @if($item==$data->$myfield)
-                                            <h3><code> {{ $item }} </code></h3>
+                                            <h4><code> {{ $item }} </code></h4>
                                             @break
                                         @endif
                                     @endforeach
@@ -63,8 +69,9 @@
                                         title="{{ $row->details->tooltip->{'message'} }}"></span>
                                     @endif
 
-                                    <h3><code>{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</code></h3>
-                                    
+                                    <h4><code>{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</code></h4>
+                                 
+                                    <small>{{ $data->{$row->field} }}</small>
                                     @break
                                 @case('rich_text_box')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -126,12 +133,12 @@
                                     @php
                                         $user = \App\User::find($data->{$row->field});
                                     @endphp
-                                    <h3><code>{{ $user->name }}</code></h3>
+                                    <h4><code>{{ $user->name }}</code></h4>
                                     @break
                                 @default
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                     
-                                    <h3><code>{{ $data->{$row->field} }}</code></h3>
+                                    <h4><code>{{ $data->{$row->field} }}</code></h4>
                                     @break
                             @endswitch        
                     
@@ -143,5 +150,17 @@
     </div>
 </div>
 @else
-
+  <div class="page-content browse container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-bordered">
+            <div class="panel-body text-center"> 
+              <h3>No tiene los permisos, para ver los datos</h3>
+              <code>Consulte con el administrador de Sistema, para realizar la accion</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endcan

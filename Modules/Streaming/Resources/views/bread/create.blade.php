@@ -111,6 +111,25 @@
                                                 placeholder="{{ $row->field }}" 
                                                 value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
                                             @break
+                                        @case('password')
+                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
+                                            <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
+                                            @if(isset($row->details->tooltip))
+                                                <span class="voyager-question"
+                                                aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="{{ $row->details->tooltip->{'ubication'} }}"
+                                                title="{{ $row->details->tooltip->{'message'} }}"></span>
+                                            @endif
+                                            <input 
+                                                @if($row->required == 1) required @endif 
+                                                type="password" 
+                                                class="form-control" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}" 
+                                                placeholder="{{ $row->field }}" 
+                                                value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
+                                            @break
                                         @case('number')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
@@ -252,7 +271,7 @@
         <div class="panel panel-bordered">
             <div class="panel-body text-center"> 
               <h3>No tiene los permisos, para Crear</h3>
-              <small>Consulte con el administrador de Sistema, para realizar la accion</small>
+              <code>Consulte con el administrador de Sistema, para realizar la accion</code>
             </div>
           </div>
         </div>
@@ -305,6 +324,7 @@
                     success: function (data) {
                         if(data.error)
                         {
+                            
                             let message='';
                             $.each(data.error, function(i,item){
                                 message = message+'*'+item+'\n';

@@ -27,8 +27,8 @@ class SeatingController extends Controller
         $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
         $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
 
-        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
-        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
+        $this->menu = Voyager::model('Menu')->where('name', '=', $this->dataType->name)->first();
+        $this->menuItems = Voyager::model('MenuItem')->where('menu_id', '=', $this->menu->id)->orderBy('order', 'asc')->get();
     }
 
     public function index()

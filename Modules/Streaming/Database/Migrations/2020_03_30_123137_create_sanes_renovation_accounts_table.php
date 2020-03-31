@@ -16,6 +16,7 @@ class CreateSanesRenovationAccountsTable extends Migration
         Schema::create('sanes_renovation_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('plane')->nullable();
+            $table->double('price')->nullable();
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('account_id');

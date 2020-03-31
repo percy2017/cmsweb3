@@ -126,6 +126,28 @@
                                                 placeholder="{{ $row->field }}" 
                                                 value="{{ $data->$myfield }}">
                                             @break
+                                        @case('password')
+                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
+                                            <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
+                                            @if(isset($row->details->tooltip))
+                                                <span class="voyager-question"
+                                                aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="{{ $row->details->tooltip->{'ubication'} }}"
+                                                title="{{ $row->details->tooltip->{'message'} }}"></span>
+                                            @endif
+                                            <input 
+                                                @if($row->required == 1) required @endif 
+                                                type="password" 
+                                                class="form-control" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}" 
+                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
+                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif 
+                                                @if($row->required == 1) required @endif 
+                                                placeholder="{{ $row->field }}" 
+                                                value="{{ $data->$myfield }}">
+                                            @break
                                         @case('number')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
@@ -274,7 +296,7 @@
         <div class="panel panel-bordered">
             <div class="panel-body text-center"> 
               <h3>No tiene los permisos, para Editar</h3>
-              <small>Consulte con el administrador de Sistema, para realizar la accion</small>
+              <code>Consulte con el administrador de Sistema, para realizar la accion</code>
             </div>
           </div>
         </div>
@@ -337,7 +359,6 @@
                         }else{
                             $('#ajax_body').html(data);
                             message('success', 'Dato actualizado correctamente.')
-                            
                         }
                     },
                     error: function (data) {

@@ -28,8 +28,8 @@ class RCuentasController extends Controller
         $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
         $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
 
-        $this->menu = DB::table('menus')->where('name', $this->dataType->name)->first();
-        $this->menuItems = DB::table('menu_items')->where('menu_id', $this->menu->id)->orderBy('order', 'asc')->get();
+        $this->menu = Voyager::model('Menu')->where('name', '=', $this->dataType->name)->first();
+        $this->menuItems = Voyager::model('MenuItem')->where('menu_id', '=', $this->menu->id)->orderBy('order', 'asc')->get();
     }
 
     public function index()
@@ -60,32 +60,50 @@ class RCuentasController extends Controller
         //     return response()->json(['error'=>$validator->errors()]);
         // }
         //--------------------------------------------------------------------
+        $model_box = Voyager::model('DataType')->where('slug', '=', 'sanes_boxes')->first();
+        $box = $model_box->model_name::where('status', 1)->first();
 
-        $data = new $this->dataType->model_name;
-        foreach ($this->dataRowsAdd as $key) {
-            $aux =  $key->field;
-            switch ($key->type) {
-                case 'Traking':
-                    $data->$aux = Auth::user()->id;
-                    break;
-                case 'image':
-                    if($request->hasFile($aux)){
-                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
-                        $data->$aux = $image;
-                    }
-                    break;
-                case 'relationship':
+        if ($box) {
+            $data = new $this->dataType->model_name;
+            foreach ($this->dataRowsAdd as $key) {
+                $aux =  $key->field;
+                switch ($key->type) {
+                    case 'Traking':
+                        $data->$aux = Auth::user()->id;
+                        break;
+                    case 'image':
+                        if($request->hasFile($aux)){
+                            $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                            $data->$aux = $image;
+                        }
+                        break;
+                    case 'relationship':
 
-                    break;
-                case 'checkbox':
-                    $data->$aux = $request->$aux ? 1 : 0;
-                    break;
-                default:
-                    $data->$aux = $request->$aux;
-                    break;
+                        break;
+                    case 'checkbox':
+                        $data->$aux = $request->$aux ? 1 : 0;
+                        break;
+                    default:
+                        $data->$aux = $request->$aux;
+                        break;
+                }
             }
+            $data->save();
+            $model_seating = Voyager::model('DataType')->where('slug', '=', 'sanes_seatings')->first();
+            $model_seating->model_name::create([
+                'concept' => 'Pago por compra de la cuenta: '.$data->name,
+                'amount' => $data->price,
+                'type' => 'EGRESOS',
+                'user_id' => Auth::user()->id,
+                'box_id' => $box->id,
+            ]);
+            $balance = $box->balance - $data->price;
+            $box->balance = $balance;
+            $box->save();
+        } else {
+            return response()->json(['error'=>['message' => 'No tienes caja abierta']]);
         }
-        $data->save();
+
         return $this->show();
     }
 

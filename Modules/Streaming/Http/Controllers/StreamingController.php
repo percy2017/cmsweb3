@@ -67,7 +67,8 @@ class StreamingController extends Controller
 
         switch ($type) {
             case 'list':
-                $dataTypeContent = DB::table($table)->where($key, $id)->orderBy('id', 'asc')->paginate(setting('admin.pagination')); 
+                 
+                $dataTypeContent = $dataType->model_name::where($key, $id)->orderBy('id', 'asc')->paginate(setting('admin.pagination')); 
                 return view('streaming::bread.show', [
                     'dataType' =>  $dataType,
                     'dataTypeContent' => $dataTypeContent
@@ -95,7 +96,8 @@ class StreamingController extends Controller
     {
         $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
         $dataRows = Voyager::model('DataRow')->where([['data_type_id', '=', $dataType->id], ['read', "=", 1]])->orderBy('order', 'asc')->get();
-        $data = DB::table($table)->where('id', $id)->first();
+        
+        $data = $dataType->model_name::where('id', '=', $id)->first();
     
         // return response()->json($dataRows);
         return view('streaming::bread.view', [
