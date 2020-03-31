@@ -314,11 +314,12 @@
                                 title: message
                             })
                         }else{
-                            message('success', 'Dato registrado correctamente.')
                             $('#ajax_body').html(data);
+                            message('success', 'Dato registrado correctamente.')
                         }
                     },
                     error: function (data) {
+                        $('#ajax_body').html('<div class="text-center"><h3><code>Ups, Ocurrio un error inesperado <br /><br /> 1.-Revise su configuracion <br /><br /> 2.-Vuela a intentarlo una vez mas <br /><br /> 3.-Consulte con el soporte tecnico</code></h3></div>'); 
                         message('error', 'Error en la accion')
                     },
                 });

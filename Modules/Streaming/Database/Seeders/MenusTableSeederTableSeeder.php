@@ -19,8 +19,6 @@ class MenusTableSeederTableSeeder extends Seeder
         Model::unguard();
 
         // $this->call("OthersTableSeeder");
-
-     
         //Menus-----------------------------------------
         //---------------------------------------------
         $menu = Menu::where('name', 'admin')->firstOrFail();
@@ -44,7 +42,7 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Cuentas',
             'url'     => '',
-            'route'   => 'voyager.accounts.index',
+            'route'   => 'voyager.sanes_accounts.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -60,7 +58,7 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Perfiles',
             'url'     => '',
-            'route'   => 'voyager.profiles.index',
+            'route'   => 'voyager.sanes_profiles.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -76,7 +74,7 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Membresias',
             'url'     => '',
-            'route'   => 'voyager.memberships.index',
+            'route'   => 'voyager.sanes_memberships.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -107,7 +105,7 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Cajas',
             'url'     => '',
-            'route'   => 'voyager.boxes.index',
+            'route'   => 'voyager.sanes_boxes.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -122,7 +120,7 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Asientos',
             'url'     => '',
-            'route'   => 'voyager.seatings.index',
+            'route'   => 'voyager.sanes_seatings.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -136,17 +134,20 @@ class MenusTableSeederTableSeeder extends Seeder
         //Menus --------------------------------------------------
 
 
+
+
+
         // accion bread--------------------------------------------------
 
         //memberships ------------------------------------------------------
         Menu::firstOrCreate([
-            'name' => 'memberships',
+            'name' => 'sanes_memberships',
         ]);
-        $menu = Menu::where('name', 'memberships')->firstOrFail();
+        $menu = Menu::where('name', 'sanes_memberships')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Crear nuevo Items',
-            'url'     => 'admin/memberships/create',
+            'url'     => 'admin/sanes_memberships/create',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -161,7 +162,7 @@ class MenusTableSeederTableSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
-            'url'     => 'admin/memberships/1',
+            'url'     => 'admin/sanes_memberships/1',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -207,13 +208,13 @@ class MenusTableSeederTableSeeder extends Seeder
         
         //profiles ------------------------------------------------------
         Menu::firstOrCreate([
-            'name' => 'profiles',
+            'name' => 'sanes_profiles',
         ]);
-        $menu = Menu::where('name', 'profiles')->firstOrFail();
+        $menu = Menu::where('name', 'sanes_profiles')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Crear nuevo Item',
-            'url'     => 'admin/profiles/create',
+            'url'     => 'admin/sanes_profiles/create',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -228,7 +229,7 @@ class MenusTableSeederTableSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
-            'url'     => 'admin/profiles/1',
+            'url'     => 'admin/sanes_profiles/1',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -274,13 +275,13 @@ class MenusTableSeederTableSeeder extends Seeder
 
         //accounts ------------------------------------------------------
         Menu::firstOrCreate([
-            'name' => 'accounts',
+            'name' => 'sanes_accounts',
         ]);
-        $menu = Menu::where('name', 'accounts')->firstOrFail();
+        $menu = Menu::where('name', 'sanes_accounts')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Crear nuevo Item',
-            'url'     => 'admin/accounts/create',
+            'url'     => 'admin/sanes_accounts/create',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -295,7 +296,7 @@ class MenusTableSeederTableSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
-            'url'     => 'admin/accounts/1',
+            'url'     => 'admin/sanes_accounts/1',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -342,13 +343,13 @@ class MenusTableSeederTableSeeder extends Seeder
 
         //boxes ------------------------------------------------------
         Menu::firstOrCreate([
-            'name' => 'boxes',
+            'name' => 'sanes_boxes',
         ]);
-        $menu = Menu::where('name', 'boxes')->firstOrFail();
+        $menu = Menu::where('name', 'sanes_boxes')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Crear nuevo Item',
-            'url'     => 'admin/boxes/create',
+            'url'     => 'admin/sanes_boxes/create',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -363,7 +364,7 @@ class MenusTableSeederTableSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
-            'url'     => 'admin/boxes/1',
+            'url'     => 'admin/sanes_boxes/1',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -409,13 +410,13 @@ class MenusTableSeederTableSeeder extends Seeder
 
         //seatings ------------------------------------------------------
         Menu::firstOrCreate([
-            'name' => 'seatings',
+            'name' => 'sanes_seatings',
         ]);
-        $menu = Menu::where('name', 'seatings')->firstOrFail();
+        $menu = Menu::where('name', 'sanes_seatings')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Crear nuevo Item',
-            'url'     => 'admin/seatings/create',
+            'url'     => 'admin/sanes_seatings/create',
             'route'   => null
         ]);
         if (!$menuItem->exists) {
@@ -430,7 +431,7 @@ class MenusTableSeederTableSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
-            'url'     => 'admin/seatings/1',
+            'url'     => 'admin/sanes_seatings/1',
             'route'   => null
         ]);
         if (!$menuItem->exists) {

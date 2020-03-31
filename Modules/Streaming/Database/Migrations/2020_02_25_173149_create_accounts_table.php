@@ -13,7 +13,7 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('sanes_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('type')->nullable();
             $table->string('plane')->nullable();
@@ -42,6 +42,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('sanes_accounts');
     }
 }

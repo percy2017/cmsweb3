@@ -13,7 +13,7 @@ use Validator;
 use NumerosEnLetras;
 class SeatingController extends Controller
 {
-    public $table = 'seatings';
+    public $table = 'sanes_seatings';
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;
@@ -76,6 +76,9 @@ class SeatingController extends Controller
                 case 'relationship':
 
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -135,6 +138,9 @@ class SeatingController extends Controller
                     break;
                 case 'relationship':
 
+                    break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
                     break;
                 default:
                     $data->$aux = $request->$aux;

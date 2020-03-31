@@ -23,7 +23,7 @@ class PermissionTableSeederTableSeeder extends Seeder
         
         //Permisos----------------------------------------
         // -------------------------------------------------
-        Permission::generateFor('accounts');
+        Permission::generateFor('sanes_accounts');
         // $keys = [
         //     'browse_accounts',
         //     'edit_accounts',
@@ -36,10 +36,10 @@ class PermissionTableSeederTableSeeder extends Seeder
         //     ]);
         // }
 
-        Permission::generateFor('memberships');
+        Permission::generateFor('sanes_memberships');
 
 
-        Permission::generateFor('profiles');
+        Permission::generateFor('sanes_profiles');
         // $keys = [
         //     'browse_profiles',
         //     'edit_profiles',
@@ -53,7 +53,7 @@ class PermissionTableSeederTableSeeder extends Seeder
         // }
 
         
-        Permission::generateFor('boxes');
+        Permission::generateFor('sanes_boxes');
         // $keys = [
         //     'browse_boxes',
         //     'edit_boxes',
@@ -67,7 +67,7 @@ class PermissionTableSeederTableSeeder extends Seeder
         // }
 
 
-        Permission::generateFor('seatings');
+        Permission::generateFor('sanes_seatings');
         // $keys = [
         //     'browse_seatings',
         //     'edit_seatings',
@@ -87,7 +87,7 @@ class PermissionTableSeederTableSeeder extends Seeder
         // -----------------------------------------------------------
         $role = Role::where('name', 'admin')->firstOrFail();
 
-        $permissions = Permission::where('table_name', 'accounts')->get();
+        $permissions = Permission::where('table_name', 'sanes_accounts')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -98,7 +98,7 @@ class PermissionTableSeederTableSeeder extends Seeder
             }
         }
             
-        $permissions = Permission::where('table_name', 'memberships')->get();
+        $permissions = Permission::where('table_name', 'sanes_memberships')->get();
         foreach ($permissions as $key) {
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp) {
@@ -109,7 +109,7 @@ class PermissionTableSeederTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'profiles')->get();
+        $permissions = Permission::where('table_name', 'sanes_profiles')->get();
         foreach ($permissions as $key) {
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp) {
@@ -120,7 +120,7 @@ class PermissionTableSeederTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'boxes')->get();
+        $permissions = Permission::where('table_name', 'sanes_boxes')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -132,7 +132,7 @@ class PermissionTableSeederTableSeeder extends Seeder
         }
             
 
-        $permissions = Permission::where('table_name', 'seatings')->get();
+        $permissions = Permission::where('table_name', 'sanes_seatings')->get();
         foreach ($permissions as $key) {
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp) {

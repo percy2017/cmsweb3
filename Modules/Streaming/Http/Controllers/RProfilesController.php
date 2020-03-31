@@ -77,6 +77,9 @@ class RProfilesController extends Controller
                 case 'relationship':
 
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -136,6 +139,9 @@ class RProfilesController extends Controller
                     break;
                 case 'relationship':
 
+                    break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
                     break;
                 default:
                     $data->$aux = $request->$aux;

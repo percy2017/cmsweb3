@@ -8,7 +8,7 @@ class Seating extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'seatings';
+    protected $table = 'sanes_seatings';
     protected $fillable = ['concept','amount','type','box_id','user_id'];
     
 }

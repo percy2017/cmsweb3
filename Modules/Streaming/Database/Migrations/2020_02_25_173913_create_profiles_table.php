@@ -13,7 +13,7 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('sanes_profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('fullname')->nullable();
             $table->string('avatar')->nullable();
@@ -23,10 +23,10 @@ class CreateProfilesTable extends Migration
             $table->string('observation')->nullable();
 
             $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('account_id')->references('id')->on('sanes_accounts');
 
             $table->unsignedBigInteger('membership_id');
-            $table->foreign('membership_id')->references('id')->on('memberships');
+            $table->foreign('membership_id')->references('id')->on('sanes_memberships');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
@@ -44,6 +44,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('sanes_profiles');
     }
 }

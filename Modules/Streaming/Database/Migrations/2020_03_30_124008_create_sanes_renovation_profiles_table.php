@@ -19,10 +19,10 @@ class CreateSanesRenovationProfilesTable extends Migration
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('membership_id');
-            $table->foreign('membership_id')->references('id')->on('memberships');
+            $table->foreign('membership_id')->references('id')->on('sanes_memberships');
 
             $table->unsignedBigInteger('profile_id');
-            $table->foreign('profile_id')->references('id')->on('profiles');
+            $table->foreign('profile_id')->references('id')->on('sanes_profiles');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

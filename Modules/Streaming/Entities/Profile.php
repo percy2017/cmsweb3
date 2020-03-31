@@ -9,7 +9,7 @@ class Profile extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at','finaldate'];
     protected $fillable = ['fullname','avatar','phone','image','finaldate','startdate','membership_id','observation','account_id', 'user_id'];
-    protected $table = 'profiles';
+    protected $table = 'sanes_profiles';
 
     // public function account() {
 

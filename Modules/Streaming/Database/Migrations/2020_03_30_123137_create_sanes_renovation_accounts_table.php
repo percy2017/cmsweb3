@@ -19,7 +19,7 @@ class CreateSanesRenovationAccountsTable extends Migration
             $table->text('description')->nullable();
 
             $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')->references('id')->on('accounts');
+            $table->foreign('account_id')->references('id')->on('sanes_accounts');
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

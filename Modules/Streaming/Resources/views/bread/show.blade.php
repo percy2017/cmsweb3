@@ -17,11 +17,27 @@
                         <div class="input-group col-md-3">
                             <select class="form-control select2" id="search_type" name="search_type">
                                 @foreach($dataType->browseRows as $row)
-                                    @if (isset($search_type))
-                                      <option value="{{ $row->field }}" @if($search_type == $row->field) selected @endif>{{ $row->display_name }}</option>
-                                    @else
-                                      <option value="{{ $row->field }}" @if($dataType->details->{'default_search_key'} == $row->field) selected @endif>{{ $row->display_name }}</option>
-                                    @endif
+                                  @switch($row->type)
+                                      @case('image')
+                                          
+                                          @break
+                                      @case('multiple_images')
+                                          
+                                          @break
+                                      @case('relationship')
+                                          
+                                          @break
+                                      @case('timestamp')
+                                          
+                                          @break
+                                      @default
+                                      @if (isset($search_type))
+                                        <option value="{{ $row->field }}" @if($search_type == $row->field) selected @endif>{{ $row->display_name }}</option>
+                                      @else
+                                        <option value="{{ $row->field }}" @if($dataType->details->{'default_search_key'} == $row->field) selected @endif>{{ $row->display_name }}</option>
+                                      @endif
+                                  @endswitch
+                                  
                                 @endforeach
                             </select>
                         </div>
@@ -72,10 +88,10 @@
                                     @break
                                   @case('timestamp')
                                     @if(isset($row->details->{'actions'}))
-                                      <strong>
+                                      <h5>
                                         <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
-                                      </strong>
-                                        <small>{{ $data->{$row->field} }}</small>
+                                      </h5>
+                                      <small>{{ $data->{$row->field} }}</small>
                                     @else
                                       {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
                                       <br/>
@@ -125,9 +141,9 @@
                                     @break
                                   @default
                                     @if(isset($row->details->{'actions'}))
-                                      <strong>
+                                      <h4>
                                         <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
-                                      </strong>
+                                      </h4>
                                     
                                     @else
                                       <span>{{ $data->{$row->field} }}</span>
@@ -189,6 +205,9 @@
 <script>
 
   $('#search_type').select2();
+  $('#search_type').change(function(){
+    message('success', 'Update - '+$(this).val());
+  });
    $('[data-toggle="tooltip"]').tooltip();
    
   //$( "#search_text" ).focus();
@@ -206,6 +225,7 @@
           $('#ajax_body').html(data); 
         }, 
         error: function () {
+          $('#ajax_body').html('<div class="text-center"><h3><code>Ups, Ocurrio un error inesperado <br /><br /> 1.-Revise su configuracion <br /><br /> 2.-Vuela a intentarlo una vez mas <br /><br /> 3.-Consulte con el soporte tecnico</code></h3></div>');  
           message('error', 'Error en la accion');
         }
       });
@@ -228,6 +248,7 @@
           //message('info', $('#dataTable >tbody >tr').length);
         },
         error: function (data) {  
+          $('#ajax_body').html('<div class="text-center"><h3><code>Ups, Ocurrio un error inesperado <br /><br /> 1.-Revise su configuracion <br /><br /> 2.-Vuela a intentarlo una vez mas <br /><br /> 3.-Consulte con el soporte tecnico</code></h3></div>'); 
           message('error', 'Error en la accion')
         }
     });

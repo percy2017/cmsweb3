@@ -9,6 +9,6 @@ class SanesRenovationProfile extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $fillable = ['membership_id', 'description', 'account_id', 'user_id'];
+    protected $fillable = ['membership_id', 'description', 'profile_id', 'user_id'];
     protected $table = 'sanes_renovation_profiles';
 }

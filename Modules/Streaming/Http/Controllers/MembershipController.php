@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Validator;
 class MembershipController extends Controller
 {
-    public $table = 'memberships';
+    public $table = 'sanes_memberships';
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;
@@ -50,14 +50,14 @@ class MembershipController extends Controller
     public function store(Request $request)
     {
         //------------------------------------------------------------------
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|min:5|unique:memberships',
-            'price' => 'required'
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json(['error'=>$validator->errors()]);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|min:5|unique:memberships',
+        //     'price' => 'required'
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
         //-------------------------------------------------------------------
 
         $data = new $this->dataType->model_name;
@@ -76,6 +76,9 @@ class MembershipController extends Controller
                 case 'relationship':
                     
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;  
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -107,14 +110,14 @@ class MembershipController extends Controller
     public function update(Request $request, $id)
     {
         //------------------------------------------------------------------
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'price' => 'required'
-        ]);
-        if ($validator->fails())
-        {
-            return response()->json(['error'=>$validator->errors()]);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required',
+        //     'price' => 'required'
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
         //------------------------------------------------------------------
 
         $data = $this->dataType->model_name::find($id);
@@ -133,6 +136,9 @@ class MembershipController extends Controller
                 case 'relationship':
                     
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;  
                 default:
                     $data->$aux = $request->$aux;
                     break;

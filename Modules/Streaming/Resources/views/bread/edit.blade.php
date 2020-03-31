@@ -124,7 +124,7 @@
                                                 @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif 
                                                 @if($row->required == 1) required @endif 
                                                 placeholder="{{ $row->field }}" 
-                                                value="{{ $data->$myfield}}">
+                                                value="{{ $data->$myfield }}">
                                             @break
                                         @case('number')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -237,15 +237,16 @@
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
-                                            <br>
-                                                <?php $checked = $row->details->checked ?>
-                                                <input 
-                                                    type="checkbox" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    class="toggleswitch" 
-                                                    data-on="{{ $row->details->on }}" {!! $checked ? 'checked="checked"' : '' !!} 
-                                                    data-off="{{ $row->details->off }}">
+                                            <br/>
+                                            <?php $checked = $data->$myfield ?>
+                                           
+                                            <input 
+                                                type="checkbox" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}" 
+                                                class="toggleswitch" 
+                                                data-on="{{ $row->details->on }}" {!! $checked ? 'checked="checked"' : '' !!} 
+                                                data-off="{{ $row->details->off }}">
                                             @break
                                     @endswitch        
                             
@@ -334,12 +335,13 @@
                                 title: message,
                             })
                         }else{
-                            message('success', 'Dato actualizado correctamente.')
                             $('#ajax_body').html(data);
+                            message('success', 'Dato actualizado correctamente.')
+                            
                         }
                     },
                     error: function (data) {
-                        
+                        $('#ajax_body').html('<div class="text-center"><h3><code>Ups, Ocurrio un error inesperado <br /><br /> 1.-Revise su configuracion <br /><br /> 2.-Vuela a intentarlo una vez mas <br /><br /> 3.-Consulte con el soporte tecnico</code></h3></div>'); 
                         message('error', 'Error en la accion')
                     },
                 });

@@ -40,10 +40,10 @@ class StreamingDatabaseSeeder extends Seeder
 
         //DataTypes----------------------------------------
         // -------------------------------------------------
-        $dataType = $this->dataType('slug', 'accounts');
+        $dataType = $this->dataType('slug', 'sanes_accounts');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'accounts',
+                'name'                  => 'sanes_accounts',
                 'display_name_singular' => 'Cuenta',
                 'display_name_plural'   => 'Cuentas',
                 'icon'                  => 'voyager-play',
@@ -62,10 +62,10 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataType = $this->dataType('slug', 'memberships');
+        $dataType = $this->dataType('slug', 'sanes_memberships');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'memberships',
+                'name'                  => 'sanes_memberships',
                 'display_name_singular' => 'Membresia',
                 'display_name_plural'   => 'Membresias',
                 'icon'                  => 'voyager-play',
@@ -84,10 +84,10 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataType = $this->dataType('slug', 'profiles');
+        $dataType = $this->dataType('slug', 'sanes_profiles');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'profiles',
+                'name'                  => 'sanes_profiles',
                 'display_name_singular' => 'Perfil',
                 'display_name_plural'   => 'Perfiles',
                 'icon'                  => 'voyager-play',
@@ -106,10 +106,10 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataType = $this->dataType('slug', 'boxes');
+        $dataType = $this->dataType('slug', 'sanes_boxes');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'boxes',
+                'name'                  => 'sanes_boxes',
                 'display_name_singular' => 'Caja',
                 'display_name_plural'   => 'Cajas',
                 'icon'                  => 'voyager-logbook',
@@ -128,10 +128,10 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-        $dataType = $this->dataType('slug', 'seatings');
+        $dataType = $this->dataType('slug', 'sanes_seatings');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'seatings',
+                'name'                  => 'sanes_seatings',
                 'display_name_singular' => 'Asiento',
                 'display_name_plural'   => 'Asientos',
                 'icon'                  => 'fa fa-calculator',
@@ -150,7 +150,6 @@ class StreamingDatabaseSeeder extends Seeder
                 ]
             ])->save();
         }
-
         $dataType = $this->dataType('slug', 'sanes_renovation_accounts');
         if (!$dataType->exists) {
             $dataType->fill([

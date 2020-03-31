@@ -13,7 +13,7 @@ class CreateSeatingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('seatings', function (Blueprint $table) {
+        Schema::create('sanes_seatings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('concept')->nullable();
             $table->decimal('amount',8,2)->nullable();
@@ -24,7 +24,7 @@ class CreateSeatingsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('box_id');
-            $table->foreign('box_id')->references('id')->on('boxes');
+            $table->foreign('box_id')->references('id')->on('sanes_boxes');
             
             $table->timestamps();
             $table->softDeletes();
@@ -38,6 +38,6 @@ class CreateSeatingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('seatings');
+        Schema::dropIfExists('sanes_seatings');
     }
 }

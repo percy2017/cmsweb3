@@ -13,7 +13,7 @@ use NumerosEnLetras;
 class BoxController extends Controller
 {
 
-    public $table = 'boxes';
+    public $table = 'sanes_boxes';
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;
@@ -79,6 +79,9 @@ class BoxController extends Controller
                 case 'relationship':
                     
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -135,6 +138,9 @@ class BoxController extends Controller
                 case 'relationship':
                     
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;    
                 default:
                     $data->$aux = $request->$aux;
                     break;

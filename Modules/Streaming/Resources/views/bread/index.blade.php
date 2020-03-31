@@ -61,6 +61,7 @@
                   $('#ajax_body').html(response);
               },
               error: function(response){
+                $('#ajax_body').html('<div class="text-center"><h3><code>Ups, Ocurrio un error inesperado <br /><br /> 1.-Revise su configuracion <br /><br /> 2.-Vuela a intentarlo una vez mas <br /><br /> 3.-Consulte con el soporte tecnico</code></h3></div>'); 
                 message('error', 'error al cargar los datos');
               }
             });

@@ -13,7 +13,7 @@ use Validator;
 class ProfilesController extends Controller
 {
 
-    public $table = 'profiles';
+    public $table = 'sanes_profiles';
     public $dataType;
     public $dataRowsAdd;
     public $dataRowsEdit;
@@ -76,6 +76,9 @@ class ProfilesController extends Controller
                 case 'relationship':
                     
                     break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;  
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -131,6 +134,9 @@ class ProfilesController extends Controller
                     break;
                 case 'relationship':
 
+                    break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
                     break;
                 default:
                     $data->$aux = $request->$aux;
