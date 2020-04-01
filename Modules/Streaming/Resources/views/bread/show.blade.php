@@ -4,6 +4,7 @@
       <div class="col-md-12">
         <div class="panel panel-bordered">
             <div class="panel-body">  
+                
                  <div class="form-group text-center">
                         <h4>
                             <i class="voyager-list"></i> {{ $dataType->display_name_plural }}

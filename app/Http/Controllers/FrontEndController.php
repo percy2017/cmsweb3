@@ -19,4 +19,9 @@ class FrontEndController extends Controller
             'blocks'     => $blocks
         ]);
     }
+
+    function videochats()
+    {
+        return view('vendor.videochats.index');
+    }
 }

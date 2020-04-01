@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Socialite;
-
+use App\User;
+use Illuminate\Support\Facades\Auth;
 class SocialiteController extends Controller
 {
     public function redirectToProvider()
@@ -22,5 +23,15 @@ class SocialiteController extends Controller
         $user = Socialite::driver('github')->user();
 
         // $user->token;
+    }
+
+    function impresionate($id)
+    {
+        $other_user = User::find($id);
+        Auth::user()->impersonate($other_user);
+        return redirect('admin')->with([
+            'message'    => 'Login con '.$other_user->name,
+            'alert-type' => 'success',
+        ]);
     }
 }

@@ -35,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
         Voyager::addAction(\App\Actions\Modules::class);
         // Voyager::addAction(\App\Actions\ModuleView::class);
         Voyager::addAction(\App\Actions\Users::class);
+        Voyager::addAction(\App\Actions\Impersonate::class);
     }
 }
