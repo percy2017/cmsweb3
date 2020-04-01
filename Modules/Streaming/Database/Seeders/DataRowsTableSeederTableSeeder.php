@@ -215,7 +215,7 @@ class DataRowsTableSeederTableSeeder extends Seeder
         $dataRow = $this->dataRow($AccountDataType, 'password');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'password',
                 'display_name' => 'Contraseña',
                 'required'     => 1,
                 'browse'       => 0,

@@ -50,15 +50,17 @@ class ProfilesController extends Controller
 
     public function store(Request $request)
     {
-        //----------------VALIDATIONS-----------------------------------------
-        // $validator = Validator::make($request->all(), [
-        //     'attribute' => 'required',
-        // ]);
-        // if ($validator->fails())
-        // {
-        //     return response()->json(['error'=>$validator->errors()]);
-        // }
-        //--------------------------------------------------------------------
+        // ----------------VALIDATIONS-----------------------------------------
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required',
+            'phone' => 'required',
+            'finaldate' => 'required|date',
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['error'=>$validator->errors()]);
+        }
+        // --------------------------------------------------------------------
 
          // -------------------------CAJA ------------------------------------------------
          $model_box = Voyager::model('DataType')->where('slug', '=', 'sanes_boxes')->first();

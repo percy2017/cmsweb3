@@ -54,16 +54,16 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         //----------------VALIDATIONS-----------------------------------------
-        // $validator = Validator::make($request->all(), [
-        //     'name' => 'required|unique:sanes_accounts',
-        //     'email' => 'required|email|unique:sanes_accounts',
-        //     'password' => 'required|unique:sanes_accounts',
-        //     'renovation' => 'required'
-        // ]);
-        // if ($validator->fails())
-        // {
-        //     return response()->json(['error'=>$validator->errors()]);
-        // }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:sanes_accounts',
+            'email' => 'required|email|unique:sanes_accounts',
+            'password' => 'required|unique:sanes_accounts',
+            'renovation' => 'required|date'
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['error'=>$validator->errors()]);
+        }
         //----------------VALIDATIONS --------------------------------------
            
 
