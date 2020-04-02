@@ -1,0 +1,13 @@
+{
+    "name": "Inti",
+    "alias": "inti",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Inti\\Providers\\IntiServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
