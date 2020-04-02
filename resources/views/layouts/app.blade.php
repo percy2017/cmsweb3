@@ -80,10 +80,18 @@
   <div id="myWP"></div>
   
   <!-- SCRIPTS -->
-
+    @if(auth()->user())
+        <script>
+            window.user = {
+                id: {{ auth()->id() }},
+                name: "{{ auth()->user()->name }}"
+            };
+            window.csrfToken = "{{ csrf_token() }}";
+        </script>
+    @endif
   <!-- JQuery -->
   <script type="text/javascript" src="resources/landingpage/js/jquery-3.4.1.min.js"></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
   <!-- Bootstrap tooltips -->
   <script type="text/javascript" src="resources/landingpage/js/popper.min.js"></script>
 
@@ -94,15 +102,16 @@
   <script type="text/javascript" src="resources/landingpage/js/mdb.min.js"></script>
 
 
-  <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
+  {{--  <script src="{{ asset('vendor/whatsapp/floating-wpp.js') }}"></script>
   <script src="{{ asset('vendor/share/js/jquery.contact-buttons.js') }}"></script>
-  <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
+  <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>  --}}
 
 
   <script>
 
 
     // whatsapp ------------------------------------
+    /*
       $('#myWP').floatingWhatsApp({
         phone: '{{ setting('whatsapp.phone') }}',
         popupMessage: '{{ setting('whatsapp.popupMessage') }}',
@@ -143,7 +152,7 @@
         // icon shadow
         // from 1 to 16
         iconShadow: 6
-      });
+      });*/
 
   </script>
 </body>
