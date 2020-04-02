@@ -109,6 +109,10 @@ class RProfilesController extends Controller
             $box->balance = $balance;
             $box->save();
 
+            $model_profile = Voyager::model('DataType')->where('slug', '=', 'sanes_profiles')->first();
+            $profile = $model_profile->model_name::where('id', $data->profile_id)->first();
+            $profile->membership_id = $membership->id;
+            $profile->save();
         } else {
             return response()->json(['error'=>['message' => 'No tienes caja abierta']]);
         }

@@ -107,4 +107,32 @@ class StreamingController extends Controller
 
         ]);
     }
+
+    public function deletes($table)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
+        $dataTypeContent = $dataType->model_name::onlyTrashed()->orderBy('deleted_at', 'asc')->paginate(setting('admin.pagination')); 
+    
+        // return response()->json($dataTypeContent);
+        return view('streaming::bread.deletes', [
+            'dataType' =>  $dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
+        
+        
+    }
+
+    public function recovery($table, $id)
+    {
+        $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
+        $dataType->model_name::withTrashed()->where('id', '=', $id)->restore();
+        $dataTypeContent = $dataType->model_name::onlyTrashed()->orderBy('deleted_at', 'asc')->paginate(setting('admin.pagination')); 
+    
+        // return response()->json($dataTypeContent);
+        return view('streaming::bread.deletes', [
+            'dataType' =>  $dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
+    }
+
 }

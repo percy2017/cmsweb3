@@ -17,6 +17,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('streaming/search', 'StreamingController@search')->name('search');
     Route::get('streaming/relationship/{id}/{table}/{key}/{type}', 'StreamingController@relationship')->name('relationship');
     Route::get('streaming/view/{table}/{id}', 'StreamingController@view')->name('view');
+    Route::get('streaming/deletes/recovery/{table}/{id}', 'StreamingController@recovery')->name('recovery');
+    Route::get('streaming/deletes/{table}', 'StreamingController@deletes')->name('deletes');
     
  
 });

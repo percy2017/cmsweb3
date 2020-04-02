@@ -100,6 +100,34 @@
             }
           })
           break;
+        case 'recovery':
+          Swal.fire({
+            title: 'Recuperando',
+            text: 'Estas segur@ de realizar la accion ?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            }).then((result) => {
+            if (result.value) {
+              <?php $admin_loader_img = Voyager::setting('admin.loader', ''); ?>
+              $('#ajax_body').html('<div id="voyager-loader"><img src="@if($admin_loader_img == '') {{ voyager_asset('images/logo-icon.png') }} @else {{ Voyager::Image(setting('admin.loader')) }}@endif"></div>');
+              $.ajax({
+                type: 'get',
+                url: urli,
+                success: function (response) {
+                  $('#ajax_body').html(response);
+                  message('success', 'Dato recuperado');
+                },
+                error: function(response){
+                  message('error', 'error al cargar los datos');
+                }
+              });
+            }else{
+              message('info', 'accion declinada');
+            }
+          })
+          break;
       }
     }
 

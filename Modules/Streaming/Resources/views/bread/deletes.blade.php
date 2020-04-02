@@ -1,4 +1,4 @@
-@can('browse', app($dataType->model_name))
+@can('delete', app($dataType->model_name))
   <div class="page-content browse container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -181,22 +181,9 @@
                           @endforeach
                             
                             <td class="no-sort no-click bread-actions">
-                                @can('read', app($dataType->model_name))
-                                  <a href="#" onclick="ajax('{{ route('view', [$dataType->name, $data->id]) }}', 'get')" title="#" class="btn btn-warning">
-                                    <i class="voyager-eye"></i> <span class="hidden-xs hidden-sm">Ver</span>
-                                  </a>
-                                @endcan
-
-                                @can('edit', app($dataType->model_name))
-                                  <a href="#" onclick="ajax('{{ route('voyager.'.$dataType->name.'.edit', $data->id) }}', 'get')" title="#" class="btn btn-primary">
-                                    <i class="voyager-edit"></i> <span class="hidden-xs hidden-sm">Editar</span>
-                                  </a>
-                                @endcan
-                                @can('delete', app($dataType->model_name))
-                                  <a href="#" onclick="ajax('{{ route('voyager.'.$dataType->name.'.destroy', $data->id) }}', 'delete')" title="Eliminar" class="btn btn-danger">
-                                    <i class="voyager-trash"></i> <span class="hidden-xs hidden-sm">Eliminar</span>
-                                  </a>
-                                @endcan
+                                <a href="#" onclick="ajax('{{ route('recovery', [$dataType->name, $data->id]) }}', 'recovery')" title="Eliminar" class="btn btn-success">
+                                <i class="voyager-upload"></i> <span class="hidden-xs hidden-sm">Recuperar</span>
+                                </a>
                             </td>
                         </tr>
                       @endforeach
@@ -218,7 +205,7 @@
       <div class="col-md-12">
         <div class="panel panel-bordered">
             <div class="panel-body text-center"> 
-              <h3>No tiene los permisos, para Listar</h3>
+              <h3>No tiene los permisos, para mostrar los eliminados</h3>
               <code>Consulte con el administrador de Sistema, para realizar la accion</code>
             </div>
           </div>

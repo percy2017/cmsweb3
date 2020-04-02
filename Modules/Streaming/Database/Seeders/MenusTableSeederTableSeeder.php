@@ -176,6 +176,21 @@ class MenusTableSeederTableSeeder extends Seeder
         }
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
+            'title'   => 'Mostrar Elimandos',
+            'url'     => '/admin/streaming/deletes/sanes_memberships',
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 2,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
             'title'   => 'divider',
             'url'     => null,
             'route'   => null
@@ -243,6 +258,21 @@ class MenusTableSeederTableSeeder extends Seeder
         }
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
+            'title'   => 'Mostrar Elimandos',
+            'url'     => '/admin/streaming/deletes/sanes_profiles',
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 2,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
             'title'   => 'divider',
             'url'     => null,
             'route'   => null
@@ -297,6 +327,21 @@ class MenusTableSeederTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Listar Items',
             'url'     => 'admin/sanes_accounts/1',
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 2,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Mostrar Elimandos',
+            'url'     => '/admin/streaming/deletes/sanes_accounts',
             'route'   => null
         ]);
         if (!$menuItem->exists) {

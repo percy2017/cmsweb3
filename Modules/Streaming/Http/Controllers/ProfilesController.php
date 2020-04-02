@@ -52,8 +52,8 @@ class ProfilesController extends Controller
     {
         // ----------------VALIDATIONS-----------------------------------------
         $validator = Validator::make($request->all(), [
-            'fullname' => 'required',
-            'phone' => 'required',
+            'fullname' => 'required|unique:sanes_profiles',
+            'phone' => 'required|unique:sanes_profiles|min:11',
             'finaldate' => 'required|date',
         ]);
         if ($validator->fails())

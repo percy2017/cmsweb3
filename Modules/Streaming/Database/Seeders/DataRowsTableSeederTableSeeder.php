@@ -759,6 +759,12 @@ class DataRowsTableSeederTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
+                    'actions' => [
+                        'table' => 'sanes_profiles',
+                        'key' => 'phone',
+                        'type' => 'whatsapp',
+                        'message' => 'Notificar por Whatsapp'
+                    ],
                     'display'   => [
                         'width'  => '6',
                     ],
