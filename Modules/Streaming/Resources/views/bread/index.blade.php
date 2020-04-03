@@ -34,11 +34,7 @@
 @stop
 
 @section('content')
-  <div id="example"></div>
-
   <div id=ajax_body></div>  
-
-
 @stop
 
 @section('javascript')

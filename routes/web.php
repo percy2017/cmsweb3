@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('login/github', 'SocialiteController@redirectToProvider');
 Route::get('login/github/callback', 'SocialiteController@handleProviderCallback');
 Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name('impresionate');
-Route::get('videochats', 'FrontEndController@videochats')->name('videochats');
+Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
