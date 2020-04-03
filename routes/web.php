@@ -23,7 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('login/github', 'SocialiteController@redirectToProvider');
 Route::get('login/github/callback', 'SocialiteController@handleProviderCallback');
 Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name('impresionate');
+
 Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');
+Route::get('videochats/send/{message}', 'FrontEndController@videochats_send')->name('videochats_send')->middleware('auth');
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
@@ -49,3 +52,4 @@ Route::get('{module_name}/installer', function($module_id) {
     event(new App\Events\NewMessage($module->name));
     return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
 })->name('module_installer');
+
