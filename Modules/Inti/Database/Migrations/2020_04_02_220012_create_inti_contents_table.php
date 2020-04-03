@@ -17,9 +17,6 @@ class CreateIntiContentsTable extends Migration
             $table->bigIncrements('id');
             
             $table->text('body')->nullable();
-
-            $table->unsignedBigInteger('inti_course_id');
-            $table->foreign('inti_course_id')->references('id')->on('inti_courses');
             
             $table->timestamps();
             $table->softDeletes();
