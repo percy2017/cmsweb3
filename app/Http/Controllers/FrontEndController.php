@@ -24,4 +24,10 @@ class FrontEndController extends Controller
     {
         return view('vendor.videochats.index');
     }
+    function videochats_send($message)
+    {
+        event(new \App\Events\NewMessage($message));
+        return $message;
+        // return view('vendor.videochats.index');
+    }
 }
