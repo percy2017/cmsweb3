@@ -34,11 +34,12 @@
 @stop
 
 @section('content')
+<<<<<<< HEAD
   {{-- <div id="example"></div> --}}
 
+=======
+>>>>>>> 6a9b26cb0b58993d0cdc635fc1c6a46092783599
   <div id=ajax_body></div>  
-
-
 @stop
 
 @section('javascript')
