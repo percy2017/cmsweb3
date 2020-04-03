@@ -2,7 +2,10 @@
 
 namespace Modules\Inti\Database\Seeders;
 
+use TCG\Voyager\Models\Role;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use TCG\Voyager\Models\Permission;
 use Illuminate\Database\Eloquent\Model;
 
 class PermissionTableSeeder extends Seeder
@@ -16,6 +19,20 @@ class PermissionTableSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        // permission
+        Permission::generateFor('inti_courses');
+
+        $role = Role::where('name', 'admin')->firstOrFail();
+
+        $permissions = Permission::where('table_name', 'inti_courses')->get();
+        foreach ($permissions as $key) {
+            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
+            if (!$rp) {
+                DB::table('permission_role')->insert([
+                    'permission_id' => $key->id, 
+                    'role_id' => $role->id
+                ]);
+            }
+        }
     }
 }
