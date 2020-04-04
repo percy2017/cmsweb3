@@ -22,7 +22,8 @@ class DataRowsTableSeeder extends Seeder
          * dataType
          * */
         $CourseDataType = DataType::where('slug', 'inti_courses')->firstOrFail();
-
+        $ContentDataType = DataType::where('slug', 'inti_contents')->firstOrFail();
+        $LiveDataType = DataType::where('slug', 'inti_lives')->firstOrFail();
         /**
          * ------------------------------------------------
          *               Formulario Course
@@ -46,11 +47,11 @@ class DataRowsTableSeeder extends Seeder
                         'width' => '6'
                     ],
                     'actions' => [
-                        'table' => 'sanes_profiles',
-                        'key' => 'account_id',
+                        'table' => 'inti_contents',
+                        'key' => 'course_id',
                         'type' => 'create',
-                        'message' => 'Nuevo Perfil'
-                    ]
+                        'message' => 'Crear Nuevo Contenido'
+                    ],
                 ],
                 'order'        => $postion++,
             ])->save();
@@ -88,7 +89,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
-                    'displey' => [
+                    'display' => [
                         'width' => '6'
                     ] 
                 ],
@@ -115,39 +116,11 @@ class DataRowsTableSeeder extends Seeder
                 ]
             ])->save();
         }
-        
-        $dataRow = $this->dataRow($CourseDataType, 'inti_content_belongsto_inti_course_relationship');//----6
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Contenido',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => [
-                    'display' => [
-                        'width' => '6'
-                    ],
-                    'model'       => 'Modules\\Inti\\Entities\\IntiContent',
-                    'table'       => 'inti_contents',
-                    'type'        => 'belongsTo',
-                    'column'      => 'inti_content_id',
-                    'key'         => 'id',
-                    'label'       => 'title',
-                    'pivot_table' => 'inti_contents',
-                    'pivot'       => 0,
-                ],
-                'order'        => $postion++,
-            ])->save();
-        }
 
         $dataRow = $this->dataRow($CourseDataType, 'body');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text_area',
+                'type'         => 'rich_text_box',
                 'display_name' => 'Body',
                 'required'     => 0,
                 'browse'       => 0,
@@ -161,20 +134,6 @@ class DataRowsTableSeeder extends Seeder
                         'width'  => '12',
                     ],
                 ]
-            ])->save();
-        }
-        $dataRow = $this->dataRow($CourseDataType, 'inti_content_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'hidden',
-                'display_name' => 'Content',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'order'        => $postion++,
             ])->save();
         }
 
@@ -191,7 +150,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
-                    'width' => '3'
+                    'display' => [
+                        'width' => '6'
+                    ]
                 ]
             ])->save();
         }
@@ -209,7 +170,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
-                    'width' => '3'
+                    'display' => [
+                        'width' => '6'
+                    ]
                 ]
             ])->save();
         }
@@ -227,16 +190,325 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ]
+                ]
+            ])->save();
+        }
+
+        /**
+         * ----------------------------------------
+         */
+        $dataRow = $this->dataRow($ContentDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => [
+                    'displey' => [
+                        'width' => '6'
+                    ]
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($ContentDataType, 'body');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'rich_text_box',
+                'display_name' => 'Body',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ContentDataType, 'course_belongsto_content_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Cursos',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'Modules\\Inti\\Entities\\IntiCourse',
+                    'table'       => 'inti_courses',
+                    'type'        => 'belongsTo',
+                    'column'      => 'course_id',
+                    'key'         => 'id',
+                    'label'       => 'title',
+                    'pivot_table' => 'inti_courses',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+                
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ContentDataType, 'course_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'course_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ContentDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
                     'width' => '3'
                 ]
             ])->save();
         }
 
+        $dataRow = $this->dataRow($ContentDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
 
+        $dataRow = $this->dataRow($ContentDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
 
+        /**
+         * ----------------------------------------
+         * formulario live
+         * ----------------------------------------
+         */
+        $dataRow = $this->dataRow($LiveDataType, 'id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'details'      => [
+                    'displey' => [
+                        'width' => '6'
+                    ]
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($LiveDataType, 'title');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Titulo',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
 
+        $dataRow = $this->dataRow($LiveDataType, 'slug');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'slug',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    'display' => [
+                        'width' => '6'
+                    ] 
+                ],
+                'order'  => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($LiveDataType, 'course_belongsto_live_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Cursos',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'Modules\\Inti\\Entities\\IntiCourse',
+                    'table'       => 'inti_courses',
+                    'type'        => 'belongsTo',
+                    'column'      => 'course_id',
+                    'key'         => 'id',
+                    'label'       => 'title',
+                    'pivot_table' => 'inti_courses',
+                    'pivot'       => 0,
+                ],
+                'order'        => $postion++,
+                
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($LiveDataType, 'course_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'course_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '12',
+                    ],
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($LiveDataType, 'created_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.created_at'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($LiveDataType, 'updated_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => __('voyager::seeders.data_rows.updated_at'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($LiveDataType, 'deleted_at');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'timestamp',
+                'display_name' => 'deleted_at',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'width' => '3'
+                ]
+            ])->save();
+        }
     }
-
     protected function dataRow($type, $field)
     {
         return DataRow::firstOrNew([

@@ -197,7 +197,7 @@
                                             <textarea 
                                                 class="form-control richTextBox" 
                                                 name="{{ $row->field }}" 
-                                                id="{{ $row->field }}"></textarea>
+                                                id="richtext{{ $row->field }}"></textarea>
                                             @break
                                         @case('image')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>

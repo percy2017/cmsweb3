@@ -31,7 +31,59 @@ class DatatypesTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'inti_contents');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'inti_contents',
+                'display_name_singular' => 'Contenido',
+                'display_name_plural'   => 'Contenidos',
+                'icon'                  => 'voyager-bag',
+                'model_name'            => 'Modules\\Inti\\Entities\\IntiContent',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Inti\\Http\\Controllers\\ContentController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'inti_lives');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'inti_lives',
+                'display_name_singular' => 'Live',
+                'display_name_plural'   => 'Lives',
+                'icon'                  => 'voyager-bag',
+                'model_name'            => 'Modules\\Inti\\Entities\\IntiLive',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Inti\\Http\\Controllers\\LivesController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
             ])->save();
         }
     }
