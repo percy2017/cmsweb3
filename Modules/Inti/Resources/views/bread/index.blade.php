@@ -38,7 +38,7 @@
 @stop
 
 @section('javascript')
-  <script src="{{ asset('js/app.js') }}"></script>
+ 
   <script>
     $(document).ready(function () {
       ajax('{{ route('voyager.'.$dataType->name.'.show', $dataType->id) }}', 'get')

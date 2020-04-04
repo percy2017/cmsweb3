@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIntiContentsTable extends Migration
+class CreateIntiTrainerCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,10 @@ class CreateIntiContentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inti_contents', function (Blueprint $table) {
+        Schema::create('inti_trainer_courses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            
-            $table->text('body')->nullable();
-
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('inti_courses');
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -33,6 +27,6 @@ class CreateIntiContentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inti_contents');
+        Schema::dropIfExists('inti_trainer_courses');
     }
 }
