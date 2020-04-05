@@ -36,8 +36,10 @@ class FrontEndController extends Controller
         $tokken = $request->stream;
         $user_id_emisor = $request->emisorId;
         $user_id_receptor = $request->receptId;
-        $request->type == 'request' ?
-        event(new RequestStreamUser($user_id_emisor, $user_id_receptor, $tokken)) :
-        event(new ResponseStreamUser($user_id_emisor, $user_id_receptor, $tokken));
+        if($request->type == 'request'){
+            event(new RequestStreamUser($user_id_emisor, $user_id_receptor, $tokken));
+        }else{
+            event(new ResponseStreamUser($user_id_emisor, $user_id_receptor, $tokken));
+        }
     }
 }
