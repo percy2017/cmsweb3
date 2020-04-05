@@ -14,7 +14,6 @@ export default class App extends Component {
     constructor() {
         super();
 
-        
         this.state = {
             hasMedia: false,
             otherUserId: null,
@@ -43,6 +42,7 @@ export default class App extends Component {
             // enabledTransports: ['ws', 'wss'] 
         });
         
+
         //Set up listeners when the component is being mounted
         window.Echo.channel('home').listen('NewMessage', (e) =>{
             // this.setState({name_user: e.message});
@@ -87,7 +87,6 @@ export default class App extends Component {
 
       }
     
-    
     render() {
         return (
             <div className="container-fluid">
@@ -102,11 +101,11 @@ export default class App extends Component {
                     </div>
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <video className="" width="100%" ref={(ref) => {this.myVideo = ref;}}></video>
-                        <hr/>
+                        <br />
                         <div className="standalone text-center">
                         
                             <label style={{ padding: "30px" }}>
-                            <input className="form-control" type="radio" checked={true} />
+                            <input className="form-control" type="radio" />
                                 Camara Web
                             </label>
                             
@@ -129,7 +128,6 @@ export default class App extends Component {
             </div>
         );
     }
-    
 }
 
 if (document.getElementById('example')) {
