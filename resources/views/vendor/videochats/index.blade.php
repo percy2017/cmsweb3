@@ -14,13 +14,11 @@
      @if(auth()->user())
         <script>
             window.user = {
-                id: {{ auth()->id() }},
+                id: '{{ auth()->id() }}',
                 name: "{{ auth()->user()->name }}"
             };
+            window.userList = @json($userList);
             window.csrfToken = "{{ csrf_token() }}";
-
-            
-
         </script>
     @endif
     <script src="{{ asset('js/app.js') }}"></script>

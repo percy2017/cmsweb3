@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "fibers": "^4.0.2",
+        "getusermedia": "^2.0.1",
         "laravel-echo": "^1.6.1",
         "node-sass": "^4.13.1",
         "pusher-js": "^5.1.1",

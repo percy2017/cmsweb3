@@ -3,8 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+// Models
 use App\Block;
 use App\Page;
+use App\User;
+
+// Events
+use App\Events\Telematic\RequestStreamUser;
+use App\Events\Telematic\ResponseStreamUser;
 
 class FrontEndController extends Controller
 {
@@ -20,14 +28,16 @@ class FrontEndController extends Controller
         ]);
     }
 
-    function videochats()
-    {
-        return view('vendor.videochats.index');
+    function videochats(){
+        $userList = User::all();
+        return view('vendor.videochats.index', compact('userList'));
     }
-    function videochats_send($message)
-    {
-        event(new \App\Events\NewMessage($message));
-        return $message;
-        // return view('vendor.videochats.index');
+    function videochats_request(Request $request){
+        $tokken = $request->stream;
+        $user_id_emisor = $request->emisorId;
+        $user_id_receptor = $request->receptId;
+        $request->type == 'request' ?
+        event(new RequestStreamUser($user_id_emisor, $user_id_receptor, $tokken)) :
+        event(new ResponseStreamUser($user_id_emisor, $user_id_receptor, $tokken));
     }
 }
