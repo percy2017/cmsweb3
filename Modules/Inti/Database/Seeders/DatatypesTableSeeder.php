@@ -24,7 +24,7 @@ class DatatypesTableSeeder extends Seeder
                 'name'                  => 'inti_courses',
                 'display_name_singular' => 'Curso',
                 'display_name_plural'   => 'Cursos',
-                'icon'                  => 'voyager-bag',
+                'icon'                  => 'fa fa-id-badge',
                 'model_name'            => 'Modules\\Inti\\Entities\\IntiCourse',
                 'policy_name'           => null,
                 'controller'            => 'Modules\\Inti\\Http\\Controllers\\CoursesController',
@@ -70,10 +70,56 @@ class DatatypesTableSeeder extends Seeder
                 'name'                  => 'inti_lives',
                 'display_name_singular' => 'Live',
                 'display_name_plural'   => 'Lives',
-                'icon'                  => 'voyager-bag',
+                'icon'                  => 'fa fa-eercast',
                 'model_name'            => 'Modules\\Inti\\Entities\\IntiLive',
                 'policy_name'           => null,
                 'controller'            => 'Modules\\Inti\\Http\\Controllers\\LivesController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'inti_calendars');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'inti_calendars',
+                'display_name_singular' => 'Calendario',
+                'display_name_plural'   => 'Calendarios',
+                'icon'                  => 'fa fa-calendar',
+                'model_name'            => 'Modules\\Inti\\Entities\\IntiCalendar',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Inti\\Http\\Controllers\\CalendarsController',
+                'generate_permissions'  => 1,
+                'description'           => null,
+                'server_side'           => 1,
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'                => null
+                ]
+            ])->save();
+        }
+
+        $dataType = $this->dataType('slug', 'inti_trainers');
+        if (!$dataType->exists) {
+            $dataType->fill([
+                'name'                  => 'inti_trainers',
+                'display_name_singular' => 'Trainer',
+                'display_name_plural'   => 'Trainers',
+                'icon'                  => 'fa fa-user-circle',
+                'model_name'            => 'Modules\\Inti\\Entities\\IntiTrainer',
+                'policy_name'           => null,
+                'controller'            => 'Modules\\Inti\\Http\\Controllers\\TrainersController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,

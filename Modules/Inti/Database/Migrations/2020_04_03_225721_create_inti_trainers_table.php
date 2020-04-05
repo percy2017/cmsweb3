@@ -16,7 +16,7 @@ class CreateIntiTrainersTable extends Migration
         Schema::create('inti_trainers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('fullname')->nullable();
-            $table->string('profetion')->nullable();
+            $table->string('profession')->nullable();
             $table->string('cv')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();

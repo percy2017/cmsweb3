@@ -16,6 +16,12 @@ class CreateIntiTrainerCoursesTable extends Migration
         Schema::create('inti_trainer_courses', function (Blueprint $table) {
             $table->bigIncrements('id');
 
+            $table->unsignedBigInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('inti_courses');
+
+            $table->unsignedBigInteger('trainer_id');
+            $table->foreign('trainer_id')->references('id')->on('inti_trainers');
+            
             $table->timestamps();
         });
     }
