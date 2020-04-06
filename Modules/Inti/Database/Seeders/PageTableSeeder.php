@@ -1,9 +1,6 @@
 <?php
 
 namespace Modules\Inti\Database\Seeders;
-
-use App\Page;
-use App\Block;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Page;
@@ -17,16 +14,6 @@ class PageTableSeeder extends Seeder
      */
     public function run()
     {
-        $page = Page::create([
-            'name'      => 'Page inti',
-            'slug'      => 'index',
-            'direction' => 'inti::index',
-            'details'   => null
-        ]);
-
-<<<<<<< HEAD
-
-        // $this->call("OthersTableSeeder");
 
         $page = Page::create([
             'name'      => 'Landing Page Inti',
@@ -34,7 +21,7 @@ class PageTableSeeder extends Seeder
             'direction' => 'inti::index',
             'description' => 'Pagina de destino para educacion en linea.',
             'details'   => null
-=======
+        ]);
         Block::create([
             'name'        => 'lpit_block1',
             'title'       => 'Blocke #1 (feature_part start #1)',
@@ -120,7 +107,6 @@ class PageTableSeeder extends Seeder
                     'width'  => 6
                 ],
             ])
->>>>>>> 1b2f5e47c20d5c8b6729fd30830fcc60a5b60d6f
         ]);
     }
 }

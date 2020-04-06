@@ -21,41 +21,46 @@ class DataDefaultTableSeeder extends Seeder
             'title' => 'Curso Ofimatica',
             'slug'  => 'curso-ofimatica',
             'image' => 'Modules/Inti/public/images/curso-ofimatica.png',
-            'body'  => 'Curso Ofimatica body'
+            'body'  => 'Curso Ofimatica body',
+            'user_id' => 1
         ]);
         IntiCourse::create([
             'title' => 'Curso Excel',
             'slug'  => 'curso-excel',
             'image' => 'Modules/Inti/public/images/curso-excel.png',
-            'body'  => 'Curso excel body'
+            'body'  => 'Curso excel body',
+            'user_id' => 1
         ]);
         IntiCourse::create([
             'title' => 'Curso Laravel',
             'slug'  => 'curso-laravel',
             'image' => 'Modules/Inti/public/images/curso-laravel.png',
-            'body'  => 'Curso laravel body'
+            'body'  => 'Curso laravel body',
+            'user_id' => 1
         ]);
         IntiCourse::create([
             'title' => 'Curso Mysql',
             'slug'  => 'curso-mysql',
             'image' => 'Modules/Inti/public/images/curso-mysql.png',
-            'body'  => 'Curso mysql body'
+            'body'  => 'Curso mysql body',
+            'user_id' => 1
         ]);
         IntiCourse::create([
             'title' => 'Curso Programacion',
             'slug'  => 'curso-programacion',
             'image' => 'Modules/Inti/public/images/curso-programacion.png',
-            'body'  => 'Curso programacion body'
+            'body'  => 'Curso programacion body',
+            'user_id' => 1
         ]);
-        $post = $this->findPost('curso-pyton');
-        if (!$post->exists) {
-            $post->fill([
-                'title'            => 'Curso Pyton',
-                'slug'             => 'curso-pyton',
-                'image'            => 'Modules/Inti/public/images/curso-pyton.png',
-                'body'             => '<p>This is the body of the lorem ipsum post</p>',
-            ])->save();
-        }
+        // $post = $this->findPost('curso-pyton');
+        // if (!$post->exists) {
+        //     $post->fill([
+        //         'title'            => 'Curso Pyton',
+        //         'slug'             => 'curso-pyton',
+        //         'image'            => 'Modules/Inti/public/images/curso-pyton.png',
+        //         'body'             => '<p>This is the body of the lorem ipsum post</p>',
+        //     ])->save();
+        // }
     
     }
     protected function findPost($slug)

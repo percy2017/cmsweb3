@@ -174,12 +174,9 @@ class MenusTableSeeder extends Seeder
         ]);
         $menu = Menu::where('name', 'inti_contents')->firstOrFail();
         
-<<<<<<< HEAD
 
         //inti_ives------------------------------------------------------
-=======
         //inti_lives------------------------------------------------------
->>>>>>> 1b2f5e47c20d5c8b6729fd30830fcc60a5b60d6f
         Menu::firstOrCreate([
             'name' => 'inti_lives',
         ]);

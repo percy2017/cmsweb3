@@ -24,12 +24,8 @@ class DataRowsTableSeeder extends Seeder
         $CourseDataType = DataType::where('slug', 'inti_courses')->firstOrFail();
         $ContentDataType = DataType::where('slug', 'inti_contents')->firstOrFail();
         $LiveDataType = DataType::where('slug', 'inti_lives')->firstOrFail();
-<<<<<<< HEAD
-
-=======
         $CalendarDataType = DataType::where('slug', 'inti_calendars')->firstOrFail();
         $TrainerDataType = DataType::where('slug', 'inti_trainers')->firstOrFail();
->>>>>>> 1b2f5e47c20d5c8b6729fd30830fcc60a5b60d6f
         /**
          * ------------------------------------------------
          *               Formulario Course
