@@ -99184,7 +99184,7 @@ __webpack_require__(/*! ./components/Conference/Conference */ "./resources/js/co
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -99218,13 +99218,12 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "ABCD123",
   wsHost: window.location.hostname,
-  wsPort: process.env.MIX_PUSHER_APP_PORT,
+  wsPort: "6001",
   disableStats: true // forceTLS: true, 
   // wssPort: MIX_PUSHER_APP_PORT,
   // enabledTransports: ['ws', 'wss'] 
 
 });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -99245,15 +99244,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.css */ "./node_modules/bootstrap/dist/css/bootstrap.css");
 /* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
-<<<<<<< HEAD
-/* harmony import */ var _MediaHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../MediaHandler */ "./resources/js/MediaHandler.js");
-/* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! getusermedia */ "./node_modules/getusermedia/getusermedia.js");
-/* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(getusermedia__WEBPACK_IMPORTED_MODULE_8__);
-=======
 /* harmony import */ var _MediaHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../MediaHandler */ "./resources/js/MediaHandler.js");
 /* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! getusermedia */ "./node_modules/getusermedia/getusermedia.js");
 /* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(getusermedia__WEBPACK_IMPORTED_MODULE_5__);
->>>>>>> origin/videochat-multiple
 /* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
 /* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -99363,7 +99356,7 @@ var Conference = /*#__PURE__*/function (_Component) {
   }, {
     key: "startCall",
     value: function startCall(init, emisorId, receptId) {
-      getusermedia__WEBPACK_IMPORTED_MODULE_8___default()({
+      getusermedia__WEBPACK_IMPORTED_MODULE_5___default()({
         video: true,
         audio: true
       }, function (err, stream) {
