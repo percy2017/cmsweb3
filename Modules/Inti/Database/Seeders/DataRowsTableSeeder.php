@@ -24,13 +24,13 @@ class DataRowsTableSeeder extends Seeder
         $CourseDataType = DataType::where('slug', 'inti_courses')->firstOrFail();
         $ContentDataType = DataType::where('slug', 'inti_contents')->firstOrFail();
         $LiveDataType = DataType::where('slug', 'inti_lives')->firstOrFail();
+
         /**
          * ------------------------------------------------
          *               Formulario Course
          * -----------------------------------------------
          */
         $postion=1;
-
         $dataRow = $this->dataRow($CourseDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -89,6 +89,10 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
+                    'slugify' => [
+                        'origin' => 'title',
+                        'forceUpdate' => true
+                    ],
                     'display' => [
                         'width' => '6'
                     ] 
@@ -137,6 +141,26 @@ class DataRowsTableSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($CourseDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Traking',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ]
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($CourseDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -151,7 +175,7 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display' => [
-                        'width' => '6'
+                        'width' => '3'
                     ]
                 ]
             ])->save();
@@ -171,7 +195,7 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display' => [
-                        'width' => '6'
+                        'width' => '3'
                     ]
                 ]
             ])->save();
@@ -191,7 +215,7 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display' => [
-                        'width' => '6'
+                        'width' => '3'
                     ]
                 ]
             ])->save();

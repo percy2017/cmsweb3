@@ -75,6 +75,7 @@
                                     @break
                                 @case('rich_text_box')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
+                               
                                     @if(isset($row->details->tooltip))
                                         <span class="voyager-question"
                                         aria-hidden="true"
@@ -82,7 +83,8 @@
                                         data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                         title="{{ $row->details->tooltip->{'message'} }}"></span>
                                     @endif
-                                    
+                                    <br />
+                                    {!!  htmlspecialchars_decode($data->{$row->field})  !!}
                                     @break
                                 @case('image')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -129,7 +131,6 @@
                                         data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                         title="{{ $row->details->tooltip->{'message'} }}"></span>
                                     @endif
-                                    
                                     @php
                                         $user = \App\User::find($data->{$row->field});
                                     @endphp
@@ -137,7 +138,7 @@
                                     @break
                                 @default
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
-                                    
+                                  
                                     <h4><code>{{ $data->{$row->field} }}</code></h4>
                                     @break
                             @endswitch        

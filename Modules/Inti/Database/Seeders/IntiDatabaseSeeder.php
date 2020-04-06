@@ -15,12 +15,13 @@ class IntiDatabaseSeeder extends Seeder
     public function run()
     {
        
-        $this->call(SeetingTableSeeder::class);
-        $this->call(PageTableSeeder::class);
+    
         $this->call(DatatypesTableSeeder::class);
         $this->call(DataRowsTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(MenusTableSeeder::class);
+        $this->call(SeetingTableSeeder::class);
+        $this->call(PageTableSeeder::class);
         $this->call(DataDefaultTableSeeder::class);
     }
 }

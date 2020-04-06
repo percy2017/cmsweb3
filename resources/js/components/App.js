@@ -58,7 +58,7 @@ export default class App extends Component {
                 }
               }).then(() => {
               return MySwal.fire(<p>{e.message}</p>)
-              })
+            })
         });
     }
 
@@ -66,7 +66,6 @@ export default class App extends Component {
         this.mediaHandler.getPermissions()
         .then((stream) => {
             this.setState({hasMedia: true});
-            
             try {
                 this.myVideo.srcObject = stream;
             } catch (e) {

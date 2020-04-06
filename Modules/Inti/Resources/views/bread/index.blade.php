@@ -38,7 +38,7 @@
 @stop
 
 @section('javascript')
- 
+<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
   <script>
     $(document).ready(function () {
       ajax('{{ route('voyager.'.$dataType->name.'.show', $dataType->id) }}', 'get')

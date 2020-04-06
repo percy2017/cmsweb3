@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Validator;
 use NumerosEnLetras;
@@ -53,6 +54,7 @@ class CoursesController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         //----------------VALIDATIONS-----------------------------------------
         // $validator = Validator::make($request->all(), [
         //     'id' => 'required',
@@ -67,6 +69,7 @@ class CoursesController extends Controller
         $data = new $this->dataType->model_name;
         foreach ($this->dataRowsAdd as $key) {
             $aux =  $key->field;
+         
             switch ($key->type) {
                 case 'Traking':
                     $data->$aux = Auth::user()->id;
@@ -83,6 +86,13 @@ class CoursesController extends Controller
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
                     break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
                 default:
                     $data->$aux = $request->$aux;
                     break;
@@ -144,6 +154,13 @@ class CoursesController extends Controller
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
                     break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
                 default:
                     $data->$aux = $request->$aux;
                     break;

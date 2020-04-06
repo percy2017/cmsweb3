@@ -28,25 +28,23 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             @if($row->details->{'type'} == 'belongsTo')
-                                                  
-                                                    @if(isset($key) && ($row->details->{'column'} == $key))
-                                                        <input class="form-control" type="text" name="{{ $row->details->{'column'} }}" value="{{ $id }}" readonly />
-                                                    @else
-                                                        <select 
-                                                            class="form-control select2" 
-                                                            name="{{ $row->details->{'column'} }}"
-                                                            id="{{ $row->details->{'column'} }}" 
-                                                            @if($row->required == 1) required @endif>
-                                                            @php
-                                                                $model = app($row->details->model);
-                                                                $query = $model::all();
-                                                            @endphp
-                                                            <option disabled>-- Seleciona datos --</option>
-                                                            @foreach($query as $relationshipData)
-                                                                <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    @endif
+                                                @if(isset($key) && ($row->details->{'column'} == $key))
+                                                    <input class="form-control" type="text" name="{{ $row->details->{'column'} }}" value="{{ $id }}" readonly />
+                                                @else
+                                                    <select 
+                                                        class="form-control select2" 
+                                                        name="{{ $row->details->{'column'} }}"
+                                                        id="{{ $row->details->{'column'} }}">
+                                                        @php
+                                                            $model = app($row->details->model);
+                                                            $query = $model::all();
+                                                        @endphp
+                                                        <option disabled>-- Seleciona datos --</option>
+                                                        @foreach($query as $relationshipData)
+                                                            <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
                                             @endif
                                             @break
                                         @case('select_dropdown')
@@ -69,8 +67,7 @@
                                                 <select 
                                                     class="form-control select2" 
                                                     name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif> 
+                                                    id="{{ $row->field }}">
                                                     <option disabled>-- Seleciona un dato --</option>                                          
                                                     @foreach ($data  as $item)
                                                         <option value="{{ $item->$key }}">{{ $item->$label }}</option>
@@ -80,8 +77,7 @@
                                                 <select 
                                                     class="form-control select2" 
                                                     name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif>
+                                                    id="{{ $row->field }}">
                                                         <option disabled>-- Seleciona un dato --</option>
                                                     @foreach ($row->details->options  as $item)
                                                         <option value="{{ $item }}">{{ $item }}</option>
@@ -90,7 +86,6 @@
                                             @endif
                                             @break
                                         @case('text')
-                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
                                                 <span class="voyager-question"
@@ -100,19 +95,14 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="text" 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
-                                                id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
-                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif 
-                                                @if($row->required == 1) required @endif 
+                                                id="{{ $row->field }}"  
                                                 placeholder="{{ $row->field }}" 
                                                 value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
                                             @break
                                         @case('password')
-                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
                                                 <span class="voyager-question"
@@ -122,7 +112,6 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="password" 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
@@ -144,10 +133,6 @@
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'min'}))min="{{ $row->details->{'min'} }}"@endif 
-                                                @if(isset($row->details->{'max'}))max="{{ $row->details->{'max'} }}"@endif 
-                                                @if(isset($row->details->{'step'}))step="{{ $row->details->{'step'} }}"@endif 
-                                                @if($row->required == 1) required @endif 
                                                 value="@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif">
                                             
                                             @break
@@ -161,12 +146,9 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <textarea 
-                                                @if($row->required == 1) required @endif 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
-                                                id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
-                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif>@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif</textarea>
+                                                id="{{ $row->field }}">@if(isset($row->details->{'default'})){{ $row->details->{'default'} }}@endif</textarea>
                                             @break
                                         @case('timestamp')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -178,7 +160,6 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="datetime" 
                                                 class="form-control datepicker" 
                                                 name="{{ $row->field }}" 
@@ -195,9 +176,9 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <textarea 
-                                                class="form-control richTextBox" 
+                                                class="ckeditor" 
                                                 name="{{ $row->field }}" 
-                                                id="richtext{{ $row->field }}"></textarea>
+                                                id="rich{{ $row->field }}"></textarea>
                                             @break
                                         @case('image')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -280,7 +261,7 @@
   </div>
 @endcan
 
-
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script>
 
     $('.form-group input[type=datetime]').each(function (idx, elt) {
@@ -298,7 +279,7 @@
         });
     });
     
-     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
      
     $('.toggleswitch').bootstrapToggle();
 
@@ -314,7 +295,12 @@
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         }).then((result) => {
+        
             if (result.value) {
+                
+                $('.form-group .ckeditor').each(function (idx, elt) {
+                    CKEDITOR.instances[elt.id].updateElement();
+                });
                 $.ajax({
                     type: frm.attr('method'),
                     url: frm.attr('action'),
@@ -322,9 +308,9 @@
                     contentType : false,
                     processData : false,
                     success: function (data) {
+                        
                         if(data.error)
                         {
-                            
                             let message='';
                             $.each(data.error, function(i,item){
                                 message = message+'*'+item+'\n';
@@ -347,5 +333,10 @@
                 message('info', 'accion declinada');
             }
         })
+    });
+
+   
+    $('.form-group .ckeditor').each(function (idx, elt) {
+        CKEDITOR.replace(elt.id);
     });
 </script>

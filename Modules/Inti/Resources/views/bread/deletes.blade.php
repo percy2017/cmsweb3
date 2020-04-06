@@ -11,7 +11,7 @@
                         </h4>
                         <hr/>
                     </div>  
-                <form method="post" id="search_form" class="form-search" action="{{ route('search') }}">
+                <form method="post" id="search_form" class="form-search" action="{{ route('inti_search') }}">
                   {{ csrf_field() }}
                     <div id="search-input">
                         <input type="hidden" name="table" value="{{ $dataType->name }}" />
@@ -78,7 +78,7 @@
                                           <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
                                         </a>
                                     @else
-                                        <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
+                                        <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
                                           <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
                                         </a>
                                     @endif
@@ -169,7 +169,7 @@
                                         </h4>
                                     @else
                                       <h4>
-                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
+                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
                                       </h4>
                                     @endif
                                   @else
@@ -181,7 +181,7 @@
                           @endforeach
                             
                             <td class="no-sort no-click bread-actions">
-                                <a href="#" onclick="ajax('{{ route('recovery', [$dataType->name, $data->id]) }}', 'recovery')" title="Eliminar" class="btn btn-success">
+                                <a href="#" onclick="ajax('{{ route('inti_recovery', [$dataType->name, $data->id]) }}', 'recovery')" title="Eliminar" class="btn btn-success">
                                 <i class="voyager-upload"></i> <span class="hidden-xs hidden-sm">Recuperar</span>
                                 </a>
                             </td>

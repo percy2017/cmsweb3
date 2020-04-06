@@ -50,8 +50,7 @@
                                                     <select 
                                                         class="form-control select2" 
                                                         name="{{ $row->field }}[]" multiple
-                                                        id="{{ $row->field }}" 
-                                                        @if($row->required == 1) required @endif>
+                                                        id="{{ $row->field }}">
                                                         @php
                                                             $model = app($row->details->model);
                                                             $query = $model::all();
@@ -105,7 +104,6 @@
                                             @endif
                                             @break
                                         @case('text')
-                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
                                                 <span class="voyager-question"
@@ -115,19 +113,13 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="text" 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
-                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif 
-                                                @if($row->required == 1) required @endif 
-                                                placeholder="{{ $row->field }}" 
                                                 value="{{ $data->$myfield }}">
                                             @break
                                         @case('password')
-                                            <span class="text-danger">{{ $errors->first($row->field) }}</span>
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
                                             @if(isset($row->details->tooltip))
                                                 <span class="voyager-question"
@@ -137,15 +129,10 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="password" 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
-                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif 
-                                                @if($row->required == 1) required @endif 
-                                                placeholder="{{ $row->field }}" 
                                                 value="{{ $data->$myfield }}">
                                             @break
                                         @case('number')
@@ -162,10 +149,6 @@
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'min'}))min="{{ $row->details->{'min'} }}"@endif 
-                                                @if(isset($row->details->{'max'}))max="{{ $row->details->{'max'} }}"@endif 
-                                                @if(isset($row->details->{'step'}))step="{{ $row->details->{'step'} }}"@endif 
-                                                @if($row->required == 1) required @endif 
                                                 value="{{ $data->$myfield }}">
                                             
                                             @break
@@ -182,9 +165,7 @@
                                                 @if($row->required == 1) required @endif 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
-                                                id="{{ $row->field }}" 
-                                                @if(isset($row->details->{'minlength'}))minlength="{{ $row->details->{'minlength'} }}"@endif 
-                                                @if(isset($row->details->{'maxlength'}))maxlength="{{ $row->details->{'maxlength'} }}"@endif>{{ $data->$myfield }}</textarea>
+                                                id="{{ $row->field }}">{{ $data->$myfield }}</textarea>
                                             @break
                                         @case('timestamp')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -213,9 +194,9 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <textarea 
-                                                class="form-control richTextBox" 
+                                                class="ckeditor" 
                                                 name="{{ $row->field }}" 
-                                                id="{{ $row->field }}">{{ $data->$myfield }}</textarea>
+                                                id="{{ $row->field }}">{!! htmlspecialchars_decode($data->$myfield) !!}</textarea>
                                             @break
                                         @case('image')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -337,6 +318,9 @@
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         }).then((result) => {
+            $('.form-group .ckeditor').each(function (idx, elt) {
+                CKEDITOR.instances[elt.id].updateElement();
+            });
             if (result.value) {
                 $.ajax({
                     type: 'POST',
@@ -370,5 +354,9 @@
                 message('info', 'accion declinada');
             }
         })
+    });
+
+     $('.form-group .ckeditor').each(function (idx, elt) {
+        CKEDITOR.replace(elt.id);
     });
 </script>

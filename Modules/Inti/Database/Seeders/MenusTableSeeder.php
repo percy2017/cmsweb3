@@ -72,7 +72,7 @@ class MenusTableSeeder extends Seeder
         $menu = Menu::where('name', 'inti_courses')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => 'Crear nuevo Item',
+            'title'   => 'Crear Nuevo',
             'url'     => 'admin/inti_courses/create',
             'route'   => null
         ]);
@@ -87,7 +87,7 @@ class MenusTableSeeder extends Seeder
         }
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => 'Listar Items',
+            'title'   => 'Listar',
             'url'     => 'admin/inti_courses/1',
             'route'   => null
         ]);
@@ -137,6 +137,7 @@ class MenusTableSeeder extends Seeder
         ]);
         $menu = Menu::where('name', 'inti_contents')->firstOrFail();
         
+
         //inti_ives------------------------------------------------------
         Menu::firstOrCreate([
             'name' => 'inti_lives',
