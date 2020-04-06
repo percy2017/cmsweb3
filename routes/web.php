@@ -25,7 +25,7 @@ Route::get('login/github/callback', 'SocialiteController@handleProviderCallback'
 Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name('impresionate');
 
 Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');
-Route::get('videochats/send/{message}', 'FrontEndController@videochats_send')->name('videochats_send')->middleware('auth');
+Route::post('videochats/request', 'FrontEndController@videochats_request')->middleware('auth');
 
 
 Route::group(['prefix' => 'admin'], function () {

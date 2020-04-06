@@ -13,7 +13,7 @@
         <span class="caret"></span>
         <span class="sr-only">Toggle Dropdown</span>
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu animated zoomIn faster">
         @foreach ($menuItems as $item)
             @if($item->title == 'divider')
               <li role="separator" class="divider"></li>

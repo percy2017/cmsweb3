@@ -236,7 +236,6 @@
   <main>
       <div class="container">
       @foreach ($blocks as $item) 
-    
         @include('streaming::blocks.'.$item->name, ['data' => json_decode($item->details)])
       @endforeach
       </div>
