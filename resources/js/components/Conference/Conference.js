@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Row, Col, ListGroupItem, ListGroup, Spinner } from 'reactstrap';
-import MediaHandler from '../MediaHandler';
+import MediaHandler from '../../MediaHandler';
 import getUserMedia from 'getusermedia';
 import Peer from 'simple-peer';
 import axios from 'axios';
@@ -34,28 +34,36 @@ export default class Conference extends Component {
             document.getElementById('otherId').value = e.stream;
             this.startCall(false, e.user_id_receptor, e.user_id_emisor)
             this.setState({callIncommig : true, callIncommigUser : e.user_id_receptor});
+            console.log('request')
+            document.getElementById('connect').click();
         });
 
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
             document.getElementById('otherId').value = e.stream;
-            // setTimeout(() => {
-                document.getElementById('connect').dispatchEvent(new Event('click'));
-            // }, 1000);
+            console.log('response');
+            document.getElementById('connect').dispatchEvent(new Event('click'));
         });
     }
 
     componentWillMount() {
         this.mediaHandler.getPermissions()
         .then((stream) => {
+            var myVideo = document.getElementById('myVideo');
+            var mainVideo = document.getElementById('mainVideo');
             try {
-                this.myVideo.srcObject = stream;
+                myVideo.srcObject = stream;
+                mainVideo.srcObject = stream;
             } catch (e) {
-                this.myVideo.src = URL.createObjectURL(stream);
+                myVideo.src = URL.createObjectURL(stream);
+                mainVideo.src = URL.createObjectURL(stream);
             }
-            this.myVideo.play();
+            myVideo.play();
+            mainVideo.play();
         });
-        // this.startCall(false, 1, 2);
+        if(this.user.id == 1){
+            this.startCall(true, 1, 2)
+        }
     }
 
     startCall(init, emisorId, receptId){
@@ -94,15 +102,11 @@ export default class Conference extends Component {
                     });
                 }
             })
-            
-            // if(!init){
-            //     var otherId = JSON.parse(document.getElementById('otherId').value)
-            //     peer.signal(otherId)
-            // }
+
             document.getElementById('connect').addEventListener('click', function () {
                 var otherId = JSON.parse(document.getElementById('otherId').value)
                 peer.signal(otherId)
-
+                console.log('connect')
                 if(!init){
                     setTimeout(() => {
                         var yourId = document.getElementById('yourId').value;
@@ -135,37 +139,45 @@ export default class Conference extends Component {
             })
           
             peer.on('stream', function (stream) {
-                var video = document.createElement('video')
-                document.getElementById('userVideo').appendChild(video)
+                var userVideo = document.getElementById('userVideo');
+                var mainVideo = document.getElementById('mainVideo');
                 try {
-                    video.srcObject = stream;
+                    userVideo.srcObject = stream;
+                    mainVideo.srcObject = stream;
                 } catch (e) {
-                    video.src = URL.createObjectURL(stream);
+                    userVideo.src = URL.createObjectURL(stream);
+                    mainVideo.src = URL.createObjectURL(stream);
                 }
-                video.play()
+                userVideo.play();
+                mainVideo.play();
             })
         })
     }
 
     render() {
         return (
-            <Container>
+            <Container style={{ marginTop:20 }}>
                 <Row>
-                    <Col md={{ size: '2' }}>   
-                        <ListGroup>
-                            <ListGroupItem>
-                                <video className="" width="100%" ref={(ref) => {this.myVideo = ref;}}></video>
-                            </ListGroupItem>
-                        </ListGroup>
+                    <Col md={{ size: '2' }}>
+                        <ul style={{ listStyle:'none' }}>
+                            <li>
+                                <div>
+                                    <video style={style.miniVideoActive} id="myVideo" muted="muted" width="100%"></video>
+                                </div>
+                            </li>
+                            <li>
+                                <video style={style.miniVideo} id="userVideo" muted="muted" width="100%"></video>
+                            </li>
+                        </ul>
                     </Col>
                     <Col md={{ size: '7' }}>
-                        <div id="userVideo"></div>
+                        <video id="mainVideo" width="100%"></video>
                     </Col>
                     <Col md={{ size: '3' }}>
                         <ListGroup>
                             {
                                 this.state.userList.map(user=>
-                                    <ListGroupItem>
+                                    <ListGroupItem key={user.id}>
                                         {user.name} {this.user.id != user.id && !this.state.callIncommig ? <button onClick={()=>this.startCall(true, this.user.id, user.id)} className="btn btn-success">Llamar</button> : this.state.callIncommig && this.user.id != user.id ? <button id="connect" className="btn btn-primary">Responder</button> : '' }
                                     </ListGroupItem>
                                 )
@@ -185,6 +197,16 @@ export default class Conference extends Component {
         )
     }
 }
+
+const style = {
+    miniVideo: {
+        borderRadius: 5,
+    },
+    miniVideoActive: {
+        borderRadius: 5,
+        border: 'solid 5px green',
+    }
+};
 
 if (document.getElementById('example')) {
     ReactDOM.render(<Conference />, document.getElementById('example'));

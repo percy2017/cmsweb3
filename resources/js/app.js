@@ -12,4 +12,4 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Conference');
+require('./components/Conference/Conference');
