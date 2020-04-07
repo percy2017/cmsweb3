@@ -40,6 +40,6 @@ class Parameters extends AbstractWidget
      */
     public function shouldBeDisplayed()
     {
-        return Auth::user()->can('browse', Voyager::model('User'));
+        return Auth::user()->can('browse', Voyager::model('Setting'));
     }
 }

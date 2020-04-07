@@ -10,8 +10,30 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/preset-react": "^7.0.0",
+        "axios": "^0.19",
+        "bootstrap": "^4.4.1",
         "cross-env": "^5.1.4",
+        "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
-        "laravel-mix-merge-manifest": "^0.1.2"
+        "laravel-mix-merge-manifest": "^0.1.2",
+        "lodash": "^4.17.13",
+        "vue-template-compiler": "^2.6.11",
+        "popper.js": "^1.12",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "sass": "^1.26.3",
+        "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "fibers": "^4.0.2",
+        "getusermedia": "^2.0.1",
+        "laravel-echo": "^1.6.1",
+        "node-sass": "^4.13.1",
+        "pusher-js": "^5.1.1",
+        "reactstrap": "^8.4.1",
+        "simple-peer": "^9.6.2",
+        "sweetalert2": "^9.10.9",
+        "sweetalert2-react-content": "^3.0.1"
     }
 }
