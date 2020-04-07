@@ -7,7 +7,20 @@ import getUserMedia from 'getusermedia';
 import Peer from 'simple-peer';
 import axios from 'axios';
 
-axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken}
+axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken};
+
+var simulateClick = function (elem) {
+	// Create our event (with options)
+	var evt = new MouseEvent('click', {
+		bubbles: true,
+		cancelable: true,
+		view: window
+	});
+	// If cancelled, don't dispatch our event
+	var canceled = !elem.dispatchEvent(evt);
+};
+
+var PEERS = [];
 
 export default class Conference extends Component {
 
@@ -15,19 +28,19 @@ export default class Conference extends Component {
         super(props);
 
         this.state = {
-            hasInitiador: false,
-            myuser: window.user.name,
             userList: window.userList,
+            miniVideoActive: window.user.id,
             callIncommig: false,
             callIncommigUser: null
         };
 
         this.user = window.user;
-        this.user = window.user;
+        this.userList = this.state.userList;
 
         // Bindings
         this.mediaHandler = new MediaHandler();
         this.startCall = this.startCall.bind(this);
+        this.changeMiniVideoActive = this.changeMiniVideoActive.bind(this);
 
         // Channels
         Echo.channel(`RequestStreamUserChannel-${this.user.id}`)
@@ -35,23 +48,28 @@ export default class Conference extends Component {
             document.getElementById('otherId').value = e.stream;
             this.startCall(false, e.user_id_receptor, e.user_id_emisor)
             this.setState({callIncommig : true, callIncommigUser : e.user_id_receptor});
-            console.log('request')
-            document.getElementById('connect').click();
+            // console.log('request')
+            setTimeout(() => {
+                simulateClick(document.getElementById('connect'));
+            }, 500);
         });
 
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
             document.getElementById('otherId').value = e.stream;
-            console.log('response');
-            document.getElementById('connect').dispatchEvent(new Event('click'));
+            // console.log('response');
+            setTimeout(() => {
+                simulateClick(document.getElementById('connect'));
+            }, 500);
         });
     }
 
     componentWillMount() {
         this.mediaHandler.getPermissions()
         .then((stream) => {
-            var myVideo = document.getElementById('myVideo');
+            var myVideo = document.getElementById(`userVideo-${this.user.id}`);
             var mainVideo = document.getElementById('mainVideo');
+            PEERS[this.user.id] = stream;
             try {
                 myVideo.srcObject = stream;
                 mainVideo.srcObject = stream;
@@ -62,9 +80,15 @@ export default class Conference extends Component {
             myVideo.play();
             mainVideo.play();
         });
-        if(this.user.id == 1){
-            this.startCall(true, 1, 2)
-        }
+
+        // Lamar a todos los usuarios
+        setTimeout(() => {
+            this.userList.map(user=>{
+                if(this.user.id != user.id){
+                    this.startCall(true, this.user.id, user.id);
+                }
+            });
+        }, 0);
     }
 
     startCall(init, emisorId, receptId){
@@ -76,6 +100,7 @@ export default class Conference extends Component {
               stream: stream
             })
 
+            // Crear el boton que dispare el evento ce conexión
             if(init){
                 var buttom = document.createElement('buttom');
                 buttom.id = 'connect';
@@ -107,7 +132,7 @@ export default class Conference extends Component {
             document.getElementById('connect').addEventListener('click', function () {
                 var otherId = JSON.parse(document.getElementById('otherId').value)
                 peer.signal(otherId)
-                console.log('connect')
+                // console.log('connect')
                 if(!init){
                     setTimeout(() => {
                         var yourId = document.getElementById('yourId').value;
@@ -126,7 +151,7 @@ export default class Conference extends Component {
                         .catch(function (error) {
                             console.log(error);
                         });
-                    }, 500);
+                    }, 5000);
                 }
             })
           
@@ -136,23 +161,27 @@ export default class Conference extends Component {
             })
           
             peer.on('data', function (data) {
-              document.getElementById('messages').textContent += data + '\n'
-            })
+                document.getElementById('messages').textContent += data + '\n'
+            });
           
             peer.on('stream', function (stream) {
-                var userVideo = document.getElementById('userVideo');
-                var mainVideo = document.getElementById('mainVideo');
-                try {
-                    userVideo.srcObject = stream;
-                    mainVideo.srcObject = stream;
-                } catch (e) {
-                    userVideo.src = URL.createObjectURL(stream);
-                    mainVideo.src = URL.createObjectURL(stream);
-                }
+                var userVideo = document.getElementById(`userVideo-${receptId}`);
+                PEERS[receptId] = stream;
+                try {userVideo.srcObject = stream}
+                catch (e) {userVideo.src = URL.createObjectURL(stream)}
                 userVideo.play();
-                mainVideo.play();
             })
         })
+    }
+
+    changeMiniVideoActive(id){
+        this.setState({miniVideoActive: id});
+        var userVideo = document.getElementById(`mainVideo`);
+        var userStream = PEERS[id];
+        // console.log(userStream)
+        try {userVideo.srcObject = userStream}
+        catch (e) {userVideo.src = URL.createObjectURL(userStream)}
+        userVideo.play();
     }
 
     render() {
@@ -162,24 +191,42 @@ export default class Conference extends Component {
                     <Col md={{ size: '2' }}>
                         <ul style={{ listStyle:'none' }}>
                             <li>
-                                <div>
-                                    <video style={style.miniVideoActive} id="myVideo" muted="muted" width="100%"></video>
+                                <div style={style.containerMiniVideo}>
+                                    <video
+                                        style={this.state.miniVideoActive == this.user.id ? style.miniVideoActive : style.miniVideo}
+                                        onClick={()=>this.changeMiniVideoActive(this.user.id)}
+                                        id={`userVideo-${this.user.id}`} muted="muted" width="100%"
+                                    >
+                                    </video>
                                 </div>
                             </li>
-                            <li>
-                                <video style={style.miniVideo} id="userVideo" muted="muted" width="100%"></video>
-                            </li>
+                            {/* Usuarios Conectados */}
+                            {
+                                this.state.userList.map(user=>{
+                                    if(this.user.id != user.id){
+                                        return (<li key={user.id}>
+                                            <div style={style.containerMiniVideo}>
+                                                <video
+                                                    style={this.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo}
+                                                    onClick={()=>this.changeMiniVideoActive(user.id)}
+                                                    id={`userVideo-${user.id}`} muted="muted" width="100%">
+                                                </video>
+                                            </div>
+                                        </li>);
+                                    }
+                                })
+                            }
                         </ul>
                     </Col>
-                    <Col md={{ size: '7' }}>
+                    <Col md={{ size: '8' }}>
                         <video id="mainVideo" width="100%"></video>
                     </Col>
-                    <Col md={{ size: '3' }}>
+                    <Col md={{ size: '2' }}>
                         <ListGroup>
                             {
                                 this.state.userList.map(user=>
                                     <ListGroupItem key={user.id}>
-                                        {user.name} {this.user.id != user.id && !this.state.callIncommig ? <button onClick={()=>this.startCall(true, this.user.id, user.id)} className="btn btn-success">Llamar</button> : this.state.callIncommig && this.user.id != user.id ? <button id="connect" className="btn btn-primary">Responder</button> : '' }
+                                        {user.name} {this.user.id != user.id && !this.state.callIncommig ? <button style={{ display: 'none' }} onClick={()=>this.startCall(true, this.user.id, user.id)}></button> : this.state.callIncommig && this.user.id != user.id ? <button style={{ display: 'none' }} id="connect"></button> : '' }
                                     </ListGroupItem>
                                 )
                             }
@@ -189,10 +236,15 @@ export default class Conference extends Component {
                 <div className="row">
                     <input type="hidden" id="yourId" className="form-control" />
                     <input type="hidden" id="otherId" className="form-control" />
-
-                    <textarea id="yourMessage" className="form-control" placeholder="Escribe..."></textarea><br/><br/>
-                    <button id="send" className="btn btn-primary">send</button>
-                    <p id="messages"></p>
+                    <div id="messages"></div>
+                    <div className="col-md-12">
+                        <div className="input-group">
+                        <input type="text" id="yourMessage" className="form-control" placeholder="Escribe..." />
+                        <span className="input-group-btn">
+                            <button id="send" className="btn btn-primary">send</button>
+                        </span>
+                        </div>
+                    </div>
                 </div>
             </Container>
         )
@@ -200,6 +252,9 @@ export default class Conference extends Component {
 }
 
 const style = {
+    containerMiniVideo: {
+        cursor: 'pointer'
+    },
     miniVideo: {
         borderRadius: 5,
     },
