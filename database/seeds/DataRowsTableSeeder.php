@@ -432,6 +432,40 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => $count++
             ])->save();
         }
+        $dataRow = $this->dataRow($PageDataType, 'direction');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Direccion',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($PageDataType, 'image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Image',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
+            ])->save();
+        }
         $dataRow = $this->dataRow($PageDataType, 'details');
         if (!$dataRow->exists) {
             $dataRow->fill([

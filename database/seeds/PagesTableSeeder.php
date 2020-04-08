@@ -20,6 +20,7 @@ class PagesTableSeeder extends Seeder
             'name'      => 'Landing Page Software',
             'slug'      => 'welcome',
             'description' => 'Pagina de Destino para Empresa de Software',
+            'direction' => 'welcome',
             'user_id' => 1,
             'details'   => json_encode([
                 'title' => [
@@ -729,11 +730,13 @@ class PagesTableSeeder extends Seeder
         $page = Page::create([
             'name'      => 'Pagina de Politica y Privacidad',
             'slug'      => 'politica-privacidad',
+            'direction' => 'pages.index',
             'user_id' => 1
         ]);
         $page = Page::create([
             'name'      => 'Pagina de Terminos y Condiciones ',
             'slug'      => 'terminos-condiones',
+            'direction' => 'pages.index',
             'user_id' => 1
         ]);
 

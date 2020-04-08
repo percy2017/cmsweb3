@@ -19,6 +19,7 @@ class CreatePagesTable extends Migration
             $table->string('image')->nullable();
             $table->string('slug');
             $table->string('description')->nullable();
+            $table->string('direction')->nullable();
             $table->text('details')->nullable();
 
             $table->unsignedBigInteger('user_id');

@@ -208,7 +208,7 @@
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
-                                                <img class="img-responsive" src="{{ Voyager::Image($data->$myfield) }}" width="60%">
+                                            <img class="img-responsive" src="{{ Voyager::Image($data->$myfield) }}" width="60%">
                                             <input 
                                             
                                                 type="file" 

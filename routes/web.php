@@ -53,3 +53,5 @@ Route::get('{module_name}/installer', function($module_id) {
     return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
 })->name('module_installer');
 
+
+Route::get('/{slug}', 'FrontEndController@pages')->name('pages');
