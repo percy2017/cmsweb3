@@ -99285,6 +99285,19 @@ axios__WEBPACK_IMPORTED_MODULE_7___default.a.defaults.headers.common = {
   'X-CSRF-TOKEN': window.csrfToken
 };
 
+var simulateClick = function simulateClick(elem) {
+  // Create our event (with options)
+  var evt = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    view: window
+  }); // If cancelled, don't dispatch our event
+
+  var canceled = !elem.dispatchEvent(evt);
+};
+
+var PEERS = [];
+
 var Conference = /*#__PURE__*/function (_Component) {
   _inherits(Conference, _Component);
 
@@ -99297,17 +99310,17 @@ var Conference = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      hasInitiador: false,
-      myuser: window.user.name,
       userList: window.userList,
+      miniVideoActive: window.user.id,
       callIncommig: false,
       callIncommigUser: null
     };
     _this.user = window.user;
-    _this.user = window.user; // Bindings
+    _this.userList = _this.state.userList; // Bindings
 
     _this.mediaHandler = new _MediaHandler__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    _this.startCall = _this.startCall.bind(_assertThisInitialized(_this)); // Channels
+    _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
+    _this.changeMiniVideoActive = _this.changeMiniVideoActive.bind(_assertThisInitialized(_this)); // Channels
 
     Echo.channel("RequestStreamUserChannel-".concat(_this.user.id)).listen('.App\\Events\\Telematic\\RequestStreamUser', function (e) {
       document.getElementById('otherId').value = e.stream;
@@ -99317,15 +99330,19 @@ var Conference = /*#__PURE__*/function (_Component) {
       _this.setState({
         callIncommig: true,
         callIncommigUser: e.user_id_receptor
-      });
+      }); // console.log('request')
 
-      console.log('request');
-      document.getElementById('connect').click();
+
+      setTimeout(function () {
+        simulateClick(document.getElementById('connect'));
+      }, 500);
     });
     Echo.channel("ResponseStreamUserChannel-".concat(_this.user.id)).listen('.App\\Events\\Telematic\\ResponseStreamUser', function (e) {
-      document.getElementById('otherId').value = e.stream;
-      console.log('response');
-      document.getElementById('connect').dispatchEvent(new Event('click'));
+      document.getElementById('otherId').value = e.stream; // console.log('response');
+
+      setTimeout(function () {
+        simulateClick(document.getElementById('connect'));
+      }, 500);
     });
     return _this;
   }
@@ -99333,9 +99350,12 @@ var Conference = /*#__PURE__*/function (_Component) {
   _createClass(Conference, [{
     key: "componentWillMount",
     value: function componentWillMount() {
+      var _this2 = this;
+
       this.mediaHandler.getPermissions().then(function (stream) {
-        var myVideo = document.getElementById('myVideo');
+        var myVideo = document.getElementById("userVideo-".concat(_this2.user.id));
         var mainVideo = document.getElementById('mainVideo');
+        PEERS[_this2.user.id] = stream;
 
         try {
           myVideo.srcObject = stream;
@@ -99347,11 +99367,15 @@ var Conference = /*#__PURE__*/function (_Component) {
 
         myVideo.play();
         mainVideo.play();
-      });
+      }); // Lamar a todos los usuarios
 
-      if (this.user.id == 1) {
-        this.startCall(true, 1, 2);
-      }
+      setTimeout(function () {
+        _this2.userList.map(function (user) {
+          if (_this2.user.id != user.id) {
+            _this2.startCall(true, _this2.user.id, user.id);
+          }
+        });
+      }, 0);
     }
   }, {
     key: "startCall",
@@ -99365,7 +99389,7 @@ var Conference = /*#__PURE__*/function (_Component) {
           initiator: init,
           trickle: false,
           stream: stream
-        });
+        }); // Crear el boton que dispare el evento ce conexión
 
         if (init) {
           var buttom = document.createElement('buttom');
@@ -99395,8 +99419,7 @@ var Conference = /*#__PURE__*/function (_Component) {
         });
         document.getElementById('connect').addEventListener('click', function () {
           var otherId = JSON.parse(document.getElementById('otherId').value);
-          peer.signal(otherId);
-          console.log('connect');
+          peer.signal(otherId); // console.log('connect')
 
           if (!init) {
             setTimeout(function () {
@@ -99414,7 +99437,7 @@ var Conference = /*#__PURE__*/function (_Component) {
               })["catch"](function (error) {
                 console.log(error);
               });
-            }, 500);
+            }, 5000);
           }
         });
         document.getElementById('send').addEventListener('click', function () {
@@ -99425,26 +99448,40 @@ var Conference = /*#__PURE__*/function (_Component) {
           document.getElementById('messages').textContent += data + '\n';
         });
         peer.on('stream', function (stream) {
-          var userVideo = document.getElementById('userVideo');
-          var mainVideo = document.getElementById('mainVideo');
+          var userVideo = document.getElementById("userVideo-".concat(receptId));
+          PEERS[receptId] = stream;
 
           try {
             userVideo.srcObject = stream;
-            mainVideo.srcObject = stream;
           } catch (e) {
             userVideo.src = URL.createObjectURL(stream);
-            mainVideo.src = URL.createObjectURL(stream);
           }
 
           userVideo.play();
-          mainVideo.play();
         });
       });
     }
   }, {
+    key: "changeMiniVideoActive",
+    value: function changeMiniVideoActive(id) {
+      this.setState({
+        miniVideoActive: id
+      });
+      var userVideo = document.getElementById("mainVideo");
+      var userStream = PEERS[id]; // console.log(userStream)
+
+      try {
+        userVideo.srcObject = userStream;
+      } catch (e) {
+        userVideo.src = URL.createObjectURL(userStream);
+      }
+
+      userVideo.play();
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Container"], {
         style: {
@@ -99458,39 +99495,59 @@ var Conference = /*#__PURE__*/function (_Component) {
         style: {
           listStyle: 'none'
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
-        style: style.miniVideoActive,
-        id: "myVideo",
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: style.containerMiniVideo
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+        style: this.state.miniVideoActive == this.user.id ? style.miniVideoActive : style.miniVideo,
+        onClick: function onClick() {
+          return _this3.changeMiniVideoActive(_this3.user.id);
+        },
+        id: "userVideo-".concat(this.user.id),
         muted: "muted",
         width: "100%"
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
-        style: style.miniVideo,
-        id: "userVideo",
-        muted: "muted",
-        width: "100%"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
+      }))), this.state.userList.map(function (user) {
+        if (_this3.user.id != user.id) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: user.id
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            style: style.containerMiniVideo
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+            style: _this3.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo,
+            onClick: function onClick() {
+              return _this3.changeMiniVideoActive(user.id);
+            },
+            id: "userVideo-".concat(user.id),
+            muted: "muted",
+            width: "100%"
+          })));
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
         md: {
-          size: '7'
+          size: '8'
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
         id: "mainVideo",
         width: "100%"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["Col"], {
         md: {
-          size: '3'
+          size: '2'
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["ListGroup"], null, this.state.userList.map(function (user) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_3__["ListGroupItem"], {
           key: user.id
-        }, user.name, " ", _this2.user.id != user.id && !_this2.state.callIncommig ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          onClick: function onClick() {
-            return _this2.startCall(true, _this2.user.id, user.id);
+        }, user.name, " ", _this3.user.id != user.id && !_this3.state.callIncommig ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          style: {
+            display: 'none'
           },
-          className: "btn btn-success"
-        }, "Llamar") : _this2.state.callIncommig && _this2.user.id != user.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          id: "connect",
-          className: "btn btn-primary"
-        }, "Responder") : '');
+          onClick: function onClick() {
+            return _this3.startCall(true, _this3.user.id, user.id);
+          }
+        }) : _this3.state.callIncommig && _this3.user.id != user.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          style: {
+            display: 'none'
+          },
+          id: "connect"
+        }) : '');
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -99501,16 +99558,23 @@ var Conference = /*#__PURE__*/function (_Component) {
         type: "hidden",
         id: "otherId",
         className: "form-control"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "messages"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
         id: "yourMessage",
         className: "form-control",
         placeholder: "Escribe..."
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "input-group-btn"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         id: "send",
         className: "btn btn-primary"
-      }, "send"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        id: "messages"
-      })));
+      }, "send"))))));
     }
   }]);
 
@@ -99519,6 +99583,9 @@ var Conference = /*#__PURE__*/function (_Component) {
 
 
 var style = {
+  containerMiniVideo: {
+    cursor: 'pointer'
+  },
   miniVideo: {
     borderRadius: 5
   },
