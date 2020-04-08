@@ -40,10 +40,11 @@
                                                         @php
                                                             $model = app($row->details->model);
                                                             $query = $model::all();
+                                                            $key = $row->details->column;
                                                         @endphp
                                                         <option disabled>-- Seleciona datos --</option>
                                                         @foreach($query as $relationshipData)
-                                                            <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
+                                                            <option value="{{ $relationshipData->{$row->details->key} }}" @if($relationshipData->{$row->details->key}==$data->$key) selected @endif>{{ $relationshipData->{$row->details->label} }}</option>
                                                         @endforeach
                                                     </select>
                                                 @else

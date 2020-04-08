@@ -8,7 +8,7 @@ class PageEdit extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Edit';
+        return 'Data';
     }
 
     public function getIcon()
@@ -24,7 +24,7 @@ class PageEdit extends AbstractAction
     public function getAttributes()
     {
         return [
-            'class' => 'btn btn-primary pull-right',
+            'class' => 'btn btn-dark pull-right',
         ];
     }
 

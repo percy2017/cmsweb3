@@ -13,10 +13,10 @@ class CreateCashesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cashes', function (Blueprint $table) {
+        Schema::create('yimbo_cashes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre', 50)->nullable();
-			/**
+			/*
             --------------------------------------------
             ELEGIR QUE ATRIBUTO PARA CREAR EL DATA ROWS
             --------------------------------------------
@@ -39,7 +39,7 @@ class CreateCashesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('branch_office_id');
-            $table->foreign('branch_office_id')->references('id')->on('branch_offices');//sucursal
+            $table->foreign('branch_office_id')->references('id')->on('yimbo_branch_offices');//sucursal
             
 
             $table->timestamps();
@@ -54,6 +54,6 @@ class CreateCashesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cashes');
+        Schema::dropIfExists('yimbo_cashes');
     }
 }

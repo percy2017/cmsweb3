@@ -13,7 +13,7 @@ class CreateBranchOfficeExtraTable extends Migration
      */
     public function up()
     {
-        Schema::create('branchOffice_extra', function (Blueprint $table) {
+        Schema::create('yimbo_branchOffice_extra', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateBranchOfficeExtraTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branchOffice_extra');
+        Schema::dropIfExists('yimbo_branchOffice_extra');
     }
 }

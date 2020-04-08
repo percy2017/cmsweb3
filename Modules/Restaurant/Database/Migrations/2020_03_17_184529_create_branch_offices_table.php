@@ -13,7 +13,7 @@ class CreateBranchOfficesTable extends Migration
      */
     public function up()
     {
-        Schema::create('branch_offices', function (Blueprint $table) {
+        Schema::create('yimbo_branch_offices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
 			$table->text('address', 65535)->nullable();
@@ -36,6 +36,6 @@ class CreateBranchOfficesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branch_offices');
+        Schema::dropIfExists('yimbo_branch_offices');
     }
 }

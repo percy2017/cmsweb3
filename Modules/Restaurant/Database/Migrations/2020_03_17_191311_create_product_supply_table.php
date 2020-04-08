@@ -13,14 +13,14 @@ class CreateProductSupplyTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_supply', function (Blueprint $table) {
+        Schema::create('yimbo_product_supply', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('yimbo_products');
+
             $table->bigInteger('supply_id')->unsigned();
-            
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('supply_id')->references('id')->on('supplies');
+            $table->foreign('supply_id')->references('id')->on('yimbo_supplies');
 
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ class CreateProductSupplyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_supply');
+        Schema::dropIfExists('yimbo_product_supply');
     }
 }

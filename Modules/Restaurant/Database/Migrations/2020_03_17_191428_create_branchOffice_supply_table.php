@@ -13,16 +13,16 @@ class CreateBranchOfficeSupplyTable extends Migration
      */
     public function up()
     {
-        Schema::create('branchOffice_supply', function (Blueprint $table) {
+        Schema::create('yimbo_branchOffice_supply', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->bigInteger('branch_office_id')->unsigned();
+            $table->foreign('branch_office_id')->references('id')->on('yimbo_branch_offices');
+
             $table->bigInteger('supply_id')->unsigned();
+            $table->foreign('supply_id')->references('id')->on('yimbo_supplies');
 
             $table->timestamps();
-
-            $table->foreign('branch_office_id')->references('id')->on('branch_offices');
-            $table->foreign('supply_id')->references('id')->on('supplies');
             
         });
     }
@@ -34,6 +34,6 @@ class CreateBranchOfficeSupplyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branchOffice_supply');
+        Schema::dropIfExists('yimbo_branchOffice_supply');
     }
 }

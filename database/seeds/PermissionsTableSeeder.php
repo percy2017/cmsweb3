@@ -37,6 +37,10 @@ class PermissionsTableSeeder extends Seeder
 
         $keys = [
             'browse_pages',
+            'add_pages',
+            'data_pages',
+            'block_page',
+            'delete_pages'
         ];
 
         foreach ($keys as $key) {

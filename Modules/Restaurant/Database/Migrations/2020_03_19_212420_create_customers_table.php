@@ -13,7 +13,7 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('yimbo_customers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('reason_social')->nullable();
 			$table->string('nit')->nullable();
@@ -33,6 +33,6 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('yimbo_customers');
     }
 }

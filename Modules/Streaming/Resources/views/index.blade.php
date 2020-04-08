@@ -26,6 +26,15 @@
     <link rel="stylesheet" href="{{ asset('vendor/share/css/contact-buttons.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
     @laravelPWA
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '');
+    </script>
 </head>
 <body>
 <!--Navbar -->

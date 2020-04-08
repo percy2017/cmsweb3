@@ -13,7 +13,7 @@ class BlocksBread extends AbstractAction
 
     public function getIcon()
     {
-        return 'voyager-edit';
+        return 'voyager-tools';
     }
 
     public function getPolicy()

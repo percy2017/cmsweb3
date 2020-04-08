@@ -28,7 +28,6 @@
               <img src="{{ Voyager::Image(Auth::user()->avatar) }}" class="img-thumbnail"  style="width: 130px" />
   
               <p class="text-muted"><small>Bienvenido al mejor CmsWeb</small></p>
-               {{ dd(Voyager::model('User')) }}
               <div class="row flex-center">
                 {{--  @if(Auth::user()->role->id == 1)  --}}
                 <a class="btn btn-info btn-rounded btn-sm" href="{{ route('voyager.dashboard') }}">Ir a Panel</a>

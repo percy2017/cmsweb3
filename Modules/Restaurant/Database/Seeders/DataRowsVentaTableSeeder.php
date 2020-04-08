@@ -20,11 +20,11 @@ class DataRowsVentaTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $CustomerDataType = DataType::where('slug', 'customers')->firstOrFail();
-        $CasheDataType = DataType::where('slug', 'cashes')->firstOrFail();
-        $SaleDataType = DataType::where('slug', 'sales')->firstOrFail();
-        $SeatDataType = DataType::where('slug', 'seats')->firstOrFail();
-        $DetailExtraDataType = DataType::where('slug', 'detail_extras')->firstOrFail();
+        $CustomerDataType = DataType::where('slug', 'yimbo_customers')->firstOrFail();
+        $CasheDataType = DataType::where('slug', 'yimbo_cashes')->firstOrFail();
+        $SaleDataType = DataType::where('slug', 'yimbo_sales')->firstOrFail();
+        $SeatDataType = DataType::where('slug', 'yimbo_seats')->firstOrFail();
+        $DetailExtraDataType = DataType::where('slug', 'yimbo_detail_extras')->firstOrFail();
 
 
         /**

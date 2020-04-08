@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/inti/css/slick.css') }}">
     <!-- style CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/inti/css/style.css') }}">
+    @laravelPWA
 </head>
 
 <body>

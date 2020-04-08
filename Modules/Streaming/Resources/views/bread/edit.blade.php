@@ -32,18 +32,20 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             @if($row->details->{'type'} == 'belongsTo')
+                                               
                                                     <select 
                                                         class="form-control select2" 
                                                         name="{{ $row->details->{'column'} }}"
-                                                        id="{{ $row->details->{'column'} }}" 
-                                                        @if($row->required == 1) required @endif>
+                                                        id="{{ $row->details->{'column'} }}">
                                                         @php
                                                             $model = app($row->details->model);
                                                             $query = $model::all();
+                                                            $key = $row->details->column;
                                                         @endphp
                                                         <option disabled>-- Seleciona datos --</option>
                                                         @foreach($query as $relationshipData)
-                                                            <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
+                                                            
+                                                            <option value="{{ $relationshipData->{$row->details->key} }}" @if($relationshipData->{$row->details->key}==$data->$key) selected @endif>{{ $relationshipData->{$row->details->label} }}</option>
                                                         @endforeach
                                                     </select>
                                                 @else
@@ -72,37 +74,19 @@
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
-                                            @if(isset($row->details->relationship))
-                                                @php
-                                                    $model=$row->details->relationship->{'model'};  
-                                                    $data=$model::all();
-                                                    $data=$row->details->relationship->{'model'}::all();
-                                                    $key=$row->details->relationship->{'key'};
-                                                    $label=$row->details->relationship->{'label'};
-                                                @endphp
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif> 
-                                                    <option disabled>-- Seleciona un dato --</option>                                          
-                                                    @foreach ($data  as $item)
-                                                        <option value="{{ $item->$key }}">{{ $item->$label }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @else
+                                     
                                                                                         
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif>
-                                                        <option disabled>-- Seleciona un dato --</option>
-                                                    @foreach ($row->details->options  as $item)
-                                                        <option value="{{ $item }}" @if($item==$data->$myfield) selected @endif>{{ $item }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
+                                            <select 
+                                                class="form-control select2" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}" 
+                                                @if($row->required == 1) required @endif>
+                                                    <option disabled>-- Seleciona un dato --</option>
+                                                @foreach ($row->details->options  as $item)
+                                                    <option value="{{ $item }}" @if($item==$data->$myfield) selected @endif>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                          
                                             @break
                                         @case('text')
                                             <span class="text-danger">{{ $errors->first($row->field) }}</span>
@@ -115,7 +99,6 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="text" 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 

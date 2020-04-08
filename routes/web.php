@@ -41,7 +41,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
 
-   Route::get('module/view/{module_id}', 'PageController@module_view')->name('module_view');
+    Route::get('module/view/{module_id}', 'PageController@module_view')->name('module_view');
 });
 
 Route::get('{module_name}/installer', function($module_id) {

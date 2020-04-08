@@ -13,7 +13,7 @@ class CreateSeatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('seats', function (Blueprint $table) {
+        Schema::create('yimbo_seats', function (Blueprint $table) {
             $table->bigIncrements('id');
             /*
             --------------------------------------------
@@ -29,10 +29,10 @@ class CreateSeatsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');//usuario
 
             $table->unsignedBigInteger('sale_id');
-            $table->foreign('sale_id')->references('id')->on('sales');//ventas
+            $table->foreign('sale_id')->references('id')->on('yimbo_sales');//ventas
 
             $table->unsignedBigInteger('cashe_id');
-            $table->foreign('cashe_id')->references('id')->on('cashes');//cajas
+            $table->foreign('cashe_id')->references('id')->on('yimbo_cashes');//cajas
 
             $table->timestamps();
             $table->softDeletes();
@@ -46,6 +46,6 @@ class CreateSeatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('seats');
+        Schema::dropIfExists('yimbo_seats');
     }
 }

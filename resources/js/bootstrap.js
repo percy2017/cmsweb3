@@ -40,6 +40,6 @@ window.Echo = new Echo({
     wsPort: process.env.MIX_PUSHER_APP_PORT,
     disableStats: true,
     // forceTLS: true, 
-    // wssPort: MIX_PUSHER_APP_PORT,
+    // wssPort: process.env.MIX_PUSHER_APP_PORT,
     // enabledTransports: ['ws', 'wss'] 
 });
