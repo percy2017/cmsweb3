@@ -66,6 +66,7 @@ class ProductController extends Controller
            
         //------------------ REGISTRO-------------------------------------
         $data = new $this->dataType->model_name;
+        $myrelationships = array();
         foreach ($this->dataRowsAdd as $key) {
             $aux =  $key->field;
          
@@ -92,6 +93,14 @@ class ProductController extends Controller
                     }
                     break;
                 case 'relationship':
+                     if ($key->details->{'type'} == 'belongsToMany') {
+                       
+                        if ($request->$aux) {
+                           
+                            array_push($myrelationships, array($aux => $request->$aux));
+                        }
+                        
+                     }
                     
                     break;
                 case 'checkbox':
@@ -109,7 +118,23 @@ class ProductController extends Controller
                     break;
             }
         }
-        $data->save();
+        
+        // $data->save();
+        
+        if ($myrelationships) {
+           
+            foreach ($myrelationships as $key => $valor) {
+                $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
+                $mymodel = new $mydata->details->attributes->{'model'};
+                $mycolumn = $mydata->details->attributes->{'column'};
+                $mykey = $mydata->details->attributes->{'key'};
+                foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel->$mycolumn = $data->id;
+                    $mymodel->$mykey = $value;
+                    $mymodel->save();
+                }
+            }
+         }
         // --------------------------REGISTRO ---------------------------------------------------
 
         return $this->show();

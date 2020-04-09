@@ -150,6 +150,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                     'display'   => [
                         'width'  => '6',
                     ],
+                    'attributes' => [
+                        'model' => 'Modules\\Restaurant\\Entities\\ProductSupply',
+                        'column' => 'product_id',
+                        'key' => 'supply_id'
+                    ],
                     'model'       => 'Modules\\Restaurant\\Entities\\Supply',
                     'table'       => 'yimbo_supplies',
                     'type'        => 'belongsToMany',
@@ -178,6 +183,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
+                    ],
+                    'attributes' => [
+                        'model' => 'Modules\\Restaurant\\Entities\\ProductExtra',
+                        'column' => 'product_id',
+                        'key' => 'extra_id'
                     ],
                     'model'       => 'Modules\\Restaurant\\Entities\\Extra',
                     'table'       => 'yimbo_extras',
