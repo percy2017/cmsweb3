@@ -8,5 +8,5 @@ class Supply extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $guarded = [];
+    protected $table = 'yimbo_supplies';
 }

@@ -17,6 +17,7 @@ class RestaurantDatabaseSeeder extends Seeder
         // Model::unguard();
 
         $this->call(DataTypesRestaurantTableSeeder::class);
+        $this->call(DataRowsInventarioTableSeeder::class);
         $this->call(DataRowsVentaTableSeeder::class);
         $this->call(PermisionTableSeeder::class);
         $this->call(MenusTableSeeder::class);

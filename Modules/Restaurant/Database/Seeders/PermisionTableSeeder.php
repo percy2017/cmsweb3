@@ -24,23 +24,23 @@ class PermisionTableSeeder extends Seeder
          *      PERMISSION TABLE - MODULO INVENTARIO
          *--------------------------------------------------------
          */
-        Permission::generateFor('products');
-        Permission::generateFor('categories');
-        Permission::generateFor('sub_categories');
-        Permission::generateFor('branch_offices'); //sucurales
-        Permission::generateFor('supplies'); //suministros
-        Permission::generateFor('extras');
+        Permission::generateFor('yimbo_products');
+        Permission::generateFor('yimbo_categories');
+        Permission::generateFor('yimbo_sub_categories');
+        Permission::generateFor('yimbo_branch_offices'); //sucurales
+        Permission::generateFor('yimbo_supplies'); //suministros
+        Permission::generateFor('yimbo_extras');
 
         /**
          * -------------------------------------------------
          *         PERMISSION TABLE - MODULO VENTA
          * --------------------------------------------------
          */
-        Permission::generateFor('customers');//clientes
-        Permission::generateFor('cashes');//cajas
-        Permission::generateFor('sales');//ventas
-        Permission::generateFor('seats');//asientos
-        Permission::generateFor('detail_extras');   
+        Permission::generateFor('yimbo_customers');//clientes
+        Permission::generateFor('yimbo_cashes');//cajas
+        Permission::generateFor('yimbo_sales');//ventas
+        Permission::generateFor('yimbo_seats');//asientos
+        Permission::generateFor('yimbo_detail_extras');   
 
         $role = Role::where('name', 'admin')->firstOrFail();
 
@@ -49,7 +49,7 @@ class PermisionTableSeeder extends Seeder
          *      PERMISSIONS TABLE - MODULO INVENTARIO
          *--------------------------------------------------------
          */
-        $permissions = Permission::where('table_name', 'products')->get();
+        $permissions = Permission::where('table_name', 'yimbo_products')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -60,7 +60,7 @@ class PermisionTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'categories')->get();
+        $permissions = Permission::where('table_name', 'yimbo_categories')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -71,7 +71,7 @@ class PermisionTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'sub_categories')->get();
+        $permissions = Permission::where('table_name', 'yimbo_sub_categories')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -82,7 +82,7 @@ class PermisionTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'branch_offices')->get();
+        $permissions = Permission::where('table_name', 'yimbo_branch_offices')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -93,7 +93,7 @@ class PermisionTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'supplies')->get();
+        $permissions = Permission::where('table_name', 'yimbo_supplies')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -104,7 +104,7 @@ class PermisionTableSeeder extends Seeder
             }
         }
 
-        $permissions = Permission::where('table_name', 'extras')->get();
+        $permissions = Permission::where('table_name', 'yimbo_extras')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -120,7 +120,7 @@ class PermisionTableSeeder extends Seeder
          *      PERMISSIONS STABLE - MODULO VENTAS
          *--------------------------------------------------------
          */
-        $permissions = Permission::where('table_name', 'customers')->get();
+        $permissions = Permission::where('table_name', 'yimbo_customers')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -130,7 +130,7 @@ class PermisionTableSeeder extends Seeder
                 ]);
             }
         }
-        $permissions = Permission::where('table_name', 'cashes')->get();
+        $permissions = Permission::where('table_name', 'yimbo_cashes')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -140,7 +140,7 @@ class PermisionTableSeeder extends Seeder
                 ]);
             }
         }
-        $permissions = Permission::where('table_name', 'sales')->get();
+        $permissions = Permission::where('table_name', 'yimbo_sales')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -150,7 +150,7 @@ class PermisionTableSeeder extends Seeder
                 ]);
             }
         }
-        $permissions = Permission::where('table_name', 'seats')->get();
+        $permissions = Permission::where('table_name', 'yimbo_seats')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){
@@ -160,7 +160,7 @@ class PermisionTableSeeder extends Seeder
                 ]);
             }
         }
-        $permissions = Permission::where('table_name', 'detail_extras')->get();
+        $permissions = Permission::where('table_name', 'yimbo_detail_extras')->get();
         foreach ($permissions as $key){
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp){

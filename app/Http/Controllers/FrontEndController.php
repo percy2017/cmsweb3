@@ -40,6 +40,7 @@ class FrontEndController extends Controller
             'blocks'     => $blocks
         ]);
     }
+    
     function videochats(){
         $userList = User::all();
         return view('vendor.videochats.index', compact('userList'));

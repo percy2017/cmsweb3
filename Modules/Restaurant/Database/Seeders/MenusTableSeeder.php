@@ -20,7 +20,7 @@ class MenusTableSeeder extends Seeder
 
         // $this->call("OthersTableSeeder");
         $menu = Menu::where('name', 'admin')->firstOrFail();
-
+        
         $RestaurantMenuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => 'Inventario',
@@ -40,7 +40,7 @@ class MenusTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Productos',
             'url'     => '',
-            'route'   => 'myproducts.index',
+            'route'   => 'voyager.yimbo_products.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -56,7 +56,7 @@ class MenusTableSeeder extends Seeder
             'menu_id' => $menu->id,
             'title'   => 'Sucursales',
             'url'     => '',
-            'route'   => 'mybranch_offices.index',
+            'route'   => 'voyager.yimbo_branch_offices.index',
         ]);
         if (!$menuItem->exists) {
             $menuItem->fill([
@@ -67,53 +67,96 @@ class MenusTableSeeder extends Seeder
                 'order'      => 1,
             ])->save();
         }
-        // $menuItem = MenuItem::firstOrNew([
-        //     'menu_id' => $menu->id,
-        //     'title'   => 'Insumos',
-        //     'url'     => '',
-        //     'route'   => 'voyager.supplies.index',
-        // ]);
-        // if (!$menuItem->exists) {
-        //     $menuItem->fill([
-        //         'target'     => '_self',
-        //         'icon_class' => 'voyager-double-right',
-        //         'color'      => null,
-        //         'parent_id'  => $RestaurantMenuItem->id,
-        //         'order'      => 1,
-        //     ])->save();
-        // }
 
-        // $menuItem = MenuItem::firstOrNew([
-        //     'menu_id' => $menu->id,
-        //     'title'   => 'Categorias',
-        //     'url'     => '',
-        //     'route'   => 'mycategories.index',
-        // ]);
-        // if (!$menuItem->exists) {
-        //     $menuItem->fill([
-        //         'target'     => '_self',
-        //         'icon_class' => 'voyager-double-right',
-        //         'color'      => null,
-        //         'parent_id'  => $RestaurantMenuItem->id,
-        //         'order'      => 1,
-        //     ])->save();
-        // }
 
-        // $menuItem = MenuItem::firstOrNew([
-        //     'menu_id' => $menu->id,
-        //     'title'   => 'Sub Categorias',
-        //     'url'     => '',
-        //     'route'   => 'mysub_categories.index',
-        // ]);
-        // if (!$menuItem->exists) {
-        //     $menuItem->fill([
-        //         'target'     => '_self',
-        //         'icon_class' => 'voyager-double-right',
-        //         'color'      => null,
-        //         'parent_id'  => $RestaurantMenuItem->id,
-        //         'order'      => 1,
-        //     ])->save();
-        // }
+        // CRUD -----------------------------------------------------------
+        Menu::firstOrCreate([
+            'name' => 'yimbo_products',
+        ]);
+        $menu = Menu::where('name', 'yimbo_products')->firstOrFail();
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Crear Nuevo',
+            'url'     => 'admin/yimbo_products/create',
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 1,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Listar',
+            'url'     => 'admin/yimbo_products/1',
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 1,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'divider',
+            'url'     => null,
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 2,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'setting',
+            'url'     => null,
+            'route'   => null
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_blank',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 3,
+            ])->save();
+        }
 
+
+
+        
+
+        Menu::firstOrCreate([
+            'name' => 'yimbo_categories',
+        ]);
+
+        Menu::firstOrCreate([
+            'name' => 'yimbo_sub_categories',
+        ]);
+
+        Menu::firstOrCreate([
+            'name' => 'yimbo_branch_offices',
+        ]);
+
+        Menu::firstOrCreate([
+            'name' => 'yimbo_supplies',
+        ]);
+
+        Menu::firstOrCreate([
+            'name' => 'yimbo_extras',
+        ]);
     }
 }

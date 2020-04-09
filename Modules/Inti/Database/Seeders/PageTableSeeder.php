@@ -19,6 +19,7 @@ class PageTableSeeder extends Seeder
             'name'      => 'Landing Page Inti',
             'slug'      => 'index',
             'direction' => 'inti::index',
+            'user_id' => 1,
             'description' => 'Pagina de destino para educacion en linea.',
             'details'   => null
         ]);

@@ -18,9 +18,10 @@ class PageTableSeeder extends Seeder
         // Model::unguard();
 
         $page = Page::create([
-            'name'      => 'Landing Page Restaurant',
+            'name'      => 'Landing Page Lisa',
             'slug'      => 'index',
             'direction' => 'restaurant::index',
+            'user_id'   => 1,
             'description' => 'Pagina de destino para restaurant y venta de comida de rapida.',
             'details'   => json_encode([
                 'image_header' => [

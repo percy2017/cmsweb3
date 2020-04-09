@@ -35,12 +35,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-         /**
-         * --------- 2.- SUB CSTEGORIAS - MODULO INVENTARIO--------------------
-         */
+    
         $dataType = $this->dataType('slug', 'yimbo_sub_categories');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -54,12 +58,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * --------- 3.- CATEGORIAS - MODULO INVENTARIO-----------------------
-         */
+
         $dataType = $this->dataType('slug', 'yimbo_categories');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -73,12 +81,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * --------- 4.- SUCURSALES - MODULO INVENTARIO----------------------
-         */
+ 
         $dataType = $this->dataType('slug', 'yimbo_branch_offices');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -92,12 +104,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * --------- 5.- INSUMOS - MODULO INVENTARIO-------------------------
-         */
+  
         $dataType = $this->dataType('slug', 'yimbo_supplies');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -111,12 +127,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * --------- 6.- EXTRAS - MODULO INVENTARIO--------------------------
-         */
+
         $dataType = $this->dataType('slug', 'yimbo_extras');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -130,15 +150,20 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
         
-    
-
-        /**
-         * --------- 1.- CLIENTES - MODULO VENTAS--------------------------
+          /**
+         * ---------5.- DETAIL EXTRAS - MODULO VENTAS--------------------------
          */
+
         $dataType = $this->dataType('slug', 'yimbo_customers');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -152,12 +177,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * --------- 2.- CAJAS - MODULO VENTAS----------------------------
-         */
+
         $dataType = $this->dataType('slug', 'yimbo_cashes');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -171,12 +200,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * ---------3.- VENTAS - MODULO VENTAS---------------------------
-         */
+   
         $dataType = $this->dataType('slug', 'yimbo_sales');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -190,12 +223,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * ---------4.- ASIENTOS - MODULO VENTAS--------------------------
-         */
+   
         $dataType = $this->dataType('slug', 'yimbo_seats');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -209,12 +246,16 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
-        /**
-         * ---------5.- DETAIL EXTRAS - MODULO VENTAS--------------------------
-         */
+      
         $dataType = $this->dataType('slug', 'yimbo_detail_extras');
         if (!$dataType->exists) {
             $dataType->fill([
@@ -228,12 +269,17 @@ class DataTypesRestaurantTableSeeder extends Seeder
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,
-                'details'               => null
+                'details'               => [
+                    'order_column'         => 'id',
+                    'order_display_column' => 'id',
+                    'order_direction'      => 'asc',
+                    'default_search_key'   => 'id',
+                    'scope'  
+                ]
             ])->save();
         }
         
         
-
 
 
     }

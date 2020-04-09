@@ -11,41 +11,46 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
+        // $module = Module::create([
+        //     'installed'         => false,
+        //     'name'              => 'Blog',
+        //     'description_short' => 'Modulo de Blog'
+        // ]);
+
+        // $module = Module::create([
+        //     'installed'         => false,
+        //     'name'              => 'Sanes v1.0',
+        //     'description_short' => 'Paquete para crea'
+        // ]);
+
+        // $module = Module::create([
+        //     'installed'         => false,
+        //     'name'              => 'Deni',
+        //     'description_short' => 'Modulo DENI'
+        // ]);
+
+        // $module = Module::create([
+        //     'installed'         => false,
+        //     'name'              => 'Ecommerce',
+        //     'description_short' => 'Modulo de Comercio Electronico'
+        // ]);
+
+        // $module = Module::create([
+        //     'installed'         => false,
+        //     'name'              => 'Rokola',
+        //     'description_short' => 'Modulo Rokola'
+        // ]);
+
         $module = Module::create([
             'installed'         => false,
-            'name'              => 'Blog',
-            'description_short' => 'Modulo de Blog'
+            'name'              => 'Lisa v1.0',
+            'description_short' => 'Paquete para crear y administrar centros educativos'
         ]);
 
         $module = Module::create([
             'installed'         => false,
-            'name'              => 'Streaming',
-            'description_short' => 'Modulo de Streaming'
+            'name'              => 'Yimbo v1.0',
+            'description_short' => 'Paquete para crear y gestionar negocios de Venta de Comdida y Restaurant'
         ]);
-
-        $module = Module::create([
-            'installed'         => false,
-            'name'              => 'Deni',
-            'description_short' => 'Modulo DENI'
-        ]);
-
-        $module = Module::create([
-            'installed'         => false,
-            'name'              => 'Ecommerce',
-            'description_short' => 'Modulo de Comercio Electronico'
-        ]);
-
-        $module = Module::create([
-            'installed'         => false,
-            'name'              => 'Rokola',
-            'description_short' => 'Modulo Rokola'
-        ]);
-
-        $module = Module::create([
-            'installed'         => false,
-            'name'              => 'Restaurant',
-            'description_short' => 'Modulo Restaurant'
-        ]);
-
     }
 }
