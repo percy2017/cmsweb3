@@ -1,10 +1,4 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/Modules/Inti/Resources/js/app.js": "/js/inti.js",
-    "/Modules/Inti/Resources/sass/app.scss": "/css/inti.css",
-    "/js/inti.js": "/js/inti.js",
-    "/websocket/js/websoket.js": "/websocket/js/websoket.js",
-    "/websocket/js/websocket.js": "/websocket/js/websocket.js",
-    "/js/websocket.js": "/js/websocket.js"
+    "/css/app.css": "/css/app.css"
 }

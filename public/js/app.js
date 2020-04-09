@@ -84094,7 +84094,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Conference; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
@@ -84156,15 +84156,15 @@ var simulateClick = function simulateClick(elem) {
 
 var PEERS = [];
 
-var Conference = /*#__PURE__*/function (_Component) {
-  _inherits(Conference, _Component);
+var VideoConference = /*#__PURE__*/function (_Component) {
+  _inherits(VideoConference, _Component);
 
-  var _super = _createSuper(Conference);
+  var _super = _createSuper(VideoConference);
 
-  function Conference(props) {
+  function VideoConference(props) {
     var _this;
 
-    _classCallCheck(this, Conference);
+    _classCallCheck(this, VideoConference);
 
     _this = _super.call(this, props);
     _this.state = {
@@ -84188,16 +84188,16 @@ var Conference = /*#__PURE__*/function (_Component) {
       _this.setState({
         callIncommig: true,
         callIncommigUser: e.user_id_receptor
-      }); // console.log('request')
+      });
 
-
+      console.log('request');
       setTimeout(function () {
         simulateClick(document.getElementById('connect'));
       }, 500);
     });
     Echo.channel("ResponseStreamUserChannel-".concat(_this.user.id)).listen('.App\\Events\\Telematic\\ResponseStreamUser', function (e) {
-      document.getElementById('otherId').value = e.stream; // console.log('response');
-
+      document.getElementById('otherId').value = e.stream;
+      console.log('response');
       setTimeout(function () {
         simulateClick(document.getElementById('connect'));
       }, 500);
@@ -84205,7 +84205,7 @@ var Conference = /*#__PURE__*/function (_Component) {
     return _this;
   }
 
-  _createClass(Conference, [{
+  _createClass(VideoConference, [{
     key: "componentWillMount",
     value: function componentWillMount() {
       var _this2 = this;
@@ -84277,7 +84277,8 @@ var Conference = /*#__PURE__*/function (_Component) {
         });
         document.getElementById('connect').addEventListener('click', function () {
           var otherId = JSON.parse(document.getElementById('otherId').value);
-          peer.signal(otherId); // console.log('connect')
+          peer.signal(otherId);
+          console.log('connect');
 
           if (!init) {
             setTimeout(function () {
@@ -84295,15 +84296,8 @@ var Conference = /*#__PURE__*/function (_Component) {
               })["catch"](function (error) {
                 console.log(error);
               });
-            }, 5000);
+            }, 500);
           }
-        });
-        document.getElementById('send').addEventListener('click', function () {
-          var yourMessage = document.getElementById('yourMessage').value;
-          peer.send(yourMessage);
-        });
-        peer.on('data', function (data) {
-          document.getElementById('messages').textContent += data + '\n';
         });
         peer.on('stream', function (stream) {
           var userVideo = document.getElementById("userVideo-".concat(receptId));
@@ -84418,25 +84412,11 @@ var Conference = /*#__PURE__*/function (_Component) {
         className: "form-control"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "messages"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "input-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "yourMessage",
-        className: "form-control",
-        placeholder: "Escribe..."
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "input-group-btn"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        id: "send",
-        className: "btn btn-primary"
-      }, "send"))))));
+      })));
     }
   }]);
 
-  return Conference;
+  return VideoConference;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 
@@ -84453,8 +84433,8 @@ var style = {
   }
 };
 
-if (document.getElementById('example')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Conference, null), document.getElementById('example'));
+if (document.getElementById('videoconference')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
 }
 
 /***/ }),

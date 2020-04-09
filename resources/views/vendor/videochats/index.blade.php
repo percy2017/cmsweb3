@@ -7,10 +7,7 @@
     <title>Video Chats - CmsWeb v3.0</title>
 </head>
 <body>
-
-    <div id="example"></div>
-    
-    
+    <div id="videoconference"></div>
      @if(auth()->user())
         <script>
             window.user = {
