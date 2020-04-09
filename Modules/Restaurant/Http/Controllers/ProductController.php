@@ -119,7 +119,7 @@ class ProductController extends Controller
             }
         }
         
-        // $data->save();
+        $data->save();
         
         if ($myrelationships) {
            
