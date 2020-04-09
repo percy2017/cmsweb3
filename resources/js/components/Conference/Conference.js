@@ -22,7 +22,7 @@ var simulateClick = function (elem) {
 
 var PEERS = [];
 
-export default class Conference extends Component {
+export default class VideoConference extends Component {
 
     constructor(props) {
         super(props);
@@ -48,7 +48,7 @@ export default class Conference extends Component {
             document.getElementById('otherId').value = e.stream;
             this.startCall(false, e.user_id_receptor, e.user_id_emisor)
             this.setState({callIncommig : true, callIncommigUser : e.user_id_receptor});
-            // console.log('request')
+            console.log('request')
             setTimeout(() => {
                 simulateClick(document.getElementById('connect'));
             }, 500);
@@ -57,7 +57,7 @@ export default class Conference extends Component {
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
             document.getElementById('otherId').value = e.stream;
-            // console.log('response');
+            console.log('response');
             setTimeout(() => {
                 simulateClick(document.getElementById('connect'));
             }, 500);
@@ -132,7 +132,7 @@ export default class Conference extends Component {
             document.getElementById('connect').addEventListener('click', function () {
                 var otherId = JSON.parse(document.getElementById('otherId').value)
                 peer.signal(otherId)
-                // console.log('connect')
+                console.log('connect')
                 if(!init){
                     setTimeout(() => {
                         var yourId = document.getElementById('yourId').value;
@@ -151,18 +151,9 @@ export default class Conference extends Component {
                         .catch(function (error) {
                             console.log(error);
                         });
-                    }, 5000);
+                    }, 500);
                 }
             })
-          
-            document.getElementById('send').addEventListener('click', function () {
-              var yourMessage = document.getElementById('yourMessage').value
-              peer.send(yourMessage)
-            })
-          
-            peer.on('data', function (data) {
-                document.getElementById('messages').textContent += data + '\n'
-            });
           
             peer.on('stream', function (stream) {
                 var userVideo = document.getElementById(`userVideo-${receptId}`);
@@ -237,14 +228,6 @@ export default class Conference extends Component {
                     <input type="hidden" id="yourId" className="form-control" />
                     <input type="hidden" id="otherId" className="form-control" />
                     <div id="messages"></div>
-                    <div className="col-md-12">
-                        <div className="input-group">
-                        <input type="text" id="yourMessage" className="form-control" placeholder="Escribe..." />
-                        <span className="input-group-btn">
-                            <button id="send" className="btn btn-primary">send</button>
-                        </span>
-                        </div>
-                    </div>
                 </div>
             </Container>
         )
@@ -264,6 +247,6 @@ const style = {
     }
 };
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Conference />, document.getElementById('example'));
+if (document.getElementById('videoconference')) {
+    ReactDOM.render(<VideoConference />, document.getElementById('videoconference'));
 }

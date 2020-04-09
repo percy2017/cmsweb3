@@ -29,7 +29,7 @@ class FrontEndController extends Controller
     }
 
     function videochats(){
-        $userList = User::all();
+        $userList = User::where('id', '!=', Auth::user()->id)->select('id', 'name', 'avatar')->get();
         return view('vendor.videochats.index', compact('userList'));
     }
     function videochats_request(Request $request){
