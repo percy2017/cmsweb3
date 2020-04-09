@@ -13,14 +13,14 @@ class CreateBranchOfficeProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('branchOffice_product', function (Blueprint $table) {
+        Schema::create('yimbo_branchOffice_product', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('branch_office_id'); //sucurasl
-            $table->foreign('branch_office_id')->references('id')->on('branch_offices');
+            $table->foreign('branch_office_id')->references('id')->on('yimbo_branch_offices');
 
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('yimbo_products');
 
             $table->timestamps();
 
@@ -35,6 +35,6 @@ class CreateBranchOfficeProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branchOffice_product');
+        Schema::dropIfExists('yimbo_branchOffice_product');
     }
 }

@@ -20,6 +20,9 @@ class CreateIntiCoursesTable extends Migration
             $table->string('image')->nullable();
             $table->text('body')->nullable();
 
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            
             $table->timestamps();
             $table->softDeletes();
         });

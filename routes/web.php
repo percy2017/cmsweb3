@@ -41,15 +41,30 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/page/{page_id}/update', 'PageController@update')->name('page_update');
     Route::get('/page/{page_id}/default', 'PageController@default')->name('page_default'); 
 
-   Route::get('module/view/{module_id}', 'PageController@module_view')->name('module_view');
+    Route::get('module/view/{module_id}', 'PageController@module_view')->name('module_view');
 });
 
 Route::get('{module_name}/installer', function($module_id) {
     $module=App\Module::where('id', $module_id)->first();
-    Artisan::call('module:seed '.$module->name);
+    $module_name=$module->name;
+
+    switch ($module->name) {
+        case 'Lisa v1.0':
+            $module_name = 'Inti';
+            break;
+        case 'Yimbo v1.0':
+            $module_name = 'Restaurant';
+            break;
+        default:
+            # code...
+            break;
+    }
+    Artisan::call('module:seed '.$module_name);
     $module->installed=true;
     $module->save();
-    event(new App\Events\NewMessage($module->name));
+    event(new App\Events\NewMessage($module_name));
     return back()->with(['message' => 'Modulo Instalado.', 'alert-type' => 'success']);
 })->name('module_installer');
 
+
+Route::get('/{slug}', 'FrontEndController@pages')->name('pages');

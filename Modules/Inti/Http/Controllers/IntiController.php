@@ -88,7 +88,7 @@ class IntiController extends Controller
         
         $dataTypeContent = DB::table($request->table)->where($request->search_type, 'like', '%'.$request->search_text.'%')->orderBy('id', 'desc')->paginate(setting('admin.pagination'));
          $dataType = Voyager::model('DataType')->where('slug', '=', $request->table)->first();
-        return view('streaming::bread.show', [
+        return view('inti::bread.show', [
             'dataType' =>  $dataType,
             'dataTypeContent' => $dataTypeContent,
             'search_text' => $request->search_text,
@@ -104,7 +104,7 @@ class IntiController extends Controller
             case 'list':
                  
                 $dataTypeContent = $dataType->model_name::where($key, $id)->orderBy('id', 'asc')->paginate(setting('admin.pagination')); 
-                return view('streaming::bread.show', [
+                return view('inti::bread.show', [
                     'dataType' =>  $dataType,
                     'dataTypeContent' => $dataTypeContent
                 ]);
@@ -113,7 +113,7 @@ class IntiController extends Controller
                 $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
                 $dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
         
-                return view('streaming::bread.create', [
+                return view('inti::bread.create', [
                     'dataType' => $dataType,
                     'dataRows'=>$dataRowsAdd,
                     'key' => $key,
@@ -135,7 +135,7 @@ class IntiController extends Controller
         $data = $dataType->model_name::where('id', '=', $id)->first();
     
         // return response()->json($dataRows);
-        return view('streaming::bread.view', [
+        return view('inti::bread.view', [
             'dataType' =>  $dataType,
             'dataRows' => $dataRows,
             'data' => $data
@@ -149,7 +149,7 @@ class IntiController extends Controller
         $dataTypeContent = $dataType->model_name::onlyTrashed()->orderBy('deleted_at', 'asc')->paginate(setting('admin.pagination')); 
     
         // return response()->json($dataTypeContent);
-        return view('streaming::bread.deletes', [
+        return view('inti::bread.deletes', [
             'dataType' =>  $dataType,
             'dataTypeContent' => $dataTypeContent
         ]);

@@ -13,7 +13,7 @@ class CreateSuppliesTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplies', function (Blueprint $table) {
+        Schema::create('yimbo_supplies', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('name');
 			$table->string('unity')->nullable();
@@ -32,6 +32,6 @@ class CreateSuppliesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplies');
+        Schema::dropIfExists('yimbo_supplies');
     }
 }

@@ -13,7 +13,7 @@ class CreateDetailExtrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_extras', function (Blueprint $table) {
+        Schema::create('yimbo_detail_extras', function (Blueprint $table) {
             $table->bigIncrements('id');
             /*
             --------------------------------------------
@@ -28,10 +28,10 @@ class CreateDetailExtrasTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('sale_id');
-            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->foreign('sale_id')->references('id')->on('yimbo_sales');
 
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('yimbo_products');
             
 			$table->timestamps();
 			$table->softDeletes();
@@ -46,6 +46,6 @@ class CreateDetailExtrasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_extras');
+        Schema::dropIfExists('yimbo_detail_extras');
     }
 }

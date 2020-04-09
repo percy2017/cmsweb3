@@ -201,8 +201,23 @@ class MenuItemsTableSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => 'Applicacion Movil',
-            'url'     => '/pages/app-movil',
+            'title'   => 'Politicas y Privacidad',
+            'url'     => '/politica-privacidad',
+            'route'   => null,
+        ]);
+        if (!$menuItem->exists) {
+            $menuItem->fill([
+                'target'     => '_self',
+                'icon_class' => null,
+                'color'      => null,
+                'parent_id'  => null,
+                'order'      => 2,
+            ])->save();
+        }
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Terminos y Condiciones',
+            'url'     => '/terminos-condiones',
             'route'   => null,
         ]);
         if (!$menuItem->exists) {

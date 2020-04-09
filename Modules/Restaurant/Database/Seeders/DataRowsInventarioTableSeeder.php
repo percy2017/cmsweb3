@@ -17,20 +17,15 @@ class DataRowsInventarioTableSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
+        $ProductDataType = DataType::where('slug', 'yimbo_products')->firstOrFail();
+        $SubCategoryDataType = DataType::where('slug', 'yimbo_sub_categories')->firstOrFail();
+        $CategoryDataType = DataType::where('slug', 'yimbo_categories')->firstOrFail();
+        $ExtraDataType = DataType::where('slug', 'yimbo_extras')->firstOrFail();
+        $BranchOfficeDataType = DataType::where('slug', 'yimbo_branch_offices')->firstOrFail();
+        $SupplyDataType = DataType::where('slug', 'yimbo_supplies')->firstOrFail();
 
-        $ProductDataType = DataType::where('slug', 'products')->firstOrFail();
-        $SubCategoryDataType = DataType::where('slug', 'sub_categories')->firstOrFail();
-        $CategoryDataType = DataType::where('slug', 'categories')->firstOrFail();
-        $ExtraDataType = DataType::where('slug', 'extras')->firstOrFail();
-        $BranchOfficeDataType = DataType::where('slug', 'branch_offices')->firstOrFail();
-        $SupplyDataType = DataType::where('slug', 'supplies')->firstOrFail();
-        /**
-         * ---------------------------------------------------------------------
-         * BREAD formulario de Productos
-         * ---------------------------------------------------------------------
-         */
-        $postion = 0;
+
+        $postion = 1;
         $dataRow = $this->dataRow($ProductDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -43,56 +38,158 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      =>[
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
             ])->save();
         }
 
         $dataRow = $this->dataRow($ProductDataType, 'category_id');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => 'Categorias',
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
+                'type'         => 'hidden',
+                'display_name' => 'category_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => $postion++,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],  'relationship' => [
-                        'key' => 'id',
-                        'label' => 'name',
-                        'model' => 'Modules\\Restaurant\\Entities\\Category'
-                    ]
-                ]
+                'order'        => $postion++
             ])->save();
                   
         }
 
-        $dataRow = $this->dataRow($ProductDataType, 'sub_category_id');
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongsto_category_relationship');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => 'SubCategorias',
+                'type'         => 'relationship',
+                'display_name' => 'Categoria',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
                     ],
-                    'relationship' => [
-                        'key' => 'id',
-                        'label' => 'name',
-                        'model' => 'Modules\\Restaurant\\Entities\\SubCategory'
-                    ]
-                ]
+                    'model'       => 'Modules\\Restaurant\\Entities\\Category',
+                    'table'       => 'yimbo_categories',
+                    'type'        => 'belongsTo',
+                    'column'      => 'category_id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'yimbo_categories',
+                    'pivot'       => '0',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ProductDataType, 'sub_category_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'hidden',
+                'display_name' => 'sub_category_id',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $postion++
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongsto_subcategory_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Sub Categorias',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'model'       => 'Modules\\Restaurant\\Entities\\SubCategory',
+                    'table'       => 'yimbo_sub_categories',
+                    'type'        => 'belongsTo',
+                    'column'      => 'sub_category_id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'yimbo_sub_categories',
+                    'pivot'       => '0',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_supplys_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Insumos',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'model'       => 'Modules\\Restaurant\\Entities\\Supply',
+                    'table'       => 'yimbo_supplies',
+                    'type'        => 'belongsToMany',
+                    'column'      => 'id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'yimbo_product_supply',
+                    'pivot'       => '1',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_extras_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Extras',
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                    'model'       => 'Modules\\Restaurant\\Entities\\Extra',
+                    'table'       => 'yimbo_extras',
+                    'type'        => 'belongsToMany',
+                    'column'      => 'id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'yimbo_extra_product',
+                    'pivot'       => '1',
+                    'taggable'    => '0',
+                ],
+                'order'        => $postion++,
             ])->save();
         }
 
@@ -124,13 +221,13 @@ class DataRowsInventarioTableSeeder extends Seeder
         $dataRow = $this->dataRow($ProductDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'Slug',
                 'display_name' => 'Slug',
-                'required'     => 1,
-                'browse'       => 0,
+                'required'     => 0,
+                'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
+                'edit'         => 1,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
@@ -164,64 +261,6 @@ class DataRowsInventarioTableSeeder extends Seeder
                         'width'  => '6',
                     ],
                 ]
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_supplys_relationship');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Insumos',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                    'model'       => 'Modules\\Restaurant\\Entities\\Supply',
-                    'table'       => 'Extras',
-                    'type'        => 'belongsToMany',
-                    'column'      => 'id',
-                    'key'         => 'id',
-                    'label'       => 'name',
-                    'pivot_table' => 'product_supply',
-                    'pivot'       => '1',
-                    'taggable'    => '0',
-                ],
-                'order'        => $postion++,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($ProductDataType, 'product_belongstomany_extras_relationship');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'relationship',
-                'display_name' => 'Extras',
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 0,
-                'details'      => [
-                    'display'   => [
-                        'width'  => '6',
-                    ],
-                    'model'       => 'Modules\\Restaurant\\Entities\\Extra',
-                    'table'       => 'roles',
-                    'type'        => 'belongsToMany',
-                    'column'      => 'id',
-                    'key'         => 'id',
-                    'label'       => 'name',
-                    'pivot_table' => 'extra_product',
-                    'pivot'       => '1',
-                    'taggable'    => '0',
-                ],
-                'order'        => $postion++,
             ])->save();
         }
 
@@ -425,7 +464,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
-                        'width'  => '12',
+                        'width'  => '3',
                     ],
                 ]
             ])->save();
@@ -443,6 +482,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      =>[
+                    'display' => [
+                        'width' => 3
+                    ]
+                ]
             ])->save();
         }
 
@@ -458,6 +502,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      =>[
+                    'display' => [
+                        'width' => 3
+                    ]
+                ]
             ])->save();
         }
 
@@ -473,6 +522,11 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
+                'details'      =>[
+                    'display' => [
+                        'width' => 3
+                    ]
+                ]
             ])->save();
         }
         /**
@@ -487,7 +541,7 @@ class DataRowsInventarioTableSeeder extends Seeder
          * BREAD formulario de SubCategorias
          * ---------------------------------------------------------------------
          */
-        $postion = 0;
+        $postion = 1;
         $dataRow = $this->dataRow($SubCategoryDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -665,12 +719,17 @@ class DataRowsInventarioTableSeeder extends Seeder
          * ---------------------------------------------------------------------
          */
 
+
+
+
+
+
          /**
          * ---------------------------------------------------------------------
          * BREAD formulario de Categorias
          * ---------------------------------------------------------------------
          */
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($CategoryDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -820,12 +879,15 @@ class DataRowsInventarioTableSeeder extends Seeder
          * ---------------------------------------------------------------------
          */
 
+
+
+
          /**
          * ---------------------------------------------------------------------
          * BREAD formulario de Extras
          * ---------------------------------------------------------------------
          */
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($ExtraDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1019,12 +1081,14 @@ class DataRowsInventarioTableSeeder extends Seeder
          * ---------------------------------------------------------------------
          */
 
+
+
          /**
          * ---------------------------------------------------------------------
          * BREAD  formulario de Sucursales
          * ---------------------------------------------------------------------
          */
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($BranchOfficeDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1251,12 +1315,15 @@ class DataRowsInventarioTableSeeder extends Seeder
          * ---------------------------------------------------------------------
          */
 
+
+
+
          /**
          * ---------------------------------------------------------------------
          * BREAD END formulario de Insumos
          * ---------------------------------------------------------------------
          */
-        $postion=0;
+        $postion=1;
         $dataRow = $this->dataRow($SupplyDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -1413,16 +1480,6 @@ class DataRowsInventarioTableSeeder extends Seeder
 
     }
 
-
-
-    /**
-     * [dataRow description].
-     *
-     * @param [type] $type  [description]
-     * @param [type] $field [description]
-     *
-     * @return [type] [description]
-     */
     protected function dataRow($type, $field)
     {
         return DataRow::firstOrNew([

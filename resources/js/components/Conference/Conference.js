@@ -26,7 +26,6 @@ export default class VideoConference extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             userList: window.userList,
             miniVideoActive: window.user.id,

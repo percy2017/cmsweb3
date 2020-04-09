@@ -35,29 +35,38 @@
                     <div class="panel panel-primary panel-bordered">
                         
                         <div class="panel-body">
-                            <div class="form-group col-md-6">
-                                <label>Nombre</label>
-                                <input class="form-control" type="text" name="{{ $page->name }}" value="{{ $page->name }}" readonly />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Slug</label>
-                                <input class="form-control" type="text" name="{{ $page->slug }}" value="{{ $page->slug }}" readonly />
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label>Descripcion</label>
-                                <textarea class="form-control" rows="3" name="{{ $page->description }}" readonly>{{ $page->description }}</textarea>
-                                
-                            </div>
-
-                            <div class="form-group col-md-12">
-                                <hr />
-                            </div>
-                            <div class="form-group col-md-12">
-                               <h3 class="text-center"><u>Datos Dinamicos</u></h3>
-                            </div>
+                            
                             <form action="{{ route('page_update', $page->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @foreach (json_decode($page->details, true) as $item => $value)
+                                <div class="form-group col-md-6">
+                                    <label>Nombre</label>
+                                    <input class="form-control" type="text" name="name" value="{{ $page->name }}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Direcion</label>
+                                    <input class="form-control" type="text" name="direction" value="{{ $page->direction }}" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Slug</label>
+                                    <input class="form-control" type="text" name="slug" value="{{ $page->slug }}" readonly />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Descripcion</label>
+                                    <textarea class="form-control" name="description">{{ $page->description }}</textarea>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Image</label>
+                                    <img class="img-responsive" src="{{ Voyager::Image($page->image) }}">
+                                    <input class="form-control" type="file" name="image" accept="image/*">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <hr />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <h3 class="text-center"><u>Datos Dinamicos</u></h3>
+                                </div>
+                                @if ($page->details)
+                                     @foreach (json_decode($page->details, true) as $item => $value)
                                     @switch($value['type'])
                                         @case('text')
                                             <div class="form-group col-md-{{ $value['width'] }}">
@@ -117,6 +126,13 @@
                                         @break
                                     @endswitch
                                 @endforeach
+                                @else
+                                    <div class="form-group col-md-12 text-center">
+                                        <h3><code>No datos dimanicos</code></h3>
+                                    </div>
+                                    
+                                @endif
+                               
 
                                  <div class="form-group text-center col-md-12">
                                     <button type="submit" class="btn btn-primary"><i class="voyager-edit"></i> Guardar</button>
@@ -133,9 +149,9 @@
     </div>
 @stop
 
-
-
 @section('javascript')
+    
+    <script src="{{ asset('js/websocket.js') }}"></script>
     <script>
         $(document).ready(function(){
             

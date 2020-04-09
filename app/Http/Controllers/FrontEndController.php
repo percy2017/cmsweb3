@@ -21,13 +21,26 @@ class FrontEndController extends Controller
         
         $page = setting('site.page');
         $collection = Page::where('slug', $page)->first();
+       
         $blocks = Block::where('page_id', $collection->id)->orderBy('position', 'asc')->get();
         return view($collection->direction, [
             'collection' => json_decode($collection->details, true),
+            'page' => $collection,
             'blocks'     => $blocks
         ]);
     }
 
+    public function pages($slug)
+    {
+        $collection = Page::where('slug', $slug)->first();
+        $blocks = Block::where('page_id', $collection->id)->orderBy('position', 'asc')->get();
+        return view($collection->direction, [
+            'collection' => json_decode($collection->details, true),
+            'page' => $collection,
+            'blocks'     => $blocks
+        ]);
+    }
+    
     function videochats(){
         $userList = User::where('id', '!=', Auth::user()->id)->select('id', 'name', 'avatar')->get();
         return view('vendor.videochats.index', compact('userList'));

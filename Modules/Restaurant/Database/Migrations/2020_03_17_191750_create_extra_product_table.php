@@ -13,18 +13,16 @@ class CreateExtraProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('extra_product', function (Blueprint $table) {
+        Schema::create('yimbo_extra_product', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->bigInteger('extra_id')->unsigned();
+            $table->foreign('extra_id')->references('id')->on('yimbo_extras');
+
             $table->bigInteger('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('yimbo_products');
 
             $table->timestamps();
-
-            $table->foreign('extra_id')->references('id')->on('extras');
-            $table->foreign('product_id')->references('id')->on('products');
-
-            
         });
     }
 
@@ -35,6 +33,6 @@ class CreateExtraProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extra_product');
+        Schema::dropIfExists('yimbo_extra_product');
     }
 }

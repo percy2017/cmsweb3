@@ -13,7 +13,7 @@ class CreateExtrasTable extends Migration
      */
     public function up()
     {
-        Schema::create('extras', function (Blueprint $table) {
+        Schema::create('yimbo_extras', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('name');
 			$table->decimal('price', 10);
@@ -32,6 +32,6 @@ class CreateExtrasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('extras');
+        Schema::dropIfExists('yimbo_extras');
     }
 }

@@ -13,7 +13,7 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('yimbo_products', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('name')->unique();
@@ -30,10 +30,10 @@ class CreateProductsTable extends Migration
             $table->string('slug', 191)->unique('slug');
 
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('yimbo_categories');
 
             $table->unsignedBigInteger('sub_category_id');
-            $table->foreign('sub_category_id')->references('id')->on('sub_categories');
+            $table->foreign('sub_category_id')->references('id')->on('yimbo_sub_categories');
             
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
@@ -53,6 +53,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('yimbo_products');
     }
 }

@@ -361,6 +361,7 @@ class DataRowsTableSeeder extends Seeder
 
         //Pages------------------------------
         //-----------------------------------
+        $count=1;
         $dataRow = $this->dataRow($PageDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -372,7 +373,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($PageDataType, 'name');
@@ -386,7 +387,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => $count++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
@@ -414,10 +415,10 @@ class DataRowsTableSeeder extends Seeder
                         'width'  => '6',
                     ],
                 ],
-                'order'        => 3,
+                'order'        => $count++,
             ])->save();
         }
-        $dataRow = $this->dataRow($PageDataType, 'descripcion');
+        $dataRow = $this->dataRow($PageDataType, 'description');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text_area',
@@ -428,7 +429,41 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 4
+                'order'        => $count++
+            ])->save();
+        }
+        $dataRow = $this->dataRow($PageDataType, 'direction');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Direccion',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($PageDataType, 'image');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'image',
+                'display_name' => 'Image',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '6',
+                    ],
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($PageDataType, 'details');
@@ -442,9 +477,30 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 5
+                'order'        => $count++
             ])->save();
         }
+
+        $dataRow = $this->dataRow($PageDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'Traking',
+                'display_name' => 'Trackin User',
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display'   => [
+                        'width'  => '3',
+                    ],
+                ],
+                'order'        => $count++
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($PageDataType, 'created_at');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -456,7 +512,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($PageDataType, 'updated_at');
@@ -470,7 +526,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($PageDataType, 'deleted_at');
@@ -484,7 +540,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         //pages------------------------------

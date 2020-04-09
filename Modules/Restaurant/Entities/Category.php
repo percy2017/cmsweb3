@@ -8,7 +8,7 @@ class Category extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'categories';
+    protected $table = 'yimbo_categories';
     protected $fillable = ['name', 'slug', 'description', 'image'];
     
 }

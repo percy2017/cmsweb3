@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-5">
                 <div class="section_tittle text-center">
-                    <p>popular courses</p>
+                    <p>popular courses</p>           
                     <h2>Special Courses</h2>
                 </div>
             </div>
