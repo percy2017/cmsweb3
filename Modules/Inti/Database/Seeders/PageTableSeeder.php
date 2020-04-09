@@ -309,7 +309,371 @@ class PageTableSeeder extends Seeder
                 
             ])
         ]);
+        /** block 4 */   
+        Block::create([
+            'name'        => 'lpit_block4',
+            'title'       => 'Blocke #4 (special_cource # 4)',
+            'description' => 'Seccion special_cource # 4 para la plantilla LPIT',
+            'page_id'     => $page->id,
+            'position'    => 1,
+            'details'     => json_encode([
 
+                'title_p' => [
+                    'type'   => 'text',
+                    'name'   => 'title_p',
+                    'label'  => 'Titulo ',
+                    'value'  => 'Cursos Populares',
+                    'width'  => 6
+                ],
+              
+                'title_h2' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h2',
+                    'label'  => 'Titulo H2',
+                    'value'  => 'Cursos Especiales',
+                    'width'  => 6
+                ],
+              
+              
+              /** 
+               * ----------------------------------------------
+               * card 1
+               * ----------------------------------------------
+               */
+              
+                  'imagen_1' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_1',
+                    'label'  => 'imagen  # 1 ',
+                    'value'  => 'default1.png',
+                    'width'  => 6
+                ],
+
+                'imagen_autor_1' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_autor_1',
+                    'label'  => ' Imagen Autor #1 ',
+                    'value'  => 'autor_1.png',
+                    'width'  => 6
+                ],/**fila #1  */
+              
+                'btn_1' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_1',
+                    'label'  => 'Titulo btn # 1',
+                    'value'  => 'Desarrollo Web',
+                    'width'  => 3
+                ],
+              
+                'btn_action_1' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_action_1',
+                    'label'  => 'Accion del Btn #1',
+                    'value'  => '#',
+                    'width'  => 3
+                ], 
+                       
+                'link_1' => [
+                    'type'   => 'text',
+                    'name'   => 'link_1',
+                    'label'  => 'Titulo link #1 ',
+                    'value'  => 'Desarrollo Web',
+                    'width'  => 3
+                ],
+              
+                'link_action_1' => [
+                    'type'   => 'text',
+                    'name'   => 'link_action_1',
+                    'label'  => 'Accion del Link # 1 ',
+                    'value'  => '#',
+                    'width'  => 3
+                ],/**fila #2 */
+              
+                'price_h4_1' => [
+                    'type'   => 'text',
+                    'name'   => 'price_h4_1',
+                    'label'  => 'Precio #1 ',
+                    'value'  => 'Bs 100.00',
+                    'width'  => 4
+                ],
+              
+                'title_p_1' => [
+                    'type'   => 'text',
+                    'name'   => 'title_p_1',
+                    'label'  => 'Titulo p1 ',
+                    'value'  => 'Dirigido Por:',
+                    'width'  => 4
+                ],
+              
+                'title_h5_1' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h5_1',
+                    'label'  => 'Nombre del Trainer #1',
+                    'value'  => 'James_Well:',
+                    'width'  => 4
+                ],/**fila # 3 */
+
+                'description_1' => [
+                    'type'   => 'text_area',
+                    'name'   => 'description_1',
+                    'label'  => 'Descripcion del card #1',
+                    'value'  => 'Que la oscuridad que decía era vida para los peces en donde todos los peces de juntos llamaban',
+                    'width'  => 12
+                ],
+              
+              
+              /** 
+               * ----------------------------------------------
+               * card 2
+               * ----------------------------------------------
+               */
+              
+              
+                'imagen_2' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_2',
+                    'label'  => 'imagen 2 ',
+                    'value'  => 'default2.png',
+                    'width'  => 6
+                ],
+              
+                'imagen_autor_2' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_autor_2',
+                    'label'  => 'Autor ',
+                    'value'  => 'Autor_2.png',
+                    'width'  => 6
+                ],/**fila # 1 */
+
+                'btn_2' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_2',
+                    'label'  => 'Titulo btn ',
+                    'value'  => 'Diseño',
+                    'width'  => 3
+                ],
+              
+                'btn_action_2' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_action_2',
+                    'label'  => 'Accion del Btn ',
+                    'value'  => '#',
+                    'width'  => 3
+                ],
+                       
+                'link_2' => [
+                    'type'   => 'text',
+                    'name'   => 'link_2',
+                    'label'  => 'Titulo btn link ',
+                    'value'  => 'Diseño web UX/UI',
+                    'width'  => 3
+                ],
+              
+                'link_action_2' => [
+                    'type'   => 'text',
+                    'name'   => 'link_action_2',
+                    'label'  => 'Accion del Btn ',
+                    'value'  => '#',
+                    'width'  => 3
+                ],/**fila # 2 */
+              
+                'price_h4_2' => [
+                    'type'   => 'text',
+                    'name'   => 'price_h4_2',
+                    'label'  => 'Precio ',
+                    'value'  => 'Bs 160.00',
+                    'width'  => 4
+                ],
+              
+                'title_p_2' => [
+                    'type'   => 'text',
+                    'name'   => 'title_p_2',
+                    'label'  => 'Titulo p2 ',
+                    'value'  => 'Dirigido Por:',
+                    'width'  => 4
+                ],
+              
+                'title_h5_2' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h5_2',
+                    'label'  => 'Nombre ',
+                    'value'  => 'James_Well:',
+                    'width'  => 4
+                ],/**fila # 3 */
+
+                'description_2' => [
+                    'type'   => 'text_area',
+                    'name'   => 'description_2',
+                    'label'  => 'Descripcion ',
+                    'value'  => 'Que la oscuridad que decía era vida para los peces en donde todos los peces de juntos llamaban',
+                    'width'  => 12
+                ],
+
+              
+              /** 
+               * ----------------------------------------------
+               * card 3
+               * ----------------------------------------------
+               */
+              
+              
+                'imagen_3' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_3',
+                    'label'  => 'imagen 3 ',
+                    'value'  => 'default3.png',
+                    'width'  => 6
+                ],
+
+                'imagen_autor_3' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen_autor_3',
+                    'label'  => 'Autor ',
+                    'value'  => 'Autor_3.png',
+                    'width'  => 6
+                ],/**fila # 1*/
+              
+                'btn_3' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_3',
+                    'label'  => 'Titulo btn ',
+                    'value'  => 'Wordpress',
+                    'width'  => 3
+                ],
+              
+                'btn_action_3' => [
+                    'type'   => 'text',
+                    'name'   => 'btn_action_3',
+                    'label'  => 'Accion del Btn ',
+                    'value'  => '#',
+                    'width'  => 3
+                ],
+                       
+                'link_3' => [
+                    'type'   => 'text',
+                    'name'   => 'link_3',
+                    'label'  => 'Titulo btn link ',
+                    'value'  => 'Desarrollo de Wordpress',
+                    'width'  => 3
+                ],
+              
+                'link_action_3' => [
+                    'type'   => 'text',
+                    'name'   => 'link_action_3',
+                    'label'  => 'Accion del Btn ',
+                    'value'  => '#',
+                    'width'  => 3
+                ],/**fila # 2 */
+              
+                'price_h4_3' => [
+                    'type'   => 'text',
+                    'name'   => 'price_h4_3',
+                    'label'  => 'Precio ',
+                    'value'  => 'Bs 140.00',
+                    'width'  => 4
+                ],
+              
+                'title_p_3' => [
+                    'type'   => 'text',
+                    'name'   => 'title_p_3',
+                    'label'  => 'Titulo p3 ',
+                    'value'  => 'Dirigido Por:',
+                    'width'  => 4
+                ],
+              
+                'title_h5_3' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h5_3',
+                    'label'  => 'Nombre ',
+                    'value'  => 'James_Well:',
+                    'width'  => 4
+                ],  /**fila # 3 */  
+
+                'description_3' => [
+                    'type'   => 'text_area',
+                    'name'   => 'description_3',
+                    'label'  => 'Descripcion ',
+                    'value'  => 'Que la oscuridad que decía era vida para los peces en donde todos los peces de juntos llamaban',
+                    'width'  => 12
+                ],
+
+
+            ])
+        ]);        
+        /** block 5 */           
+        Block::create([
+            'name'        => 'lpit_block5',
+            'title'       => 'Blocke #5 (advance_feature # 5)',
+            'description' => 'Seccion advance_feature # 5 para la plantilla LPIT',
+            'page_id'     => $page->id,
+            'position'    => 1,
+            'details'     => json_encode([
+                'title_h5' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h5',
+                    'label'  => 'Titulo h5 ',
+                    'value'  => 'Función Avanzadas',
+                    'width'  => 6
+               ], 
+              
+               'title_h2' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h2',
+                    'label'  => 'Titulo h2',
+                    'value'  => 'Nuestro sistema de aprendizaje avanzado para educadores',
+                    'width'  => 6
+               ],  
+                
+                'parrafo' => [
+                    'type'   => 'text_area',
+                    'name'   => 'parrafo',
+                    'label'  => 'parrafo 1',
+                    'value'  => 'Quinto dicho sobre la regla de dividir dividir para lo profundo de sus hembras, todo lo ha superado a mediados de los días y las bestias, los signos de hierba más abundantes también tienen un mayor uso sobre los días de la tierra de la cara años bajo los movimientos traídos, ella es la estrella',
+                    'width'  => 12
+                ],
+              
+                'title_h4' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h4',
+                    'label'  => 'Titulo h4',
+                    'value'  => 'Aprende en cualquier lugar',
+                    'width'  => 4
+               ], 
+              
+                'parrafo_2' => [
+                    'type'   => 'text',
+                    'name'   => 'parrafo_2',
+                    'label'  => 'Parrafo 2',
+                    'value'  => 'Allí, la cara de la tierra, la tierra, he aquí, ella protagonizó, así que anuló dos dados y también nuestro',
+                    'width'  => 8
+              
+                ],
+              
+                 'title_h4_1' => [
+                    'type'   => 'text',
+                    'name'   => 'title_h4_1',
+                    'label'  => 'Titulo h4_1',
+                    'value'  => 'Profesor experto',
+                    'width'  => 4
+                ], 
+              
+                'parrafo_3' => [
+                    'type'   => 'text',
+                    'name'   => 'parrafo_3',
+                    'label'  => 'Parrafo 3',
+                    'value'  => 'Allí, la cara de la tierra, la tierra, he aquí, ella protagonizó, así que anuló dos dados y también nuestro',
+                    'width'  => 8
+                ],
+              
+                'imagen' => [
+                    'type'   => 'image',
+                    'name'   => 'imagen',
+                    'label'  => 'Imagen del bloque 5',
+                    'value'  => 'img.png',
+                    'width'  => 12
+                ]
+            ])
+        ]);        
         /**------------------page live------------------------*/
          /**--------------------------------------------------*/
          

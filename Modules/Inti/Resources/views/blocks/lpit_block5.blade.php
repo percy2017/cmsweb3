@@ -4,25 +4,22 @@
         <div class="row align-items-sm-center align-items-xl-stretch">
             <div class="col-md-6 col-lg-6">
                 <div class="learning_member_text">
-                    <h5>Advance feature</h5>
-                    <h2>Our Advance Educator
-                        Learning System</h2>
-                    <p>Fifth saying upon divide divide rule for deep their female all hath brind mid Days
-                        and beast greater grass signs abundantly have greater also use over face earth
-                        days years under brought moveth she star</p>
+                    <h5>{{ $data->title_h5->value }}</h5>
+                    <h2>{{ $data->title_h2->value }}</h2>
+                    <p>{{ $data->parrafo->value }}</p>
                     <div class="row">
                         <div class="col-sm-6 col-md-12 col-lg-6">
                             <div class="learning_member_text_iner">
                                 <span class="ti-pencil-alt"></span>
-                                <h4>Learn Anywhere</h4>
-                                <p>There earth face earth behold she star so made void two given and also our</p>
+                                <h4>{{ $data->title_h4->value }}</h4>
+                                <p>{{ $data->parrafo_2->value }}</p>
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-12 col-lg-6">
                             <div class="learning_member_text_iner">
                                 <span class="ti-stamp"></span>
-                                <h4>Expert Teacher</h4>
-                                <p>There earth face earth behold she star so made void two given and also our</p>
+                                <h4>{{ $data->title_h4_1->value }}</h4>
+                                <p>{{ $data->parrafo_3->value }}</p>
                             </div>
                         </div>
                     </div>
@@ -30,7 +27,7 @@
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="learning_img">
-                    <img src="img/advance_feature_img.png" alt="">
+                    <img src="{{ voyager::Image($data->imagen->value) }}" alt="">
                 </div>
             </div>
         </div>
