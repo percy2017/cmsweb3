@@ -13,5 +13,10 @@
 
 Route::prefix('admin')->group(function() {
    
+    Route::post('restaurant/search', 'RestaurantController@search')->name('restaurant_search');
+    Route::get('restaurant/relationship/{id}/{table}/{key}/{type}', 'RestaurantController@relationship')->name('restaurant_relationship');
+    Route::get('restaurant/view/{table}/{id}', 'RestaurantController@view')->name('restaurant_view');
+    Route::get('restaurant/deletes/recovery/{table}/{id}', 'RestaurantController@recovery')->name('restaurant_recovery');
+    Route::get('restaurant/deletes/{table}', 'RestaurantController@deletes')->name('restaurant_deletes');
     
 });

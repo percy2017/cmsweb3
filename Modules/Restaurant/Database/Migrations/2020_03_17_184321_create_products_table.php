@@ -16,7 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('yimbo_products', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name')->unique();
+            $table->string('name');
 			$table->text('description_small', 65535)->nullable();
 			$table->text('description_long', 65535)->nullable();
 			$table->decimal('price_sale', 10)->nullable();

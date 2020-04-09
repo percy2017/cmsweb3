@@ -5,250 +5,221 @@ namespace Modules\Restaurant\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-
-use Modules\Restaurant\Entities\Product;
-use Modules\Restaurant\Entities\Category;
-use Modules\Restaurant\Entities\SubCategory;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Validator;
+use NumerosEnLetras;
 class ProductController extends Controller
 {
+    public $table = 'yimbo_products';
+    public $dataType;
+    public $dataRowsAdd;
+    public $dataRowsEdit;
+    public $menu;
+    public $menuItems;
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->dataType = Voyager::model('DataType')->where('slug', '=', $this->table)->first();
+        $this->dataRowsAdd = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['add', "=", 1]])->orderBy('order', 'asc')->get();
+        $this->dataRowsEdit = Voyager::model('DataRow')->where([['data_type_id', '=', $this->dataType->id], ['edit', "=", 1]])->orderBy('order', 'asc')->get();
+
+        $this->menu = Voyager::model('Menu')->where('name', '=', $this->dataType->name)->first();
+        $this->menuItems = Voyager::model('MenuItem')->where('menu_id', '=', $this->menu->id)->orderBy('order', 'asc')->get();
+
+        
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'products')->first();
-        $dataTypeContent = Product::paginate(6);
-
-        return view('restaurant::products.index', compact(
-            'dataType',
-            'dataTypeContent'
-        ));
+        return view('restaurant::bread.index', [
+            'dataType' =>  $this->dataType,
+            'menuItems' => $this->menuItems
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
     public function create()
     {
-        $dataType = Voyager::model('DataType')->where('slug', '=', 'products')->first();
- 
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-        return view('restaurant::products.create', [
-            'dataType' => $dataType,
-            'dataRows'=>$dataRows
+        return view('restaurant::bread.create', [
+            'dataType' => $this->dataType,
+            'dataRows'=>$this->dataRowsAdd
         ]); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
     public function store(Request $request)
     {
-        
-        $validatedData = $request->validate([
-            'name' => ['unique:products']
-        ]);
-
-        // return $request;    
-        $product = Product::create([
-            'category_id' => $request->category_id,
-            'sub_category_id' => $request->sub_category_id,
-            'name' => $request->name,
-            'price_sale' => $request->price_sale,
-            'price_minimum' => $request->price_minimum,
-            'Last_Price_Buy' => $request->Last_Price_Buy,
-            'stock' => $request->stock,
-            'stock_minimum' => $request->stock_minimum,
-            'description_long' => $request->description_long,
-            'description_small' => $request->description_small,
-            'slug' => Str::slug($request->name),
-            'user_id' => Auth::user()->id,
-        ]);
-
-        $image_array = array();
-        if($request->hasFile('images'))
-        {
-            foreach($request->file('images') as $image)
-            {
-                $array = Storage::disk('public')->put('products/'.date('F').date('Y'), $image);
-                array_push($image_array, $array);
-                
-            }
-            $product->images = $image_array;
-           $product->save();
-        }  
-        
-        //ingresando insumos ----------------------------------------------
-        if (isset($request->product_belongstomany_supply_relationship)) {
-
-            foreach ($request->product_belongstomany_supply_relationship as $key) {
-                # code...
-                DB::table('product_supply')->insert([
-                    'product_id' => $product->id,
-                    'supply_id' => $key
-                ]);
+        // return $request;
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'id' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //----------------VALIDATIONS --------------------------------------
+           
+        //------------------ REGISTRO-------------------------------------
+        $data = new $this->dataType->model_name;
+        $myrelationships = array();
+        foreach ($this->dataRowsAdd as $key) {
+            $aux =  $key->field;
+         
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'multiple_images':
+                    $image_array = array();
+                    if($request->hasFile($aux)){
+                        foreach($request->file($aux) as $image)
+                        {
+                            $array = Storage::disk('public')->put('products/'.date('F').date('Y'), $image);
+                            array_push($image_array, $array);
+                        }
+                        // return $image_array;
+                        $data->$aux = json_encode($image_array);
+                    }
+                    break;
+                case 'relationship':
+                     if ($key->details->{'type'} == 'belongsToMany') {
+                       
+                        if ($request->$aux) {
+                           
+                            array_push($myrelationships, array($aux => $request->$aux));
+                        }
+                        
+                     }
+                    
+                    break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
             }
         }
-
-        //ingresando extras --------------------------------------------------
-        if (isset($request->product_belongstomany_extras_relationship)) {
-            # code...
-            // return $request;
-            foreach ($request->product_belongstomany_extras_relationship as $key) {
-                # code...
-                DB::table('extra_product')->insert([
-                    'product_id' => $product->id,
-                    'extra_id' => $key
-                ]);
-            }
-        }
         
-        //devolviendo datos --------------------------------------------------
-         return redirect()->route('myproducts.index')->with([
-            'message'    =>  $request->name . ' Registrado',
-            'alert-type' => 'success',
-        ]);
+        $data->save();
+        
+        if ($myrelationships) {
+           
+            foreach ($myrelationships as $key => $valor) {
+                $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
+                $mymodel = new $mydata->details->attributes->{'model'};
+                $mycolumn = $mydata->details->attributes->{'column'};
+                $mykey = $mydata->details->attributes->{'key'};
+                foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel->$mycolumn = $data->id;
+                    $mymodel->$mykey = $value;
+                    $mymodel->save();
+                }
+            }
+         }
+        // --------------------------REGISTRO ---------------------------------------------------
+
+        return $this->show();
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show($id = null)
     {
-        return view('restaurant::show');
+        $dataTypeContent = $this->dataType->model_name::orderBy($this->dataType->details->{'order_column'}, $this->dataType->details->{'order_direction'})->paginate(setting('admin.pagination')); 
+        return view('restaurant::bread.show', [
+            'dataType' =>  $this->dataType,
+            'dataTypeContent' => $dataTypeContent
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
     public function edit($id)
     {
-        return view('restaurant::products.edit');
+        $data = $this->dataType->model_name::find($id);
+        return view('restaurant::bread.edit', [
+            'dataType' => $this->dataType,
+            'dataRows'=> $this->dataRowsEdit,
+            'data' => $data
+        ]); 
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        //----------------VALIDATIONS-----------------------------------------
+        // $validator = Validator::make($request->all(), [
+        //     'attribute' => 'required',
+        // ]);
+        // if ($validator->fails())
+        // {
+        //     return response()->json(['error'=>$validator->errors()]);
+        // }
+        //--------------------------------------------------------------------
+
+        $data = $this->dataType->model_name::find($id);
+        foreach ($this->dataRowsEdit as $key) {
+            $aux =  $key->field;
+            switch ($key->type) {
+                case 'Traking':
+                    $data->$aux = Auth::user()->id;
+                    break;
+                case 'image':
+                    if($request->hasFile($aux)){
+                        $image=Storage::disk('public')->put($this->dataType->name.'/'.date('F').date('Y'), $request->file($aux));
+                        $data->$aux = $image;
+                    }
+                    break;
+                case 'multiple_images':
+                    $image_array = array();
+                    if($request->hasFile($aux)){
+                        foreach($request->file($aux) as $image)
+                        {
+                            $array = Storage::disk('public')->put('products/'.date('F').date('Y'), $image);
+                            array_push($image_array, $array);
+                        }
+                        $data->$aux = json_encode($image_array);
+                    }
+                    break;
+                case 'relationship':
+                    
+                    break;
+                case 'checkbox':
+                    $data->$aux = $request->$aux ? 1 : 0;
+                    break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
+                default:
+                    $data->$aux = $request->$aux;
+                    break;
+            }
+        }
+        $data->save();
+        return $this->show();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        $product->deleted_at = \Carbon\Carbon::now();
-        $product->save();
-        return back()->with([
-            'message'    =>  $product->name .' Eliminado',
-            'alert-type' => 'danger',
-        ]);
-    }
-
-    function ajax_index($id, $model)
-    {
-        switch ($model) {
-            case 'SubCategory':
-                $data = SubCategory::where('category_id', $id)->get();
-                return $data;
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-    }
-
-    function ajax_create($table)
-    {   
-        $dataType = Voyager::model('DataType')->where('slug', '=', $table)->first();
-        $dataRows = Voyager::model('DataRow')->where('data_type_id', '=', $dataType->id)->orderBy('order', 'asc')->get();
-        return view('restaurant::products.views.ajax_create', compact(
-            'dataType',
-            'dataRows'
-        ));
-    }
-
-    function ajax_store(Request $request, $model)
-    {
-        switch ($model) {
-            case 'Category':
-                Category::create([
-                    'name' => $request->name,
-                    'slug' => Str::slug($request->name),
-                    'image' => $request->image,
-                    'description' => $request->description
-                ]);
-                return back()->with([
-                    'message'    => $request->name.' registrado.',
-                    'alert-type' => 'success',
-                ]);
-                
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-    }
-    
-    function ajax_destroy($id, $model)
-    {
-        switch ($model) {
-            case 'products':
-                $product = Product::find($id);
-                $product->deleted_at = \Carbon\Carbon::now();
-                $product->save();
-                return $product;
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-     
-    }
-    function ajax_first($id, $model)
-    {
-
-        switch ($model) {
-            case 'products':
-                $data = Product::find($id);
-                return view('restaurant::products.views.images', compact('data'));
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-                
+        $data = $this->dataType->model_name::find($id)->delete();
+        return $this->show();
     }
 }

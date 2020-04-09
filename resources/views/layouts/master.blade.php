@@ -98,6 +98,7 @@
 @yield('content')
 
 @include('layouts.footer')
+
 <div id="myWP"></div>
 
 <script type="text/javascript" src="{{ asset('resources/landingpage/js/jquery-3.4.1.min.js') }}"></script>
@@ -110,7 +111,7 @@
 <script src="{{ asset('vendor/up/js/floating-totop-button.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
- <script src="{{ asset('js/websocket.js') }}"></script>
+<script src="{{ asset('js/websocket.js') }}"></script>
 <script>
 //Animation init
 new WOW().init();

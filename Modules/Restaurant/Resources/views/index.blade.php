@@ -5,13 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta property="og:site_name" content="{{ setting('site.title') }}" />
+  <meta property="og:title" content="{{ $page->name }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ route('pages', $page->slug) }}" />
+  <meta property="og:image" content="{{ Voyager::Image($page->image) }}" />
+  <meta property="og:description" content="{{ $page->description }}" />
+
   <title>{{ setting('site.title') }}</title>
-  <!-- Font Awesome -->
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <!-- Bootstrap core CSS -->
   <link href="resources/landingpage/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
   <link href="resources/landingpage/css/mdb.min.css" rel="stylesheet">
+
   <style type="text/css">
     html,
     body,
@@ -21,6 +28,17 @@
       min-height: 100%;
     }
   </style>
+
+  @laravelPWA
+  {{--  google analityc  --}}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ setting('site.google_analytics_tracking_id') }}"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '{{ setting('site.google_analytics_tracking_id') }}');
+  </script>
 </head>
 
 <body class="restaurant-lp">
