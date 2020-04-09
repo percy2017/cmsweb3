@@ -83,7 +83,7 @@
            <!-- Card image -->
            <div class="view view-cascade overlay">
              <img class="card-img-top" src="{{ voyager::Image($data->image33->value) }}" alt="Card image cap">
-             <a href="#!">
+             <a href="https://www.youtube.com/watch?v=6abmF9zwCgE">
                <div class="mask rgba-white-slight"></div>
              </a>
            </div>
