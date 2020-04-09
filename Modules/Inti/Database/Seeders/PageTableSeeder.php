@@ -18,14 +18,12 @@ class PageTableSeeder extends Seeder
          /**--------------------------------------------------*/
 
         $page = Page::create([
-<<<<<<< HEAD
             'name'      => 'Landing Page Inti',
             'slug'      => 'index',
             'direction' => 'inti::index',
             'user_id' => 1,
             'description' => 'Pagina de destino para educacion en linea.',
-            'details'   => null
-=======
+            'details'   => null,
             'name'        =>  'Landing Page Inti',
             'slug'        =>  'index',
             'user_id'     =>  1,
@@ -85,7 +83,6 @@ class PageTableSeeder extends Seeder
                     ]
 
             ])
->>>>>>> de4bc0a9c62e386927649c0c1e10b0422799a13e
         ]);
         
          /** block 1 */              
