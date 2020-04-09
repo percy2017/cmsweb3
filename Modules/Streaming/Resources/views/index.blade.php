@@ -39,7 +39,7 @@
 <body>
 <!--Navbar -->
  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
-    <a class="navbar-brand" href="#"><strong class="h5">STREAMING</strong></a>
+    <a class="navbar-brand" href="/"><strong class="h5">STREAMING</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
       aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,7 @@
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-right text-white" aria-labelledby="navbarDropdown">
 
                       <a class="dropdown-item" href="/home">
                             Perfil

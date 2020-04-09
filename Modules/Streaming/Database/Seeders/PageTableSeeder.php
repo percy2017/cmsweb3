@@ -405,9 +405,7 @@ class PageTableSeeder extends Seeder
                     'type'   => 'text_area',
                     'name'   => 'description',
                     'label'  => 'Descripcion Corta',
-                    'value'  => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Fugit, error amet numquam iure provident voluptate esse quasi, veritatis totam voluptas nostrum quisquam
-                    eum porro a pariatur veniam.',
+                    'value'  => 'Escoge tu plan que se adapte a tu personalidad  ',
                     'width'  => 6
                 ],
 

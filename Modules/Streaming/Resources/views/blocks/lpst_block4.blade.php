@@ -109,13 +109,13 @@
   
               <ul class="striped mb-1">
                 <li>
-                  <p><strong>5</strong> {{ $data->pricing3_description1->value }}</p>
+                  <p><strong></strong> {{ $data->pricing3_description1->value }}</p>
                 </li>
                 <li>
-                  <p><strong>300</strong> {{ $data->pricing3_description2->value }}</p>
+                  <p><strong></strong> {{ $data->pricing3_description2->value }}</p>
                 </li>
                 <li>
-                  <p><strong>350</strong> {{ $data->pricing3_description3->value }}</p>
+                  <p><strong></strong> {{ $data->pricing3_description3->value }}</p>
                 </li>
                 
               </ul>
