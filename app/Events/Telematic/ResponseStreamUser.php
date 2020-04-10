@@ -20,14 +20,14 @@ class ResponseStreamUser implements ShouldBroadcast
      * @return void
      */
 
-    public $user_id_emisor;
-    public $user_id_receptor;
+    public $user_emisor;
+    public $user_receptor;
     public $stream;
 
-    public function __construct($user_id_emisor, $user_id_receptor, $stream)
+    public function __construct($user_emisor, $user_receptor, $stream)
     {
-        $this->user_id_emisor = $user_id_emisor;
-        $this->user_id_receptor = $user_id_receptor;
+        $this->user_emisor = $user_emisor;
+        $this->user_receptor = $user_receptor;
         $this->stream = $stream;
     }
 
@@ -38,6 +38,6 @@ class ResponseStreamUser implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('ResponseStreamUserChannel-'.$this->user_id_receptor);
+        return new Channel('ResponseStreamUserChannel-'.$this->user_receptor->id);
     }
 }
