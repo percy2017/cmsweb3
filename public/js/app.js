@@ -84847,6 +84847,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -84864,6 +84865,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
 =======
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Conference; });
+=======
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
+>>>>>>> origin/videochat-multiple
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -84922,6 +84926,7 @@ axios__WEBPACK_IMPORTED_MODULE_8___default.a.defaults.headers.common = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 var simulateClick = function simulateClick(elem) {
   // Create our event (with options)
   var evt = new MouseEvent('click', {
@@ -84940,6 +84945,10 @@ var VideoConference = /*#__PURE__*/function (_Component) {
 =======
 var Conference = /*#__PURE__*/function (_Component) {
   _inherits(Conference, _Component);
+>>>>>>> origin/videochat-multiple
+=======
+var VideoConference = /*#__PURE__*/function (_Component) {
+  _inherits(VideoConference, _Component);
 >>>>>>> origin/videochat-multiple
 
   var _super = _createSuper(VideoConference);
@@ -85227,10 +85236,14 @@ var Conference = /*#__PURE__*/function (_Component) {
   }]);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   return VideoConference;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 =======
   return Conference;
+=======
+  return VideoConference;
+>>>>>>> origin/videochat-multiple
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 >>>>>>> origin/videochat-multiple
 
@@ -85251,11 +85264,16 @@ var style = {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 if (document.getElementById('videoconference')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
 =======
 if (document.getElementById('example')) {
   react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Conference, null), document.getElementById('example'));
+>>>>>>> origin/videochat-multiple
+=======
+if (document.getElementById('videoconference')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
 >>>>>>> origin/videochat-multiple
 }
 
