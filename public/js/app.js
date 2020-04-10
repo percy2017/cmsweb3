@@ -99985,7 +99985,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Conference; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -100042,15 +100042,15 @@ axios__WEBPACK_IMPORTED_MODULE_8___default.a.defaults.headers.common = {
   'X-CSRF-TOKEN': window.csrfToken
 };
 
-var Conference = /*#__PURE__*/function (_Component) {
-  _inherits(Conference, _Component);
+var VideoConference = /*#__PURE__*/function (_Component) {
+  _inherits(VideoConference, _Component);
 
-  var _super = _createSuper(Conference);
+  var _super = _createSuper(VideoConference);
 
-  function Conference(props) {
+  function VideoConference(props) {
     var _this;
 
-    _classCallCheck(this, Conference);
+    _classCallCheck(this, VideoConference);
 
     _this = _super.call(this, props);
     _this.state = {
@@ -100086,7 +100086,7 @@ var Conference = /*#__PURE__*/function (_Component) {
     return _this;
   }
 
-  _createClass(Conference, [{
+  _createClass(VideoConference, [{
     key: "componentWillMount",
     value: function componentWillMount() {
       var _this2 = this;
@@ -100329,7 +100329,7 @@ var Conference = /*#__PURE__*/function (_Component) {
     }
   }]);
 
-  return Conference;
+  return VideoConference;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
 
@@ -100348,8 +100348,8 @@ var style = {
   }
 };
 
-if (document.getElementById('example')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Conference, null), document.getElementById('example'));
+if (document.getElementById('videoconference')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
 }
 
 /***/ }),

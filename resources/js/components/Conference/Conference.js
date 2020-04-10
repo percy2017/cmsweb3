@@ -9,7 +9,7 @@ import axios from 'axios';
 
 axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken};
 
-export default class Conference extends Component {
+export default class VideoConference extends Component {
 
     constructor(props) {
         super(props);
@@ -214,6 +214,6 @@ const style = {
     }
 };
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Conference />, document.getElementById('example'));
+if (document.getElementById('videoconference')) {
+    ReactDOM.render(<VideoConference />, document.getElementById('videoconference'));
 }

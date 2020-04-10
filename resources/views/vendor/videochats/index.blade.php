@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div id="example"></div>
+    <div id="videoconference"></div>
     
     
      @if(auth()->user())
