@@ -9,19 +9,6 @@ import axios from 'axios';
 
 axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken};
 
-var simulateClick = (elem) => {
-	// Create our event (with options)
-	var evt = new MouseEvent('click', {
-		bubbles: true,
-		cancelable: true,
-		view: window
-	});
-	// If cancelled, don't dispatch our event
-	var canceled = !elem.dispatchEvent(evt);
-};
-
-var PEERS = [];
-
 export default class Conference extends Component {
 
     constructor(props) {
@@ -31,7 +18,7 @@ export default class Conference extends Component {
             peerIniciator: true,
             userList: window.userList,
             userListActive: [],
-            miniVideoActive: window.user.id,
+            miniVideoActive: window.user.id
         };
 
         this.user = window.user;
@@ -41,6 +28,8 @@ export default class Conference extends Component {
         // Bindings
         this.mediaHandler = new MediaHandler();
         this.startCall = this.startCall.bind(this);
+        this.changeMiniVideoActive = this.changeMiniVideoActive.bind(this);
+        this.screenCapture = this.screenCapture.bind(this);
 
         // Channels
         Echo.channel(`RequestStreamUserChannel-${this.user.id}`)
@@ -50,48 +39,55 @@ export default class Conference extends Component {
             setTimeout(() => {
                 this.peers[e.user_id_emisor].signal(e.stream)
             }, 250);
-            console.log(this.peers)
+            // console.log(this.peers)
         });
 
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
             this.peers[e.user_id_emisor].signal(e.stream)
-            console.log(this.peers)
+            // console.log(this.peers)
         });
     }
 
     componentWillMount() {
-        // this.mediaHandler.getPermissions()
-        // .then((stream) => {
-        //     var myVideo = document.getElementById(`userVideo-${this.user.id}`);
-        //     var mainVideo = document.getElementById('mainVideo');
-        //     PEERS[this.user.id] = stream;
-        //     try {
-        //         myVideo.srcObject = stream;
-        //         mainVideo.srcObject = stream;
-        //     } catch (e) {
-        //         myVideo.src = URL.createObjectURL(stream);
-        //         mainVideo.src = URL.createObjectURL(stream);
-        //     }
-        //     myVideo.play();
-        //     mainVideo.play();
-        // });
+        this.mediaHandler.getPermissions()
+        .then((stream) => {
+            let newUser = {
+                id: this.user.id,
+                stream: stream
+            }
+            let userList = this.state.userListActive;
+            userList.push(newUser);
+            this.setState({userListActive: userList});
+            var myVideo = document.getElementById(`video-${this.user.id}`);
+            var mainVideo = document.getElementById('mainVideo');
+            try {
+                myVideo.srcObject = stream;
+                mainVideo.srcObject = stream;
+            } catch (e) {
+                myVideo.src = URL.createObjectURL(stream);
+                mainVideo.src = URL.createObjectURL(stream);
+            }
+            myVideo.play();
+            mainVideo.play();
+            this.peers[this.user.id] = stream;
+        });
         this.userList.map(user=>{
             this.startCall(user.id);
         })
     }
 
-    startCall(userID){
+    startCall(userID, mediaStream = null){
+        
         getUserMedia({ video: true, audio: true }, (err, stream) => {
             if (err) return console.error(err)
             this.peers[userID] = new Peer({
                 initiator: this.state.peerIniciator,
                 trickle: false,
-                stream: stream
+                stream: mediaStream ? mediaStream : stream
             })
-          
+            
             this.peers[userID].on('signal', (data) => {
-                // document.getElementById('yourId').value = JSON.stringify(data);
                 if(this.state.peerIniciator){
                     axios({
                         method: 'post',
@@ -114,6 +110,10 @@ export default class Conference extends Component {
             })
           
             this.peers[userID].on('stream', (stream) => {
+                try {
+                    document.getElementById(`containerVideo-${userID}`).remove();
+                } catch (error) {}
+
                 let newUser = {
                     id: userID,
                     stream: stream
@@ -128,37 +128,71 @@ export default class Conference extends Component {
                 } catch (e) {
                     video.src = URL.createObjectURL(stream);
                 }
-                video.play()
+                video.play();
+                this.peers[userID] = stream;
             })
         })
     }
 
+    changeMiniVideoActive(id){
+        this.setState({miniVideoActive: id});
+        var video = document.getElementById('mainVideo')
+        try {
+            video.srcObject = this.peers[id];
+        } catch (e) {
+            video.src = URL.createObjectURL(this.peers[id]);
+        }
+        video.play()
+    }
+
+    async screenCapture(){
+        try {
+            let mediaStream = await navigator.mediaDevices.getDisplayMedia({video:true});
+            var myVideo = document.getElementById(`video-${this.user.id}`);
+            var mainVideo = document.getElementById('mainVideo');
+            try {
+                myVideo.srcObject = mediaStream;
+                mainVideo.srcObject = mediaStream;
+            } catch (e) {
+                myVideo.src = URL.createObjectURL(mediaStream);
+                mainVideo.src = URL.createObjectURL(mediaStream);
+            }
+            myVideo.play();
+            mainVideo.play();
+            this.setState({peerIniciator: true});
+            this.userList.map(user=>{
+                this.startCall(user.id, mediaStream);
+            });
+            this.peers[this.user.id] = mediaStream;
+        } catch (e) {
+            console.log('Unable to acquire screen capture: ' + e);
+        }
+    }
+
     render() {
         return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    {
-                        this.state.userListActive.map(user=>{
-                            return(
-                                <div className="col-md-4">
-                                    <div className="card">
-                                        <div className="card-header">{`VideoChat user ID:${user.id}`}</div>
-                                        <div className="card-body">
-                                            <video id={`video-${user.id}`} width="100%" />
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    {/* <div className="col-md-4">
-                        <div className="card">
-                            <div className="card-header">VideoChat</div>
-                            <div className="card-body" id="card">
-                                <video id="video" width="100%" />
+            <div style={{ width: '100%', height: '100%', backgroundColor: '#000' }}>
+                <video id='mainVideo' style={{ width: '100%', height: `${window.innerHeight}px` }} />
+                <div style={{ position: 'fixed', left: 20, top: 20, bottom: 30, height: `${window.innerHeight}px`, overflowY: 'auto' }}>
+                
+                {
+                    this.state.userListActive.map(user=>{
+                        return( 
+                            <div key={user.id} id={`containerVideo-${user.id}`} style={{ width: '100px' }}>
+                                <video
+                                    id={`video-${user.id}`}
+                                    muted='muted'
+                                    width="100%"
+                                    style={this.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo}
+                                    onClick={()=>this.changeMiniVideoActive(user.id)}
+                                />
                             </div>
-                        </div>
-                    </div> */}
+                        )
+                    })
+                }
+                </div>
+                <div style={{ position: 'fixed', left: 0, right: 0, bottom: 20, textAlign: 'center' }}>
+                    <button onClick={()=>this.screenCapture()}>Mostrar pantalla</button>
                 </div>
             </div>
         )
@@ -166,13 +200,15 @@ export default class Conference extends Component {
 }
 
 const style = {
-    containerMiniVideo: {
-        cursor: 'pointer'
-    },
+    // containerMiniVideo: {
+    //     cursor: 'pointer'
+    // },
     miniVideo: {
+        cursor: 'pointer',
         borderRadius: 5,
     },
     miniVideoActive: {
+        cursor: 'pointer',
         borderRadius: 5,
         border: 'solid 5px green',
     }
