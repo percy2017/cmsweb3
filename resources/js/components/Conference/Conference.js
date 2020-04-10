@@ -9,7 +9,7 @@ import axios from 'axios';
 
 axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken};
 
-var simulateClick = function (elem) {
+var simulateClick = (elem) => {
 	// Create our event (with options)
 	var evt = new MouseEvent('click', {
 		bubbles: true,
@@ -27,208 +27,139 @@ export default class VideoConference extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            peerIniciator: true,
             userList: window.userList,
+            userListActive: [],
             miniVideoActive: window.user.id,
-            callIncommig: false,
-            callIncommigUser: null
         };
 
         this.user = window.user;
         this.userList = this.state.userList;
+        this.peers = [];
 
         // Bindings
         this.mediaHandler = new MediaHandler();
         this.startCall = this.startCall.bind(this);
-        this.changeMiniVideoActive = this.changeMiniVideoActive.bind(this);
 
         // Channels
         Echo.channel(`RequestStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\RequestStreamUser', (e) => {
-            document.getElementById('otherId').value = e.stream;
-            this.startCall(false, e.user_id_receptor, e.user_id_emisor)
-            this.setState({callIncommig : true, callIncommigUser : e.user_id_receptor});
-            console.log('request')
+            this.setState({peerIniciator: false});
+            this.startCall(e.user_id_emisor)
             setTimeout(() => {
-                simulateClick(document.getElementById('connect'));
-            }, 500);
+                this.peers[e.user_id_emisor].signal(e.stream)
+            }, 250);
+            console.log(this.peers)
         });
 
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
-            document.getElementById('otherId').value = e.stream;
-            console.log('response');
-            setTimeout(() => {
-                simulateClick(document.getElementById('connect'));
-            }, 500);
+            this.peers[e.user_id_emisor].signal(e.stream)
+            console.log(this.peers)
         });
     }
 
     componentWillMount() {
-        this.mediaHandler.getPermissions()
-        .then((stream) => {
-            var myVideo = document.getElementById(`userVideo-${this.user.id}`);
-            var mainVideo = document.getElementById('mainVideo');
-            PEERS[this.user.id] = stream;
-            try {
-                myVideo.srcObject = stream;
-                mainVideo.srcObject = stream;
-            } catch (e) {
-                myVideo.src = URL.createObjectURL(stream);
-                mainVideo.src = URL.createObjectURL(stream);
-            }
-            myVideo.play();
-            mainVideo.play();
-        });
-
-        // Lamar a todos los usuarios
-        setTimeout(() => {
-            this.userList.map(user=>{
-                if(this.user.id != user.id){
-                    this.startCall(true, this.user.id, user.id);
-                }
-            });
-        }, 0);
+        // this.mediaHandler.getPermissions()
+        // .then((stream) => {
+        //     var myVideo = document.getElementById(`userVideo-${this.user.id}`);
+        //     var mainVideo = document.getElementById('mainVideo');
+        //     PEERS[this.user.id] = stream;
+        //     try {
+        //         myVideo.srcObject = stream;
+        //         mainVideo.srcObject = stream;
+        //     } catch (e) {
+        //         myVideo.src = URL.createObjectURL(stream);
+        //         mainVideo.src = URL.createObjectURL(stream);
+        //     }
+        //     myVideo.play();
+        //     mainVideo.play();
+        // });
+        this.userList.map(user=>{
+            this.startCall(user.id);
+        })
     }
 
-    startCall(init, emisorId, receptId){
-        getUserMedia({ video: true, audio: true }, function (err, stream) {
+    startCall(userID){
+        getUserMedia({ video: true, audio: true }, (err, stream) => {
             if (err) return console.error(err)
-            var peer = new Peer({
-              initiator: init,
-              trickle: false,
-              stream: stream
+            this.peers[userID] = new Peer({
+                initiator: this.state.peerIniciator,
+                trickle: false,
+                stream: stream
             })
-
-            // Crear el boton que dispare el evento ce conexión
-            if(init){
-                var buttom = document.createElement('buttom');
-                buttom.id = 'connect';
-                buttom.value = 'ok'
-                document.body.appendChild(buttom);
-            }
           
-            peer.on('signal', function (data) {
-                document.getElementById('yourId').value = JSON.stringify(data)
-                if(init){
+            this.peers[userID].on('signal', (data) => {
+                // document.getElementById('yourId').value = JSON.stringify(data);
+                if(this.state.peerIniciator){
                     axios({
                         method: 'post',
                         url: 'videochats/request',
                         data: {
-                            'type': 'request',
-                            emisorId, receptId,
+                            'type': 'request', emisorId: this.user.id, receptId: userID, stream: JSON.stringify(data)
+                        }
+                    })
+                }else{
+                    axios({
+                        method: 'post',
+                        url: 'videochats/request',
+                        data: {
+                            'type': 'response',
+                            emisorId: this.user.id, receptId: userID,
                             stream: JSON.stringify(data)
                         }
                     })
-                    .then(function (response) {
-                        // console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                }
-            })
-
-            document.getElementById('connect').addEventListener('click', function () {
-                var otherId = JSON.parse(document.getElementById('otherId').value)
-                peer.signal(otherId)
-                console.log('connect')
-                if(!init){
-                    setTimeout(() => {
-                        var yourId = document.getElementById('yourId').value;
-                        axios({
-                            method: 'post',
-                            url: 'videochats/request',
-                            data: {
-                                'type': 'response',
-                                emisorId, receptId,
-                                stream: yourId
-                            }
-                        })
-                        .then(function (response) {
-                            // console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    }, 500);
                 }
             })
           
-            peer.on('stream', function (stream) {
-                var userVideo = document.getElementById(`userVideo-${receptId}`);
-                PEERS[receptId] = stream;
-                try {userVideo.srcObject = stream}
-                catch (e) {userVideo.src = URL.createObjectURL(stream)}
-                userVideo.play();
+            this.peers[userID].on('stream', (stream) => {
+                let newUser = {
+                    id: userID,
+                    stream: stream
+                }
+                let userList = this.state.userListActive;
+                userList.push(newUser);
+                this.setState({userListActive: userList});
+                var video = document.getElementById(`video-${userID}`)
+          
+                try {
+                    video.srcObject = stream;
+                } catch (e) {
+                    video.src = URL.createObjectURL(stream);
+                }
+                video.play()
             })
         })
     }
 
-    changeMiniVideoActive(id){
-        this.setState({miniVideoActive: id});
-        var userVideo = document.getElementById(`mainVideo`);
-        var userStream = PEERS[id];
-        // console.log(userStream)
-        try {userVideo.srcObject = userStream}
-        catch (e) {userVideo.src = URL.createObjectURL(userStream)}
-        userVideo.play();
-    }
-
     render() {
         return (
-            <Container style={{ marginTop:20 }}>
-                <Row>
-                    <Col md={{ size: '2' }}>
-                        <ul style={{ listStyle:'none' }}>
-                            <li>
-                                <div style={style.containerMiniVideo}>
-                                    <video
-                                        style={this.state.miniVideoActive == this.user.id ? style.miniVideoActive : style.miniVideo}
-                                        onClick={()=>this.changeMiniVideoActive(this.user.id)}
-                                        id={`userVideo-${this.user.id}`} muted="muted" width="100%"
-                                    >
-                                    </video>
+            <div className="container">
+                <div className="row justify-content-center">
+                    {
+                        this.state.userListActive.map(user=>{
+                            return(
+                                <div className="col-md-4">
+                                    <div className="card">
+                                        <div className="card-header">{`VideoChat user ID:${user.id}`}</div>
+                                        <div className="card-body">
+                                            <video id={`video-${user.id}`} width="100%" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </li>
-                            {/* Usuarios Conectados */}
-                            {
-                                this.state.userList.map(user=>{
-                                    if(this.user.id != user.id){
-                                        return (<li key={user.id}>
-                                            <div style={style.containerMiniVideo}>
-                                                <video
-                                                    style={this.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo}
-                                                    onClick={()=>this.changeMiniVideoActive(user.id)}
-                                                    id={`userVideo-${user.id}`} muted="muted" width="100%">
-                                                </video>
-                                            </div>
-                                        </li>);
-                                    }
-                                })
-                            }
-                        </ul>
-                    </Col>
-                    <Col md={{ size: '8' }}>
-                        <video id="mainVideo" width="100%"></video>
-                    </Col>
-                    <Col md={{ size: '2' }}>
-                        <ListGroup>
-                            {
-                                this.state.userList.map(user=>
-                                    <ListGroupItem key={user.id}>
-                                        {user.name} {this.user.id != user.id && !this.state.callIncommig ? <button style={{ display: 'none' }} onClick={()=>this.startCall(true, this.user.id, user.id)}></button> : this.state.callIncommig && this.user.id != user.id ? <button style={{ display: 'none' }} id="connect"></button> : '' }
-                                    </ListGroupItem>
-                                )
-                            }
-                        </ListGroup>
-                    </Col>
-                </Row>
-                <div className="row">
-                    <input type="hidden" id="yourId" className="form-control" />
-                    <input type="hidden" id="otherId" className="form-control" />
-                    <div id="messages"></div>
+                            )
+                        })
+                    }
+                    {/* <div className="col-md-4">
+                        <div className="card">
+                            <div className="card-header">VideoChat</div>
+                            <div className="card-body" id="card">
+                                <video id="video" width="100%" />
+                            </div>
+                        </div>
+                    </div> */}
                 </div>
-            </Container>
+            </div>
         )
     }
 }
