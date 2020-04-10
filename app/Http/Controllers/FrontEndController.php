@@ -46,13 +46,13 @@ class FrontEndController extends Controller
         return view('vendor.videochats.index', compact('userList'));
     }
     function videochats_request(Request $request){
-        $tokken = $request->stream;
-        $user_id_emisor = $request->emisorId;
-        $user_id_receptor = $request->receptId;
+        $stream = $request->stream;
+        $user_emisor = User::find($request->emisorId, ['id', 'name', 'avatar']);
+        $user_receptor = User::find($request->receptId, ['id', 'name', 'avatar']);
         if($request->type == 'request'){
-            event(new RequestStreamUser($user_id_emisor, $user_id_receptor, $tokken));
+            event(new RequestStreamUser($user_emisor, $user_receptor, $stream));
         }else{
-            event(new ResponseStreamUser($user_id_emisor, $user_id_receptor, $tokken));
+            event(new ResponseStreamUser($user_emisor, $user_receptor, $stream));
         }
     }
 }

@@ -84920,6 +84920,12 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       userListActive: [],
       miniVideoActive: window.user.id
     };
+
+    var warning = function warning() {
+      console.log('Exit');
+    };
+
+    window.onbeforeunload = warning;
     _this.user = window.user;
     _this.userList = _this.state.userList;
     _this.peers = []; // Bindings
@@ -84934,14 +84940,14 @@ var VideoConference = /*#__PURE__*/function (_Component) {
         peerIniciator: false
       });
 
-      _this.startCall(e.user_id_emisor);
+      _this.startCall(e.user_emisor);
 
       setTimeout(function () {
-        _this.peers[e.user_id_emisor].signal(e.stream);
+        _this.peers[e.user_emisor.id].signal(e.stream);
       }, 250); // console.log(this.peers)
     });
     Echo.channel("ResponseStreamUserChannel-".concat(_this.user.id)).listen('.App\\Events\\Telematic\\ResponseStreamUser', function (e) {
-      _this.peers[e.user_id_emisor].signal(e.stream); // console.log(this.peers)
+      _this.peers[e.user_emisor.id].signal(e.stream); // console.log(this.peers)
 
     });
     return _this;
@@ -84955,6 +84961,7 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       this.mediaHandler.getPermissions().then(function (stream) {
         var newUser = {
           id: _this2.user.id,
+          name: _this2.user.name,
           stream: stream
         };
         var userList = _this2.state.userListActive;
@@ -84980,12 +84987,12 @@ var VideoConference = /*#__PURE__*/function (_Component) {
         _this2.peers[_this2.user.id] = stream;
       });
       this.userList.map(function (user) {
-        _this2.startCall(user.id);
+        _this2.startCall(user);
       });
     }
   }, {
     key: "startCall",
-    value: function startCall(userID) {
+    value: function startCall(user) {
       var _this3 = this;
 
       var mediaStream = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -84994,55 +85001,58 @@ var VideoConference = /*#__PURE__*/function (_Component) {
         audio: true
       }, function (err, stream) {
         if (err) return console.error(err);
-        _this3.peers[userID] = new simple_peer__WEBPACK_IMPORTED_MODULE_7___default.a({
+        _this3.peers[user.id] = new simple_peer__WEBPACK_IMPORTED_MODULE_7___default.a({
           initiator: _this3.state.peerIniciator,
           trickle: false,
           stream: mediaStream ? mediaStream : stream
         });
 
-        _this3.peers[userID].on('signal', function (data) {
+        _this3.peers[user.id].on('signal', function (data) {
+          // Si es el iniciador envía su token al receptor
           if (_this3.state.peerIniciator) {
             axios__WEBPACK_IMPORTED_MODULE_8___default()({
               method: 'post',
               url: 'videochats/request',
               data: {
-                'type': 'request',
+                type: 'request',
                 emisorId: _this3.user.id,
-                receptId: userID,
+                receptId: user.id,
                 stream: JSON.stringify(data)
               }
             });
-          } else {
-            axios__WEBPACK_IMPORTED_MODULE_8___default()({
-              method: 'post',
-              url: 'videochats/request',
-              data: {
-                'type': 'response',
-                emisorId: _this3.user.id,
-                receptId: userID,
-                stream: JSON.stringify(data)
-              }
-            });
-          }
+          } // Si es el receptor de la llamada al recibir el token del iniciaor genera el suyo y se lo envía para abrir la cpexión
+          else {
+              axios__WEBPACK_IMPORTED_MODULE_8___default()({
+                method: 'post',
+                url: 'videochats/request',
+                data: {
+                  type: 'response',
+                  emisorId: _this3.user.id,
+                  receptId: user.id,
+                  stream: JSON.stringify(data)
+                }
+              });
+            }
         });
 
-        _this3.peers[userID].on('stream', function (stream) {
-          try {
-            document.getElementById("containerVideo-".concat(userID)).remove();
-          } catch (error) {}
-
+        _this3.peers[user.id].on('stream', function (stream) {
           var newUser = {
-            id: userID,
+            id: user.id,
+            name: user.name,
             stream: stream
           };
-          var userList = _this3.state.userListActive;
+
+          var userList = _this3.state.userListActive.filter(function (item) {
+            return item.id != user.id;
+          });
+
           userList.push(newUser);
 
           _this3.setState({
             userListActive: userList
           });
 
-          var video = document.getElementById("video-".concat(userID));
+          var video = document.getElementById("video-".concat(user.id));
 
           try {
             video.srcObject = stream;
@@ -85051,7 +85061,19 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           }
 
           video.play();
-          _this3.peers[userID] = stream;
+          _this3.peers[user.id] = stream;
+        });
+
+        _this3.peers[user.id].on('close', function () {
+          console.log("Close ".concat(user.name));
+
+          var userList = _this3.state.userListActive.filter(function (item) {
+            return item.id != user.id;
+          });
+
+          _this3.setState({
+            userListActive: userList
+          });
         });
       });
     }
@@ -85085,7 +85107,8 @@ var VideoConference = /*#__PURE__*/function (_Component) {
                 _context.prev = 0;
                 _context.next = 3;
                 return navigator.mediaDevices.getDisplayMedia({
-                  video: true
+                  video: true,
+                  audio: true
                 });
 
               case 3:
@@ -85107,7 +85130,7 @@ var VideoConference = /*#__PURE__*/function (_Component) {
                   peerIniciator: true
                 });
                 this.userList.map(function (user) {
-                  _this4.startCall(user.id, mediaStream);
+                  _this4.startCall(user, mediaStream);
                 });
                 this.peers[this.user.id] = mediaStream;
                 _context.next = 17;
@@ -85145,6 +85168,7 @@ var VideoConference = /*#__PURE__*/function (_Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
         id: "mainVideo",
+        muted: true,
         style: {
           width: '100%',
           height: "".concat(window.innerHeight, "px")
@@ -85163,24 +85187,34 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           key: user.id,
           id: "containerVideo-".concat(user.id),
           style: {
-            width: '100px'
+            position: 'relative',
+            width: '100px',
+            textAlign: 'center'
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
           id: "video-".concat(user.id),
-          muted: "muted",
+          muted: _this5.user.id == user.id ? 'muted' : false,
           width: "100%",
           style: _this5.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo,
           onClick: function onClick() {
             return _this5.changeMiniVideoActive(user.id);
           }
-        }));
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          style: {
+            position: 'absolute',
+            left: 5,
+            bottom: 8,
+            color: '#fff',
+            fontSize: 11
+          }
+        }, user.name));
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         style: {
           position: 'fixed',
           left: 0,
-          right: 0,
+          right: 20,
           bottom: 20,
-          textAlign: 'center'
+          textAlign: 'right'
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         onClick: function onClick() {
@@ -85195,17 +85229,19 @@ var VideoConference = /*#__PURE__*/function (_Component) {
 
 
 var style = {
-  // containerMiniVideo: {
-  //     cursor: 'pointer'
-  // },
   miniVideo: {
-    cursor: 'pointer',
-    borderRadius: 5
-  },
-  miniVideoActive: {
+    backgroundColor: '#000',
     cursor: 'pointer',
     borderRadius: 5,
-    border: 'solid 5px green'
+    height: 60,
+    border: 'solid 2px #616161'
+  },
+  miniVideoActive: {
+    backgroundColor: '#000',
+    cursor: 'pointer',
+    borderRadius: 5,
+    height: 60,
+    border: 'solid 2px #39E23C'
   }
 };
 
