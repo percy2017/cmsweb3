@@ -55,7 +55,7 @@
                                                     class="form-control select2" 
                                                     name="{{ $row->field }}[]"
                                                     id="{{ $row->field }}" multiple>
-                                                   
+                                                    <option disabled>-- Seleciona datos --</option>
                                                     @foreach($query as $relationshipData)
                                                         <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
                                                     @endforeach

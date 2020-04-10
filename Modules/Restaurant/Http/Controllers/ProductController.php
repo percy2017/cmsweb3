@@ -94,14 +94,10 @@ class ProductController extends Controller
                     break;
                 case 'relationship':
                      if ($key->details->{'type'} == 'belongsToMany') {
-                       
                         if ($request->$aux) {
-                           
                             array_push($myrelationships, array($aux => $request->$aux));
                         }
-                        
                      }
-                    
                     break;
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
@@ -122,13 +118,13 @@ class ProductController extends Controller
         $data->save();
         
         if ($myrelationships) {
-           
             foreach ($myrelationships as $key => $valor) {
                 $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
-                $mymodel = new $mydata->details->attributes->{'model'};
                 $mycolumn = $mydata->details->attributes->{'column'};
                 $mykey = $mydata->details->attributes->{'key'};
+                // return array_values($valor)[0];
                 foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel = new $mydata->details->attributes->{'model'};
                     $mymodel->$mycolumn = $data->id;
                     $mymodel->$mykey = $value;
                     $mymodel->save();
@@ -161,6 +157,7 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        // return $request;
         //----------------VALIDATIONS-----------------------------------------
         // $validator = Validator::make($request->all(), [
         //     'attribute' => 'required',
@@ -172,6 +169,7 @@ class ProductController extends Controller
         //--------------------------------------------------------------------
 
         $data = $this->dataType->model_name::find($id);
+        $myrelationships = array();
         foreach ($this->dataRowsEdit as $key) {
             $aux =  $key->field;
             switch ($key->type) {
@@ -196,7 +194,11 @@ class ProductController extends Controller
                     }
                     break;
                 case 'relationship':
-                    
+                    if ($key->details->{'type'} == 'belongsToMany') {
+                        if ($request->$aux) {
+                            array_push($myrelationships, array($aux => $request->$aux));
+                        }
+                     }
                     break;
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
@@ -214,6 +216,22 @@ class ProductController extends Controller
             }
         }
         $data->save();
+        if ($myrelationships) {
+            foreach ($myrelationships as $key => $valor) {
+                $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
+                $mycolumn = $mydata->details->attributes->{'column'};
+                $mykey = $mydata->details->attributes->{'key'};
+                
+                $mydata->details->attributes->{'model'}::where($mydata->details->attributes->{'column'}, $data->id)->delete();
+
+                foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel = new $mydata->details->attributes->{'model'};
+                    $mymodel->$mycolumn = $data->id;
+                    $mymodel->$mykey = $value;
+                    $mymodel->save();
+                }
+            }
+         }
         return $this->show();
     }
 

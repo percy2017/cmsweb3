@@ -181,7 +181,7 @@
                           @endforeach
                             
                             <td class="no-sort no-click bread-actions">
-                                <a href="#" onclick="ajax('{{ route('inti_recovery', [$dataType->name, $data->id]) }}', 'recovery')" title="Eliminar" class="btn btn-success">
+                                <a href="#" onclick="ajax('{{ route('restaurant_recovery', [$dataType->name, $data->id]) }}', 'recovery')" title="Eliminar" class="btn btn-success">
                                 <i class="voyager-upload"></i> <span class="hidden-xs hidden-sm">Recuperar</span>
                                 </a>
                             </td>

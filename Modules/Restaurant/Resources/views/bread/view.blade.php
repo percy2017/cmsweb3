@@ -7,7 +7,7 @@
             
                 <div class="form-group text-center">
                     <h4>
-                        <i class="voyager-eye"></i> {{ __('voyager::generic.viewing').': '.$dataType->display_name_singular }}
+                        <i class="voyager-eye"></i> {{ __('voyager::generic.viewing').': '.$dataType->display_name_singular }} # {{ $data->id }}
                     </h4>
                     <hr/>
                 
@@ -40,7 +40,32 @@
                                         @endphp
                                         <h4><code> {{ $query->$label }} </code></h4>
                                     @elseif($row->details->{'type'} == 'belongsToMany')
+                                        @php
+                                            $model = app($row->details->model);
+                                            $query = $model::all();
 
+                                            $mymodel = app($row->details->attributes->model);
+                                            $mycolumn = $row->details->attributes->{'column'};
+                                            $mykey = $row->details->attributes->{'key'};
+                                            $myquery = $mymodel::where($mycolumn, $data->id)->get();
+
+                                            $myrelationships = false;
+                                        @endphp
+                                        <h4>
+                                            @foreach($query as $relationshipData)
+                                                @foreach ($myquery as $item)
+                                                    @if ($item->$mykey == $relationshipData->{$row->details->key})
+                                                        @php $myrelationships = true; @endphp
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                                @if($myrelationships)
+                                                    <code>{{ $relationshipData->{$row->details->label} }}</code>
+                                                @endif
+                                        
+                                                @php $myrelationships = false; @endphp
+                                            @endforeach
+                                        </h4>
                                     @endif
                                     @break
                                 @case('select_dropdown')
@@ -103,8 +128,21 @@
                                     
                                     @break 
                                 @case('multiple_images')
-                                   
-                                @break    
+                                    <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
+                                    @php
+                                        $images_field = $data->{$row->field};
+                                    @endphp  
+                                    
+                                    @if(isset($images_field))
+                                        <div class="row">
+                                        @foreach (json_decode($images_field) as $item)
+                                            <div class="form-group col-md-{{ 12/count(json_decode($images_field)) }}">
+                                                <img class="img-responsive" src="{{ Voyager::image($item) }}">
+                                            </div>    
+                                        @endforeach
+                                        </div>
+                                    @endif
+                                    @break    
                                 @case('checkbox')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                     <br/>

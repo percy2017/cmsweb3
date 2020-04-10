@@ -129,14 +129,14 @@
                                     $images_field = $data->{$row->field};
                                   @endphp  
                                   @if(isset($images_field))
-                                  @foreach (json_decode($images_field) as $item)
-                                      @if($loop->first)
-                                      <a href="javascript:;" onclick="">
-                                          <img src="{{ Voyager::image($item) }}"width="60px">
-                                      </a>
-                                      @endif
-                                      @break
-                                  @endforeach
+                                    @foreach (json_decode($images_field) as $item)
+                                        @if($loop->first)
+                                        <a href="javascript:;" onclick="">
+                                            <img src="{{ Voyager::image($item) }}"width="60px">
+                                        </a>
+                                        @endif
+                                        @break
+                                    @endforeach
                                   @endif
                                   @break
                                 @case('select_dropdown')
@@ -153,13 +153,40 @@
                                   @endif
                                   @break
                                 @case('relationship')
-                                  @php
-                                      $model = app($row->details->model);
-                                      $column = $row->details->{'column'};
-                                      $query = $model::where('id', $data->$column)->first();
-                                      $label=$row->details->{'label'};
-                                  @endphp
-                                  <span>{{ $query->$label }}</span>    
+                                  @if($row->details->{'type'} == 'belongsTo')
+                                    @php
+                                        $model = app($row->details->model);
+                                        $column = $row->details->{'column'};
+                                        $query = $model::where('id', $data->$column)->first();
+                                        $label=$row->details->{'label'};
+                                    @endphp
+                                    <span>{{ $query->$label }}</span>   
+                                  @elseif($row->details->{'type'} == 'belongsToMany')
+                                    @php
+                                        $model = app($row->details->model);
+                                        $query = $model::all();
+
+                                        $mymodel = app($row->details->attributes->model);
+                                        $mycolumn = $row->details->attributes->{'column'};
+                                        $mykey = $row->details->attributes->{'key'};
+                                        $myquery = $mymodel::where($mycolumn, $data->id)->get();
+
+                                        $myrelationships = false;
+                                    @endphp
+                                      @foreach($query as $relationshipData)
+                                        @foreach ($myquery as $item)
+                                            @if ($item->$mykey == $relationshipData->{$row->details->key})
+                                                @php $myrelationships = true; @endphp
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($myrelationships)
+                                            <span>{{ $relationshipData->{$row->details->label} }}</span>
+                                        @endif
+                                
+                                        @php $myrelationships = false; @endphp
+                                    @endforeach
+                                  @endif
                                   @break
                                 @case('Traking')
                                   @php

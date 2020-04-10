@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
 			$table->decimal('Last_Price_Buy', 10)->nullable();
             $table->decimal('stock', 10)->nullable()->default(0.00);
             $table->decimal('stock_minimum', 10)->nullable()->default(0.00);            
-            $table->integer('it_storage')->nullable();
+            $table->boolean('it_storage')->nullable();
 			$table->string('images')->nullable();
 			$table->integer('views')->default(0);
             $table->string('slug', 191)->unique('slug');

@@ -33,7 +33,7 @@ class DataRowsInventarioTableSeeder extends Seeder
                 'display_name' => __('voyager::seeders.data_rows.id'),
                 'required'     => 1,
                 'browse'       => 1,
-                'read'         => 0,
+                'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
@@ -443,19 +443,22 @@ class DataRowsInventarioTableSeeder extends Seeder
         $dataRow = $this->dataRow($ProductDataType, 'it_storage');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'number',
+                'type'         => 'checkbox',
                 'display_name' => 'Se Almacena',
                 'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
-                'add'          => 0,
+                'add'          => 1,
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
                     'display'   => [
                         'width'  => '6',
                     ],
+                    "on" => "Con inventario",
+                    "off" => "Sin inventario ",
+                    "checked" => true
                 ]
             ])->save();
         }               

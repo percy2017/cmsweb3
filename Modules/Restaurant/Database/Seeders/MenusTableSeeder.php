@@ -150,6 +150,68 @@ class MenusTableSeeder extends Seeder
         Menu::firstOrCreate([
             'name' => 'yimbo_branch_offices',
         ]);
+            $menu = Menu::where('name', 'yimbo_branch_offices')->firstOrFail();
+            $menuItem = MenuItem::firstOrNew([
+                'menu_id' => $menu->id,
+                'title'   => 'Crear Nuevo',
+                'url'     => 'admin/yimbo_branch_offices/create',
+                'route'   => null
+            ]);
+            if (!$menuItem->exists) {
+                $menuItem->fill([
+                    'target'     => '_self',
+                    'icon_class' => null,
+                    'color'      => null,
+                    'parent_id'  => null,
+                    'order'      => 1,
+                ])->save();
+            }
+            $menuItem = MenuItem::firstOrNew([
+                'menu_id' => $menu->id,
+                'title'   => 'Listar',
+                'url'     => 'admin/yimbo_branch_offices/1',
+                'route'   => null
+            ]);
+            if (!$menuItem->exists) {
+                $menuItem->fill([
+                    'target'     => '_self',
+                    'icon_class' => null,
+                    'color'      => null,
+                    'parent_id'  => null,
+                    'order'      => 1,
+                ])->save();
+            }
+            $menuItem = MenuItem::firstOrNew([
+                'menu_id' => $menu->id,
+                'title'   => 'divider',
+                'url'     => null,
+                'route'   => null
+            ]);
+            if (!$menuItem->exists) {
+                $menuItem->fill([
+                    'target'     => '_self',
+                    'icon_class' => null,
+                    'color'      => null,
+                    'parent_id'  => null,
+                    'order'      => 2,
+                ])->save();
+            }
+            $menuItem = MenuItem::firstOrNew([
+                'menu_id' => $menu->id,
+                'title'   => 'setting',
+                'url'     => null,
+                'route'   => null
+            ]);
+            if (!$menuItem->exists) {
+                $menuItem->fill([
+                    'target'     => '_blank',
+                    'icon_class' => null,
+                    'color'      => null,
+                    'parent_id'  => null,
+                    'order'      => 3,
+                ])->save();
+            }
+
 
         Menu::firstOrCreate([
             'name' => 'yimbo_supplies',

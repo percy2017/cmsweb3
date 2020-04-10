@@ -84846,28 +84846,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-<<<<<<< HEAD
-<<<<<<< HEAD
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.css */ "./node_modules/bootstrap/dist/css/bootstrap.css");
-/* harmony import */ var bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/es/index.js");
-/* harmony import */ var _MediaHandler__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../MediaHandler */ "./resources/js/MediaHandler.js");
-/* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! getusermedia */ "./node_modules/getusermedia/getusermedia.js");
-/* harmony import */ var getusermedia__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(getusermedia__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! simple-peer */ "./node_modules/simple-peer/index.js");
-/* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
-=======
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Conference; });
-=======
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoConference; });
->>>>>>> origin/videochat-multiple
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -84886,7 +84865,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
 
 
->>>>>>> origin/videochat-multiple
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -84925,31 +84903,8 @@ axios__WEBPACK_IMPORTED_MODULE_8___default.a.defaults.headers.common = {
   'X-CSRF-TOKEN': window.csrfToken
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-var simulateClick = function simulateClick(elem) {
-  // Create our event (with options)
-  var evt = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-    view: window
-  }); // If cancelled, don't dispatch our event
-
-  var canceled = !elem.dispatchEvent(evt);
-};
-
-var PEERS = [];
-
 var VideoConference = /*#__PURE__*/function (_Component) {
   _inherits(VideoConference, _Component);
-=======
-var Conference = /*#__PURE__*/function (_Component) {
-  _inherits(Conference, _Component);
->>>>>>> origin/videochat-multiple
-=======
-var VideoConference = /*#__PURE__*/function (_Component) {
-  _inherits(VideoConference, _Component);
->>>>>>> origin/videochat-multiple
 
   var _super = _createSuper(VideoConference);
 
@@ -85235,17 +85190,8 @@ var VideoConference = /*#__PURE__*/function (_Component) {
     }
   }]);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   return VideoConference;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-=======
-  return Conference;
-=======
-  return VideoConference;
->>>>>>> origin/videochat-multiple
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
->>>>>>> origin/videochat-multiple
 
 
 var style = {
@@ -85263,18 +85209,8 @@ var style = {
   }
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-if (document.getElementById('videoconference')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
-=======
-if (document.getElementById('example')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Conference, null), document.getElementById('example'));
->>>>>>> origin/videochat-multiple
-=======
 if (document.getElementById('videoconference')) {
   react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(VideoConference, null), document.getElementById('videoconference'));
->>>>>>> origin/videochat-multiple
 }
 
 /***/ }),
