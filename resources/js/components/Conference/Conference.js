@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Row, Col, ListGroupItem, ListGroup, Spinner } from 'reactstrap';
 import MediaHandler from '../../MediaHandler';
-import getUserMedia from 'getusermedia';
 import Peer from 'simple-peer';
 import axios from 'axios';
 
@@ -18,7 +17,8 @@ export default class VideoConference extends Component {
             peerIniciator: true,
             userList: window.userList,
             userListActive: [],
-            miniVideoActive: window.user.id
+            miniVideoActive: window.user.id,
+            userScreenCapture: null
         };
 
         const warning = () => {
@@ -43,13 +43,16 @@ export default class VideoConference extends Component {
             this.startCall(e.user_emisor)
             setTimeout(() => {
                 this.peers[e.user_emisor.id].signal(e.stream)
-            }, 250);
+            }, 200);
             // console.log(this.peers)
         });
 
         Echo.channel(`ResponseStreamUserChannel-${this.user.id}`)
         .listen('.App\\Events\\Telematic\\ResponseStreamUser', (e) => {
-            this.peers[e.user_emisor.id].signal(e.stream)
+            try {
+                this.peers[e.user_emisor.id].signal(e.stream)
+            } catch (error) {}
+            
             // console.log(this.peers)
         });
     }
@@ -83,14 +86,13 @@ export default class VideoConference extends Component {
         })
     }
 
-    startCall(user, mediaStream = null){
-        
-        getUserMedia({ video: true, audio: true }, (err, stream) => {
-            if (err) return console.error(err)
+    startCall(user){
+        this.mediaHandler.getPermissions()
+        .then((stream) => {
             this.peers[user.id] = new Peer({
                 initiator: this.state.peerIniciator,
                 trickle: false,
-                stream: mediaStream ? mediaStream : stream 
+                stream: this.state.userScreenCapture ? this.state.userScreenCapture : stream
             })
             
             this.peers[user.id].on('signal', (data) => {
@@ -117,7 +119,6 @@ export default class VideoConference extends Component {
             })
           
             this.peers[user.id].on('stream', (stream) => {
-
                 let newUser = {
                     id: user.id,
                     name: user.name,
@@ -127,7 +128,7 @@ export default class VideoConference extends Component {
                 userList.push(newUser);
                 this.setState({userListActive: userList});
                 var video = document.getElementById(`video-${user.id}`)
-          
+                console.log(`stream ${user.id}`)
                 try {
                     video.srcObject = stream;
                 } catch (e) {
@@ -137,10 +138,11 @@ export default class VideoConference extends Component {
                 this.peers[user.id] = stream;
             })
 
-            this.peers[user.id].on('close', () => {
+            this.peers[user.id].on('error', (err) => {
                 console.log(`Close ${user.name}`)
                 let userList = this.state.userListActive.filter(item=>item.id!=user.id);
                 this.setState({ userListActive: userList });
+                console.log(this.peers[user.id].destroyed);
             })
         })
     }
@@ -153,12 +155,14 @@ export default class VideoConference extends Component {
         } catch (e) {
             video.src = URL.createObjectURL(this.peers[id]);
         }
-        video.play()
+        video.play();
     }
 
-    async screenCapture(){
+    async screenCapture(value){
         try {
-            let mediaStream = await navigator.mediaDevices.getDisplayMedia({video:true, audio: true});
+            let mediaStream = value ?
+                                await navigator.mediaDevices.getDisplayMedia({video: true, audio: true }) :
+                                await navigator.mediaDevices.getUserMedia({video: true, audio: true });
             var myVideo = document.getElementById(`video-${this.user.id}`);
             var mainVideo = document.getElementById('mainVideo');
             try {
@@ -170,10 +174,14 @@ export default class VideoConference extends Component {
             }
             myVideo.play();
             mainVideo.play();
-            this.setState({peerIniciator: true});
-            this.userList.map(user=>{
-                this.startCall(user, mediaStream);
-            });
+            this.setState({peerIniciator: true, userScreenCapture: value ? mediaStream : null});
+            setTimeout(() => {
+                this.userList.map(user=>{
+                    if(user.id!=this.user.id){
+                        this.startCall(user);
+                    }
+                });
+            }, 100);
             this.peers[this.user.id] = mediaStream;
         } catch (e) {
             console.log('Unable to acquire screen capture: ' + e);
@@ -205,7 +213,8 @@ export default class VideoConference extends Component {
                 }
                 </div>
                 <div style={{ position: 'fixed', left: 0, right: 20, bottom: 20, textAlign: 'right' }}>
-                    <button onClick={()=>this.screenCapture()}>Mostrar pantalla</button>
+                    <button onClick={()=>this.screenCapture(true)}>Mostrar pantalla</button>
+                    <button onClick={()=>this.screenCapture(false)}>Mostrar cámara</button>
                 </div>
             </div>
         )
