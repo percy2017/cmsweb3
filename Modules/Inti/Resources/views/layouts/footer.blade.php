@@ -28,10 +28,10 @@
                             </div>
                         </form>
                         <div class="social_icon">
-                            <a href="#"> <i class="ti-facebook"></i> </a>
-                            <a href="#"> <i class="ti-twitter-alt"></i> </a>
+                            {{ menu('landingIntiSocial', 'inti::vendor.landingMenuSocial') }}
+                          {{--   <a href="#"> <i class="ti-twitter-alt"></i> </a>
                             <a href="#"> <i class="ti-instagram"></i> </a>
-                            <a href="#"> <i class="ti-skype"></i> </a>
+                            <a href="#"> <i class="ti-skype"></i> </a> --}}
                         </div>
                     </div>
                 </div>

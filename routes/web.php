@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +22,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('login/github', 'SocialiteController@redirectToProvider');
-Route::get('login/github/callback', 'SocialiteController@handleProviderCallback');
+/* Route::get('login/github', 'SocialiteController@redirectToProvider');
+Route::get('login/github/callback', 'SocialiteController@handleProviderCallback'); */
+#socialite facebook y google
+Route::get('login/{social}', 'SocialiteController@redirectToProvider')->name('socialLogin');
+Route::get('login/{social}/callback', 'SocialiteController@handleProviderCallback');
+
 Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name('impresionate');
 
 Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');

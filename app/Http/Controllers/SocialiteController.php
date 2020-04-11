@@ -2,28 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Socialite;
 use App\User;
-use Illuminate\Support\Facades\Auth;
+
 class SocialiteController extends Controller
 {
-    public function redirectToProvider()
+    //function para redirecionar al cuenta social
+    public function redirectToProvider($social)
+    {
+        return Socialite::driver($social)->redirect();
+    }
+
+    public function handleProviderCallback($social)
+    {
+        $auth_user = Socialite::driver($social)->user();
+        if($auth_user){
+            if(!empty($auth_user->email)){
+                $user = User::where('email', $auth_user->email)->first();
+                if($user){
+                    Auth::login($user, true);
+                }else{
+                    $user = User::create([
+                                'name' => $auth_user->name,
+                                'email' => $auth_user->email ?? trim(str_ireplace(' ', '.', $auth_user->name)).'.'.rand(1001, 9999).'@loginweb.dev',
+                                'password' => Hash::make('password'),
+                                'avatar' => $auth_user->avatar,
+                            ]);
+
+                    Auth::login($user, true);
+                }
+                return redirect('/');
+            }
+        }else{
+            return 'Ops..!! Hubo Problema el usuario necesita un email.!';
+        }
+    }
+
+
+   /*  public function redirectToProvider()
     {
         return Socialite::driver('github')->redirect();
-    }
+    } */
 
     /**
      * Obtain the user information from GitHub.
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback()
+   /*  public function handleProviderCallback()
     {
         $user = Socialite::driver('github')->user();
 
         // $user->token;
-    }
+    } */
 
     function impresionate($id)
     {

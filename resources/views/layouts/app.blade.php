@@ -17,6 +17,27 @@
     <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
 
   @laravelPWA
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '{{ setting('api.facebook.appId') }}',
+        cookie     : true,
+        xfbml      : true,
+        version    : '{{ setting('api.facebook.version') }}'
+      });
+        
+      FB.AppEvents.logPageView();   
+        
+    };
+  
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
 </head>
 <body>
     <div id="app">
