@@ -317,6 +317,29 @@ class SettingsTableSeeder extends Seeder
         }
         // mail ------------------------------------
 
+
+        $setting = $this->findSetting('api.facebook.appId');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Facebook App id',
+                'value'        => '',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Api Redes Sociales',
+            ])->save();
+        }
+        $setting = $this->findSetting('api.facebook.version');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => 'Facebook App version',
+                'value'        => '',
+                'details'      => '',
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Api Redes Sociales',
+            ])->save();
+        }
     }
 
     /**

@@ -16,12 +16,13 @@ use App\Events\Telematic\ResponseStreamUser;
 
 class FrontEndController extends Controller
 {
-    function default()
+    function
+    default()
     {
-        
+
         $page = setting('site.page');
         $collection = Page::where('slug', $page)->first();
-       
+
         $blocks = Block::where('page_id', $collection->id)->orderBy('position', 'asc')->get();
         return view($collection->direction, [
             'collection' => json_decode($collection->details, true),
@@ -40,18 +41,20 @@ class FrontEndController extends Controller
             'blocks'     => $blocks
         ]);
     }
-    
-    function videochats(){
+
+    function videochats()
+    {
         $userList = User::where('id', '<>', Auth::user()->id)->select('id', 'name', 'avatar')->get();
         return view('vendor.videochats.index', compact('userList'));
     }
-    function videochats_request(Request $request){
+    function videochats_request(Request $request)
+    {
         $stream = $request->stream;
         $user_emisor = User::find($request->emisorId, ['id', 'name', 'avatar']);
         $user_receptor = User::find($request->receptId, ['id', 'name', 'avatar']);
-        if($request->type == 'request'){
+        if ($request->type == 'request') {
             event(new RequestStreamUser($user_emisor, $user_receptor, $stream));
-        }else{
+        } else {
             event(new ResponseStreamUser($user_emisor, $user_receptor, $stream));
         }
     }
