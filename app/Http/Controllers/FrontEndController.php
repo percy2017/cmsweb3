@@ -13,6 +13,8 @@ use App\User;
 // Events
 use App\Events\Telematic\RequestStreamUser;
 use App\Events\Telematic\ResponseStreamUser;
+use App\Events\Telematic\NewMessage;
+use App\Events\Telematic\NewMessageTyping;
 
 class FrontEndController extends Controller
 {
@@ -57,5 +59,17 @@ class FrontEndController extends Controller
         } else {
             event(new ResponseStreamUser($user_emisor, $user_receptor, $stream));
         }
+    }
+
+    function videochats_message(Request $request){
+        $data = [
+            'user' => $request->user,
+            'message' => $request->message,
+        ];
+        event(new NewMessage($data));
+    }
+
+    function videochats_message_typing(Request $request){
+        event(new NewMessageTyping($request->user));
     }
 }
