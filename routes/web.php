@@ -26,6 +26,8 @@ Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name(
 
 Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');
 Route::post('videochats/request', 'FrontEndController@videochats_request')->middleware('auth');
+Route::post('videochats/message', 'FrontEndController@videochats_message')->middleware('auth');
+Route::post('videochats/message/typing', 'FrontEndController@videochats_message_typing')->middleware('auth');
 
 
 Route::group(['prefix' => 'admin'], function () {

@@ -6,6 +6,9 @@ import MediaHandler from '../../MediaHandler';
 import Peer from 'simple-peer';
 import axios from 'axios';
 
+// Components
+import Message from '../Chat/Message/Message';
+
 axios.defaults.headers.common = {'X-CSRF-TOKEN' : window.csrfToken};
 
 export default class VideoConference extends Component {
@@ -18,7 +21,13 @@ export default class VideoConference extends Component {
             userList: window.userList,
             userListActive: [],
             miniVideoActive: window.user.id,
-            userScreenCapture: null
+            userScreenCapture: null,
+            inputMessage: '',
+            messageList : [],
+            detailChat: {
+                userName: '',
+                display: 'none'
+            }
         };
 
         const warning = () => {
@@ -35,6 +44,8 @@ export default class VideoConference extends Component {
         this.startCall = this.startCall.bind(this);
         this.changeMiniVideoActive = this.changeMiniVideoActive.bind(this);
         this.screenCapture = this.screenCapture.bind(this);
+        this.handleInpuMessage = this.handleInpuMessage.bind(this);
+        this.submitMessage = this.submitMessage.bind(this);
 
         // Channels
         Echo.channel(`RequestStreamUserChannel-${this.user.id}`)
@@ -54,6 +65,42 @@ export default class VideoConference extends Component {
             } catch (error) {}
             
             // console.log(this.peers)
+        });
+
+        Echo.channel(`NewMessageChannel`)
+        .listen('.App\\Events\\Telematic\\NewMessage', (e) => {
+            let messageList = this.state.messageList;
+            messageList.push(e.data);
+            this.setState({messageList});
+            
+            let offsetHeight = document.getElementById("panel-chat-messages").offsetHeight;
+            let scrollTop = document.getElementById("panel-chat-messages").scrollTop
+            let scrollHeight = document.getElementById("panel-chat-messages").scrollHeight
+            let posAct = offsetHeight + scrollTop;
+            let redirectToBottom = scrollHeight - posAct <= 200 ? true : false;
+            setTimeout(() => {
+                if(redirectToBottom){
+                    document.getElementById("panel-chat-messages").scrollTo({ top: scrollHeight, behavior: 'smooth' });
+                }
+            }, 250);
+            let typingUser = {userName: '', display: 'none'}
+            this.setState({detailChat: typingUser});
+            if(e.data.user.id != this.user.id){
+                document.getElementById("audio-newMessage").play();
+            }
+            
+        });
+
+        Echo.channel(`NewMessageTypingChannel`)
+        .listen('.App\\Events\\Telematic\\NewMessageTyping', (e) => {
+            if(this.user.id != e.user.id && this.state.detailChat.display == 'none'){
+                let typingUser = {userName: e.user.name, display: 'block'}
+                this.setState({detailChat: typingUser});
+                setTimeout(() => {
+                    let typingUser = {userName: '', display: 'none'}
+                    this.setState({detailChat: typingUser});
+                }, 2000);
+            }
         });
     }
 
@@ -84,6 +131,9 @@ export default class VideoConference extends Component {
         this.userList.map(user=>{
             this.startCall(user);
         })
+        setTimeout(() => {
+            document.getElementById("audio-join").play();
+        }, 100);
     }
 
     startCall(user){
@@ -128,7 +178,10 @@ export default class VideoConference extends Component {
                 userList.push(newUser);
                 this.setState({userListActive: userList});
                 var video = document.getElementById(`video-${user.id}`)
-                console.log(`stream ${user.id}`)
+                console.log(`Se unió ${user.name}`)
+                if(!this.state.peerIniciator){
+                    document.getElementById("audio-join").play();
+                }
                 try {
                     video.srcObject = stream;
                 } catch (e) {
@@ -138,11 +191,14 @@ export default class VideoConference extends Component {
                 this.peers[user.id] = stream;
             })
 
+            this.peers[user.id].on('data', (data) => {
+
+            })
+
             this.peers[user.id].on('error', (err) => {
-                console.log(`Close ${user.name}`)
+                console.log(`Cerró sesión ${user.name}`)
                 let userList = this.state.userListActive.filter(item=>item.id!=user.id);
                 this.setState({ userListActive: userList });
-                console.log(this.peers[user.id].destroyed);
             })
         })
     }
@@ -188,6 +244,33 @@ export default class VideoConference extends Component {
         }
     }
 
+    handleInpuMessage(event){
+        this.setState({inputMessage: event.target.value});
+        axios({
+            method: 'post',
+            url: 'videochats/message/typing',
+            data: {
+                user: {id: this.user.id, name: this.user.name}
+            }
+        })
+    }
+
+    submitMessage(event) {
+        event.preventDefault();
+        if(this.state.inputMessage){
+            axios({
+                method: 'post',
+                url: 'videochats/message',
+                data: {
+                    user: {id: this.user.id, name: this.user.name}, message: this.state.inputMessage
+                }
+            })
+            .then(res=>{
+                this.setState({inputMessage: ''});
+            });
+        }
+    }
+
     render() {
         return (
             <div style={{ width: '100%', height: '100%', backgroundColor: '#000' }}>
@@ -212,10 +295,40 @@ export default class VideoConference extends Component {
                     })
                 }
                 </div>
-                <div style={{ position: 'fixed', left: 0, right: 20, bottom: 20, textAlign: 'right' }}>
+                <div style={{ position: 'fixed', right: 0, bottom: 0, height: window.innerHeight, overflowY: 'auto', width: 350, backgroundColor: 'rgba(0,0,0,0.8)' }}>
+                    <div style={{ position: 'absolute', width: '100%', height: window.innerHeight, marginTop: 10 }}>
+                        <div id="panel-chat-messages" style={{  height: window.innerHeight-100, overflowY: 'auto' }}>
+                            {
+                                this.state.messageList.map(item=>{
+                                    return(
+                                        <Message
+                                            key={ `${item.user.id}_${Math.floor(Math.random() * 100000)}` }
+                                            type={item.user.id == this.user.id ? 'sent' : 'received' }
+                                            name={item.user.name}
+                                            message={item.message}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                        <form onSubmit={this.submitMessage}>
+                            <div className="input-group">
+                                <input type="text" className="form-control" placeholder="Escribe algo..." value={this.state.inputMessage} onChange={this.handleInpuMessage} />
+                                <div className="input-group-append">
+                                    <button className="btn btn-success" type="submit">Enviar</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p style={{ marginTop: 5, color: 'green', display: this.state.detailChat.display }}>{this.state.detailChat.userName} está escribiendo...</p>
+                    </div>
+                </div>
+                {/* <div style={{ position: 'fixed', left: 20, right: 20, bottom: 0, height: 50, textAlign: 'left', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                    <h4 style={{ color: '#fff', marginTop: 10 }}>Video conferencia LoginWeb</h4>
                     <button onClick={()=>this.screenCapture(true)}>Mostrar pantalla</button>
                     <button onClick={()=>this.screenCapture(false)}>Mostrar cámara</button>
-                </div>
+                </div> */}
+                <audio id="audio-newMessage" src="/audio/chat/newMessage.mp3"></audio>
+                <audio id="audio-join" src="/audio/chat/join.mp3"></audio>
             </div>
         )
     }

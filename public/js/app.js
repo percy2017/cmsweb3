@@ -96968,6 +96968,53 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 
 /***/ }),
 
+/***/ "./resources/js/components/Chat/Message/Message.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Chat/Message/Message.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var Message = function Message(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      textAlign: props.type == 'received' ? 'left' : 'right'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      display: 'inline-block',
+      marginLeft: 20,
+      marginRight: 20,
+      marginBottom: 10,
+      position: 'relative',
+      border: "1px solid ".concat(props.type == 'received' ? '#fff' : '#57BB59'),
+      borderRadius: 10,
+      paddingRight: 20,
+      paddingLeft: 20,
+      backgroundColor: props.type == 'received' ? '#57BB59' : '#fff'
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    style: {
+      marginTop: 10,
+      color: props.type == 'received' ? '#fff' : '#57BB59'
+    }
+  }, props.type == 'received' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", {
+    style: {
+      fontSize: 12
+    }
+  }, props.name, ":", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)) : '', " ", props.message)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Message);
+
+/***/ }),
+
 /***/ "./resources/js/components/Conference/Conference.js":
 /*!**********************************************************!*\
   !*** ./resources/js/components/Conference/Conference.js ***!
@@ -96992,6 +97039,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var simple_peer__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(simple_peer__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _Chat_Message_Message__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Chat/Message/Message */ "./resources/js/components/Chat/Message/Message.js");
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -97026,6 +97074,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+ // Components
+
 
 axios__WEBPACK_IMPORTED_MODULE_7___default.a.defaults.headers.common = {
   'X-CSRF-TOKEN': window.csrfToken
@@ -97047,7 +97097,13 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       userList: window.userList,
       userListActive: [],
       miniVideoActive: window.user.id,
-      userScreenCapture: null
+      userScreenCapture: null,
+      inputMessage: '',
+      messageList: [],
+      detailChat: {
+        userName: '',
+        display: 'none'
+      }
     };
 
     var warning = function warning() {
@@ -97062,7 +97118,9 @@ var VideoConference = /*#__PURE__*/function (_Component) {
     _this.mediaHandler = new _MediaHandler__WEBPACK_IMPORTED_MODULE_5__["default"]();
     _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
     _this.changeMiniVideoActive = _this.changeMiniVideoActive.bind(_assertThisInitialized(_this));
-    _this.screenCapture = _this.screenCapture.bind(_assertThisInitialized(_this)); // Channels
+    _this.screenCapture = _this.screenCapture.bind(_assertThisInitialized(_this));
+    _this.handleInpuMessage = _this.handleInpuMessage.bind(_assertThisInitialized(_this));
+    _this.submitMessage = _this.submitMessage.bind(_assertThisInitialized(_this)); // Channels
 
     Echo.channel("RequestStreamUserChannel-".concat(_this.user.id)).listen('.App\\Events\\Telematic\\RequestStreamUser', function (e) {
       _this.setState({
@@ -97080,6 +97138,63 @@ var VideoConference = /*#__PURE__*/function (_Component) {
         _this.peers[e.user_emisor.id].signal(e.stream);
       } catch (error) {} // console.log(this.peers)
 
+    });
+    Echo.channel("NewMessageChannel").listen('.App\\Events\\Telematic\\NewMessage', function (e) {
+      var messageList = _this.state.messageList;
+      messageList.push(e.data);
+
+      _this.setState({
+        messageList: messageList
+      });
+
+      var offsetHeight = document.getElementById("panel-chat-messages").offsetHeight;
+      var scrollTop = document.getElementById("panel-chat-messages").scrollTop;
+      var scrollHeight = document.getElementById("panel-chat-messages").scrollHeight;
+      var posAct = offsetHeight + scrollTop;
+      var redirectToBottom = scrollHeight - posAct <= 200 ? true : false;
+      setTimeout(function () {
+        if (redirectToBottom) {
+          document.getElementById("panel-chat-messages").scrollTo({
+            top: scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 250);
+      var typingUser = {
+        userName: '',
+        display: 'none'
+      };
+
+      _this.setState({
+        detailChat: typingUser
+      });
+
+      if (e.data.user.id != _this.user.id) {
+        document.getElementById("audio-newMessage").play();
+      }
+    });
+    Echo.channel("NewMessageTypingChannel").listen('.App\\Events\\Telematic\\NewMessageTyping', function (e) {
+      if (_this.user.id != e.user.id && _this.state.detailChat.display == 'none') {
+        var typingUser = {
+          userName: e.user.name,
+          display: 'block'
+        };
+
+        _this.setState({
+          detailChat: typingUser
+        });
+
+        setTimeout(function () {
+          var typingUser = {
+            userName: '',
+            display: 'none'
+          };
+
+          _this.setState({
+            detailChat: typingUser
+          });
+        }, 2000);
+      }
     });
     return _this;
   }
@@ -97120,6 +97235,9 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       this.userList.map(function (user) {
         _this2.startCall(user);
       });
+      setTimeout(function () {
+        document.getElementById("audio-join").play();
+      }, 100);
     }
   }, {
     key: "startCall",
@@ -97179,7 +97297,11 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           });
 
           var video = document.getElementById("video-".concat(user.id));
-          console.log("stream ".concat(user.id));
+          console.log("Se uni\xF3 ".concat(user.name));
+
+          if (!_this3.state.peerIniciator) {
+            document.getElementById("audio-join").play();
+          }
 
           try {
             video.srcObject = stream;
@@ -97191,8 +97313,10 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           _this3.peers[user.id] = stream;
         });
 
+        _this3.peers[user.id].on('data', function (data) {});
+
         _this3.peers[user.id].on('error', function (err) {
-          console.log("Close ".concat(user.name));
+          console.log("Cerr\xF3 sesi\xF3n ".concat(user.name));
 
           var userList = _this3.state.userListActive.filter(function (item) {
             return item.id != user.id;
@@ -97201,8 +97325,6 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           _this3.setState({
             userListActive: userList
           });
-
-          console.log(_this3.peers[user.id].destroyed);
         });
       });
     }
@@ -97311,9 +97433,51 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       return screenCapture;
     }()
   }, {
+    key: "handleInpuMessage",
+    value: function handleInpuMessage(event) {
+      this.setState({
+        inputMessage: event.target.value
+      });
+      axios__WEBPACK_IMPORTED_MODULE_7___default()({
+        method: 'post',
+        url: 'videochats/message/typing',
+        data: {
+          user: {
+            id: this.user.id,
+            name: this.user.name
+          }
+        }
+      });
+    }
+  }, {
+    key: "submitMessage",
+    value: function submitMessage(event) {
+      var _this5 = this;
+
+      event.preventDefault();
+
+      if (this.state.inputMessage) {
+        axios__WEBPACK_IMPORTED_MODULE_7___default()({
+          method: 'post',
+          url: 'videochats/message',
+          data: {
+            user: {
+              id: this.user.id,
+              name: this.user.name
+            },
+            message: this.state.inputMessage
+          }
+        }).then(function (res) {
+          _this5.setState({
+            inputMessage: ''
+          });
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         style: {
@@ -97348,11 +97512,11 @@ var VideoConference = /*#__PURE__*/function (_Component) {
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
           id: "video-".concat(user.id),
-          muted: _this5.user.id == user.id ? 'muted' : false,
+          muted: _this6.user.id == user.id ? 'muted' : false,
           width: "100%",
-          style: _this5.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo,
+          style: _this6.state.miniVideoActive == user.id ? style.miniVideoActive : style.miniVideo,
           onClick: function onClick() {
-            return _this5.changeMiniVideoActive(user.id);
+            return _this6.changeMiniVideoActive(user.id);
           }
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           style: {
@@ -97366,20 +97530,61 @@ var VideoConference = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         style: {
           position: 'fixed',
-          left: 0,
-          right: 20,
-          bottom: 20,
-          textAlign: 'right'
+          right: 0,
+          bottom: 0,
+          height: window.innerHeight,
+          overflowY: 'auto',
+          width: 350,
+          backgroundColor: 'rgba(0,0,0,0.8)'
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        style: {
+          position: 'absolute',
+          width: '100%',
+          height: window.innerHeight,
+          marginTop: 10
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "panel-chat-messages",
+        style: {
+          height: window.innerHeight - 100,
+          overflowY: 'auto'
+        }
+      }, this.state.messageList.map(function (item) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Chat_Message_Message__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          key: "".concat(item.user.id, "_").concat(Math.floor(Math.random() * 100000)),
+          type: item.user.id == _this6.user.id ? 'sent' : 'received',
+          name: item.user.name,
+          message: item.message
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        onSubmit: this.submitMessage
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        placeholder: "Escribe algo...",
+        value: this.state.inputMessage,
+        onChange: this.handleInpuMessage
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-append"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this5.screenCapture(true);
+        className: "btn btn-success",
+        type: "submit"
+      }, "Enviar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+        style: {
+          marginTop: 5,
+          color: 'green',
+          display: this.state.detailChat.display
         }
-      }, "Mostrar pantalla"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this5.screenCapture(false);
-        }
-      }, "Mostrar c\xE1mara")));
+      }, this.state.detailChat.userName, " est\xE1 escribiendo..."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("audio", {
+        id: "audio-newMessage",
+        src: "/audio/chat/newMessage.mp3"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("audio", {
+        id: "audio-join",
+        src: "/audio/chat/join.mp3"
+      }));
     }
   }]);
 
