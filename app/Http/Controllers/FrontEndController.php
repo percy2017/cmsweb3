@@ -49,6 +49,7 @@ class FrontEndController extends Controller
         $data = [
             'user' => $request->user,
             'message' => $request->message,
+            'date' => $request->date,
         ];
         event(new NewMessage($data));
     }
