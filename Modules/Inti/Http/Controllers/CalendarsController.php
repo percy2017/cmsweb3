@@ -2,6 +2,7 @@
 
 namespace Modules\Inti\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use TCG\Voyager\Facades\Voyager;
@@ -49,6 +50,7 @@ class CalendarsController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         //----------------VALIDATIONS-----------------------------------------
         // $validator = Validator::make($request->all(), [
         //     'id' => 'required',
@@ -61,8 +63,10 @@ class CalendarsController extends Controller
            
         //------------------ REGISTRO-------------------------------------
         $data = new $this->dataType->model_name;
+        $myrelationships = array();
         foreach ($this->dataRowsAdd as $key) {
             $aux =  $key->field;
+         
             switch ($key->type) {
                 case 'Traking':
                     $data->$aux = Auth::user()->id;
@@ -74,17 +78,42 @@ class CalendarsController extends Controller
                     }
                     break;
                 case 'relationship':
-                    
+                    if ($key->details->{'type'} == 'belongsToMany') {
+                        if ($request->$aux) {
+                            array_push($myrelationships, array($aux => $request->$aux));
+                        }
+                    }
                     break;
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
                     break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
                 default:
                     $data->$aux = $request->$aux;
                     break;
             }
         }
         $data->save();
+        if ($myrelationships) {
+            foreach ($myrelationships as $key => $valor) {
+                $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
+                $mycolumn = $mydata->details->attributes->{'column'};
+                $mykey = $mydata->details->attributes->{'key'};
+                // return array_values($valor)[0];
+                foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel = new $mydata->details->attributes->{'model'};
+                    $mymodel->$mycolumn = $data->id;
+                    $mymodel->$mykey = $value;
+                    $mymodel->save();
+                }
+            }
+         }
         // --------------------------REGISTRO ---------------------------------------------------
 
         return $this->show();
@@ -122,6 +151,7 @@ class CalendarsController extends Controller
         //--------------------------------------------------------------------
 
         $data = $this->dataType->model_name::find($id);
+        $myrelationships = array();
         foreach ($this->dataRowsEdit as $key) {
             $aux =  $key->field;
             switch ($key->type) {
@@ -135,17 +165,44 @@ class CalendarsController extends Controller
                     }
                     break;
                 case 'relationship':
-                    
+                    if ($key->details->{'type'} == 'belongsToMany') {
+                        if ($request->$aux) {
+                            array_push($myrelationships, array($aux => $request->$aux));
+                        }
+                    }
                     break;
                 case 'checkbox':
                     $data->$aux = $request->$aux ? 1 : 0;
                     break;  
+                case 'rich_text_box':
+                    $data->$aux = htmlspecialchars($request->$aux);
+                    break; 
+                case 'Slug':
+                    $myslug = $key->details->slugify->{'origin'};
+                    $data->$aux = Str::slug($request->$myslug);
+                    break; 
                 default:
                     $data->$aux = $request->$aux;
                     break;
             }
         }
         $data->save();
+        if ($myrelationships) {
+            foreach ($myrelationships as $key => $valor) {
+                $mydata = Voyager::model('DataRow')->where('field', "=", array_key_first($valor))->first();
+                $mycolumn = $mydata->details->attributes->{'column'};
+                $mykey = $mydata->details->attributes->{'key'};
+                
+                $mydata->details->attributes->{'model'}::where($mydata->details->attributes->{'column'}, $data->id)->delete();
+
+                foreach (array_values($valor)[0] as $item => $value) {
+                    $mymodel = new $mydata->details->attributes->{'model'};
+                    $mymodel->$mycolumn = $data->id;
+                    $mymodel->$mykey = $value;
+                    $mymodel->save();
+                }
+            }
+         }
         return $this->show();
     }
 

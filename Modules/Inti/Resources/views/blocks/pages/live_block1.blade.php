@@ -1,3 +1,6 @@
+@foreach ($collection as $item)
+    
+@endforeach
 <!--================Blog Area =================-->
 <section class="blog_area section_padding">
     <div class="container">

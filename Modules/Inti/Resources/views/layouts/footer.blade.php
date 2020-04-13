@@ -4,40 +4,40 @@
             <div class="row justify-content-between">
                 <div class="col-sm-6 col-md-4 col-xl-3">
                     <div class="single-footer-widget footer_1">
-                        <a href="index.html"> <img src="{{ asset('vendor/inti/img/logo.png') }}" alt=""> </a>
-                        <p>But when shot real her. Chamber her one visite removal six
-                            sending himself boys scot exquisite existend an </p>
-                        <p>But when shot real her hamber her </p>
+                        <a href="/"> <img src="{{ asset('vendor/inti/img/logo.png') }}" alt=""> </a>
+                        <p>Nuestro curso online está basado en una plataforma de alta calidad y confiabilidad 
+                        en su aplicación, siendo impartido por expertos profesionales</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-4">
                     <div class="single-footer-widget footer_2">
-                        <h4>Boletin informativo</h4>
-                        <p>Stay updated with our latest trends Seed heaven so said place winged over given forth fruit.
+                        <h4>Boletín informativo</h4>
+                        <p>¿Tienes dudas o quieres comunicarte con nosotros?.
+                            Elige el medio que más te convenga, te sugerimos Email
                         </p>
                         <form action="#">
                             <div class="form-group">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Enter email address'
+                                    <input type="text" class="form-control" placeholder='Ingresa tu Email'
                                         onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Enter email address'">
+                                        onblur="this.placeholder = 'Ingresa tu Email'">
                                     <div class="input-group-append">
                                         <button class="btn btn_1" type="button"><i class="ti-angle-right"></i></button>
                                     </div>
                                 </div>
                             </div>
                         </form>
-                        <div class="social_icon">
-                            {{ menu('landingIntiSocial', 'inti::vendor.landingMenuSocial') }}
+                        
+                            {{ menu('LandingPageMenuSocial', 'inti::vendor.MenuSocial') }}
                           {{--   <a href="#"> <i class="ti-twitter-alt"></i> </a>
                             <a href="#"> <i class="ti-instagram"></i> </a>
                             <a href="#"> <i class="ti-skype"></i> </a> --}}
-                        </div>
+                       
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-md-4">
                     <div class="single-footer-widget footer_2">
-                        <h4>Contactanos</h4>
+                        <h4>Contáctanos</h4>
                         <div class="contact_info">
                             <p><span> Direccion :</span> Urb. Santa Ines - Santisima Trinidad</p>
                             <p><span> Telefono :</span> +591 721 XXX XX</p>

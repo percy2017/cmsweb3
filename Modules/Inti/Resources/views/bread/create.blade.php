@@ -16,7 +16,7 @@
                                 @php
                                     $display_options = $row->details->display ?? NULL;
                                 @endphp
-                                <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
+                                 <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                                     @switch($row->type)
                                         @case('relationship')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -31,20 +31,35 @@
                                                 @if(isset($key) && ($row->details->{'column'} == $key))
                                                     <input class="form-control" type="text" name="{{ $row->details->{'column'} }}" value="{{ $id }}" readonly />
                                                 @else
+                                                    @php
+                                                        $model = app($row->details->model);
+                                                        $query = $model::all();
+                                                    @endphp
                                                     <select 
                                                         class="form-control select2" 
                                                         name="{{ $row->details->{'column'} }}"
                                                         id="{{ $row->details->{'column'} }}">
-                                                        @php
-                                                            $model = app($row->details->model);
-                                                            $query = $model::all();
-                                                        @endphp
                                                         <option disabled>-- Seleciona datos --</option>
                                                         @foreach($query as $relationshipData)
                                                             <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
                                                         @endforeach
                                                     </select>
                                                 @endif
+                                            @elseif($row->details->{'type'} == 'belongsToMany')
+                                               
+                                                @php
+                                                    $model = app($row->details->model);
+                                                    $query = $model::all();
+                                                @endphp
+                                                <select 
+                                                    class="form-control select2" 
+                                                    name="{{ $row->field }}[]"
+                                                    id="{{ $row->field }}" multiple>
+                                                    <option disabled>-- Seleciona datos --</option>
+                                                    @foreach($query as $relationshipData)
+                                                        <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
+                                                    @endforeach
+                                                </select>
                                             @endif
                                             @break
                                         @case('select_dropdown')
@@ -56,34 +71,16 @@
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
-                                            @if(isset($row->details->relationship))
-                                                @php
-                                                    $model=$row->details->relationship->{'model'};  
-                                                    $data=$model::all();
-                                                    $data=$row->details->relationship->{'model'}::all();
-                                                    $key=$row->details->relationship->{'key'};
-                                                    $label=$row->details->relationship->{'label'};
-                                                @endphp
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}">
-                                                    <option disabled>-- Seleciona un dato --</option>                                          
-                                                    @foreach ($data  as $item)
-                                                        <option value="{{ $item->$key }}">{{ $item->$label }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @else
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}">
-                                                        <option disabled>-- Seleciona un dato --</option>
-                                                    @foreach ($row->details->options  as $item)
-                                                        <option value="{{ $item }}">{{ $item }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
+                                            <select 
+                                                class="form-control select2" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}">
+                                                    <option disabled>-- Seleciona un dato --</option>
+                                                @foreach ($row->details->options  as $item)
+                                                    <option value="{{ $item }}">{{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                            
                                             @break
                                         @case('text')
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>

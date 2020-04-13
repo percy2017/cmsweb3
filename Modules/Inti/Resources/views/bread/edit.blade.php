@@ -17,7 +17,7 @@
                                 @php
                                     $display_options = $row->details->display ?? NULL;
                                 @endphp
-                                <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
+                                 <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                                     @php
                                         $myfield = $row->field;
                                     @endphp
@@ -32,36 +32,50 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             @if($row->details->{'type'} == 'belongsTo')
-                                                    <select 
-                                                        class="form-control select2" 
-                                                        name="{{ $row->details->{'column'} }}"
-                                                        id="{{ $row->details->{'column'} }}" 
-                                                        @if($row->required == 1) required @endif>
-                                                        @php
-                                                            $model = app($row->details->model);
-                                                            $query = $model::all();
-                                                            $key = $row->details->column;
-                                                        @endphp
-                                                        <option disabled>-- Seleciona datos --</option>
-                                                        @foreach($query as $relationshipData)
-                                                            <option value="{{ $relationshipData->{$row->details->key} }}" @if($relationshipData->{$row->details->key}==$data->$key) selected @endif>{{ $relationshipData->{$row->details->label} }}</option>
+                                                <select 
+                                                    class="form-control select2" 
+                                                    name="{{ $row->details->{'column'} }}"
+                                                    id="{{ $row->details->{'column'} }}">
+                                                    @php
+                                                        $model = app($row->details->model);
+                                                        $query = $model::all();
+                                                        $key = $row->details->column;
+                                                    @endphp
+                                                    <option disabled>-- Seleciona datos --</option>
+                                                    @foreach($query as $relationshipData)
+                                                        <option value="{{ $relationshipData->{$row->details->key} }}" @if($relationshipData->{$row->details->key}==$data->$key) selected @endif>{{ $relationshipData->{$row->details->label} }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @elseif($row->details->{'type'} == 'belongsToMany')
+                                                @php
+                                                    $model = app($row->details->model);
+                                                    $query = $model::all();
+
+                                                    $mymodel = app($row->details->attributes->model);
+                                                    $mycolumn = $row->details->attributes->{'column'};
+                                                    $mykey = $row->details->attributes->{'key'};
+                                                    $myquery = $mymodel::where($mycolumn, $data->id)->get();
+
+                                                    $myrelationships = false;
+                                                @endphp
+                                                <select 
+                                                    class="form-control select2" 
+                                                    name="{{ $row->field }}[]" 
+                                                    id="{{ $row->field }}" multiple>
+                                                    <option disabled>-- Seleciona un dato --</option>
+                                                    @foreach($query as $relationshipData)
+                                                        @foreach ($myquery as $item)
+                                                            @if ($item->$mykey == $relationshipData->{$row->details->key})
+                                                                @php $myrelationships = true; @endphp
+                                                                @break
+                                                            @endif
                                                         @endforeach
-                                                    </select>
-                                                @else
-                                                    <select 
-                                                        class="form-control select2" 
-                                                        name="{{ $row->field }}[]" multiple
-                                                        id="{{ $row->field }}">
-                                                        @php
-                                                            $model = app($row->details->model);
-                                                            $query = $model::all();
-                                                        @endphp
-                                                        <option disabled>-- Seleciona un dato --</option>
-                                                        @foreach($query as $relationshipData)
-                                                            <option value="{{ $relationshipData->{$row->details->key} }}">{{ $relationshipData->{$row->details->label} }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                @endif
+                                                        <option value="{{ $relationshipData->{$row->details->key} }}" @if($myrelationships) selected @endif>{{ $relationshipData->{$row->details->label} }}</option>
+                                                        @php $myrelationships = false; @endphp
+                                                    @endforeach
+                                                </select>
+                                                
+                                            @endif
                                             @break
                                         @case('select_dropdown')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -71,38 +85,17 @@
                                                 data-toggle="tooltip"
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
-                                            @endif
-                                            @if(isset($row->details->relationship))
-                                                @php
-                                                    $model=$row->details->relationship->{'model'};  
-                                                    $data=$model::all();
-                                                    $data=$row->details->relationship->{'model'}::all();
-                                                    $key=$row->details->relationship->{'key'};
-                                                    $label=$row->details->relationship->{'label'};
-                                                @endphp
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif> 
-                                                    <option disabled>-- Seleciona un dato --</option>                                          
-                                                    @foreach ($data  as $item)
-                                                        <option value="{{ $item->$key }}">{{ $item->$label }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @else
-                                                                                        
-                                                <select 
-                                                    class="form-control select2" 
-                                                    name="{{ $row->field }}" 
-                                                    id="{{ $row->field }}" 
-                                                    @if($row->required == 1) required @endif>
-                                                        <option disabled>-- Seleciona un dato --</option>
-                                                    @foreach ($row->details->options  as $item)
-                                                        <option value="{{ $item }}" @if($item==$data->$myfield) selected @endif>{{ $item }}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
+                                            @endif                                    
+                                            <select 
+                                                class="form-control select2" 
+                                                name="{{ $row->field }}" 
+                                                id="{{ $row->field }}" 
+                                                @if($row->required == 1) required @endif>
+                                                    <option disabled>-- Seleciona un dato --</option>
+                                                @foreach ($row->details->options  as $item)
+                                                    <option value="{{ $item }}" @if($item==$data->$myfield) selected @endif>{{ $item }}</option>
+                                                @endforeach
+                                            </select>
                                             @break
                                         @case('text')
                                             <label class="control-label" for="{{ $row->field }}"  id="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -155,6 +148,7 @@
                                             @break
                                         @case('text_area')
                                             <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
+                                            
                                             @if(isset($row->details->tooltip))
                                                 <span class="voyager-question"
                                                 aria-hidden="true"
@@ -163,7 +157,6 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <textarea 
-                                                @if($row->required == 1) required @endif 
                                                 class="form-control" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}">{{ $data->$myfield }}</textarea>
@@ -178,7 +171,6 @@
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
                                             @endif
                                             <input 
-                                                @if($row->required == 1) required @endif 
                                                 type="datetime" 
                                                 class="form-control datepicker" 
                                                 name="{{ $row->field }}" 
@@ -210,7 +202,6 @@
                                             @endif
                                             <img class="img-responsive" src="{{ Voyager::Image($data->$myfield) }}" width="60%">
                                             <input 
-                                            
                                                 type="file" 
                                                 name="{{ $row->field }}" 
                                                 id="{{ $row->field }}" 
@@ -224,6 +215,18 @@
                                                 data-toggle="tooltip"
                                                 data-placement="{{ $row->details->tooltip->{'ubication'} }}"
                                                 title="{{ $row->details->tooltip->{'message'} }}"></span>
+                                            @endif
+                                            @php
+                                                $images_field = $data->{$row->field};
+                                            @endphp  
+                                            @if(isset($images_field))
+                                                <div class="row">
+                                                @foreach (json_decode($images_field) as $item)
+                                                    <div class="form-group col-md-{{ 12/count(json_decode($images_field)) }}">
+                                                        <img class="img-responsive" src="{{ Voyager::image($item) }}">
+                                                    </div>    
+                                                @endforeach
+                                                </div>
                                             @endif
                                             <input 
                                                 type="file" 
@@ -252,8 +255,7 @@
                                                 data-on="{{ $row->details->on }}" {!! $checked ? 'checked="checked"' : '' !!} 
                                                 data-off="{{ $row->details->off }}">
                                             @break
-                                    @endswitch        
-                            
+                                    @endswitch    
                                 </div>
                             @endforeach
                         

@@ -9,6 +9,6 @@ class IntiLive extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'inti_contents';
+    protected $table = 'inti_lives';
     protected $fillable = ['title','slug','course_id'];
 }

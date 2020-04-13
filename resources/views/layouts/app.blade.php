@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/up/css/floating-totop-button.css') }}">
 
   @laravelPWA
-  <script>
+ {{--  <script>
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '{{ setting('api.facebook.appId') }}',
@@ -37,7 +37,7 @@
        js.src = "https://connect.facebook.net/en_US/sdk.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
-  </script>
+  </script> --}}
 </head>
 <body>
     <div id="app">

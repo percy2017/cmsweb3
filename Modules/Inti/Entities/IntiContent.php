@@ -10,6 +10,6 @@ class IntiContent extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $table = 'inti_contents';
-    protected $fillable = [''];
+    protected $fillable = ['body','course_id'];
     
 }
