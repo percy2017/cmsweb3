@@ -50,7 +50,7 @@ class DatatypesTableSeeder extends Seeder
                 'icon'                  => 'voyager-bag',
                 'model_name'            => 'Modules\\Inti\\Entities\\IntiContent',
                 'policy_name'           => null,
-                'controller'            => 'Modules\\Inti\\Http\\Controllers\\ContentController',
+                'controller'            => 'Modules\\Inti\\Http\\Controllers\\ContentsController',
                 'generate_permissions'  => 1,
                 'description'           => null,
                 'server_side'           => 1,

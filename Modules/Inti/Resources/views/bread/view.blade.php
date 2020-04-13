@@ -17,27 +17,56 @@
                         @php
                             $display_options = $row->details->display ?? NULL;
                         @endphp
-                        <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
+                         <div class="form-group @if($row->type == 'hidden') hidden @endif col-md-{{ $display_options->width ?? 12 }} {{ $errors->has($row->field) ? 'has-error' : '' }}" @if(isset($display_options->id)){{ "id=$display_options->id" }}@endif>
                             @php
                                 $myfield = $row->field;
                             @endphp
                             @switch($row->type)
                                 @case('relationship')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
-                                    @if(isset($row->details->tooltip))
-                                        <span class="voyager-question"
-                                        aria-hidden="true"
-                                        data-toggle="tooltip"
-                                        data-placement="{{ $row->details->tooltip->{'ubication'} }}"
-                                        title="{{ $row->details->tooltip->{'message'} }}"></span>
+                                    @if($row->details->{'type'} == 'belongsTo')
+                                        @if(isset($row->details->tooltip))
+                                            <span class="voyager-question"
+                                            aria-hidden="true"
+                                            data-toggle="tooltip"
+                                            data-placement="{{ $row->details->tooltip->{'ubication'} }}"
+                                            title="{{ $row->details->tooltip->{'message'} }}"></span>
+                                        @endif
+                                        @php
+                                            $model = app($row->details->model);
+                                            $column = $row->details->{'column'};
+                                            $query = $model::where('id', $data->$column)->first();
+                                            $label=$row->details->{'label'};
+                                        @endphp
+                                        <h4><code> {{ $query->$label }} </code></h4>
+                                    @elseif($row->details->{'type'} == 'belongsToMany')
+                                        @php
+                                            $model = app($row->details->model);
+                                            $query = $model::all();
+
+                                            $mymodel = app($row->details->attributes->model);
+                                            $mycolumn = $row->details->attributes->{'column'};
+                                            $mykey = $row->details->attributes->{'key'};
+                                            $myquery = $mymodel::where($mycolumn, $data->id)->get();
+
+                                            $myrelationships = false;
+                                        @endphp
+                                        <h4>
+                                            @foreach($query as $relationshipData)
+                                                @foreach ($myquery as $item)
+                                                    @if ($item->$mykey == $relationshipData->{$row->details->key})
+                                                        @php $myrelationships = true; @endphp
+                                                        @break
+                                                    @endif
+                                                @endforeach
+                                                @if($myrelationships)
+                                                    <code>{{ $relationshipData->{$row->details->label} }}</code>
+                                                @endif
+                                        
+                                                @php $myrelationships = false; @endphp
+                                            @endforeach
+                                        </h4>
                                     @endif
-                                    @php
-                                        $model = app($row->details->model);
-                                        $column = $row->details->{'column'};
-                                        $query = $model::where('id', $data->$column)->first();
-                                        $label=$row->details->{'label'};
-                                    @endphp
-                                     <h4><code> {{ $query->$label }} </code></h4>
                                     @break
                                 @case('select_dropdown')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
@@ -100,14 +129,20 @@
                                     @break 
                                 @case('multiple_images')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
-                                    @if(isset($row->details->tooltip))
-                                        <span class="voyager-question"
-                                        aria-hidden="true"
-                                        data-toggle="tooltip"
-                                        data-placement="{{ $row->details->tooltip->{'ubication'} }}"
-                                        title="{{ $row->details->tooltip->{'message'} }}"></span>
-                                    @endif
+                                    @php
+                                        $images_field = $data->{$row->field};
+                                    @endphp  
                                     
+                                    @if(isset($images_field))
+                                        <div class="row">
+                                        @foreach (json_decode($images_field) as $item)
+                                            <div class="form-group col-md-{{ 12/count(json_decode($images_field)) }}">
+                                                <img class="img-responsive" src="{{ Voyager::image($item) }}">
+                                            </div>    
+                                        @endforeach
+                                        </div>
+                                    @endif
+                                    @break    
                                 @case('checkbox')
                                     <label class="control-label" for="{{ $row->field }}">{{ $row->display_name }}</label>
                                     <br/>

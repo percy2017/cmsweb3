@@ -69,120 +69,147 @@
                       @foreach($dataTypeContent as $data)
                         <tr id="{{ $data->id }}">
                           @foreach($dataType->browseRows as $row)
-                            <td>
-                              @switch($row->type)
-                                @case('text')
-                                  @if(isset($row->details->{'actions'}))
-                                    @if ($row->details->actions->{'type'} == 'whatsapp')
-                                        <a href="https://wa.me/{{ $data->{$row->field} }}?text={{ $row->details->actions->{'message'} }}" target="_blank" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}">
-                                          <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-                                        </a>
-                                    @else
-                                        <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
-                                          <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-                                        </a>
-                                    @endif
-                                   
+                          <td>
+                            @switch($row->type)
+                              @case('text')
+                                @if(isset($row->details->{'actions'}))
+                                  @if ($row->details->actions->{'type'} == 'whatsapp')
+                                      <a href="https://wa.me/{{ $data->{$row->field} }}?text={{ $row->details->actions->{'message'} }}" target="_blank" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}">
+                                        <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                      </a>
                                   @else
-                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                      <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
+                                        <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                      </a>
                                   @endif
-                                  @break
-                                @case('password')
-                                  @if(isset($row->details->{'actions'}))
-                                    <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
-                                      **********
-                                    </a>
-                                  @else
+                                 
+                                @else
+                                  <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+                                @endif
+                                @break
+                              @case('password')
+                                @if(isset($row->details->{'actions'}))
+                                  <a href="#" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')">
                                     **********
-                                  @endif
-                                  @break
-                                @case('checkbox')
-                                
-                                  @if(isset($row->details->on) && isset($row->details->off))
-                                      @if($data->{$row->field})
-                                          <span class="label label-info">{{ $row->details->on }}</span>
-                                      @else
-                                          <span class="label label-primary">{{ $row->details->off }}</span>
-                                      @endif
-                                  @else
-                                    <span class="label label-info">{{ $row->details->on }}</span>
-                                    {{ $data->{$row->field} }}
-                                  @endif
-                                  @break
-                                @case('timestamp')
-                                  @if(isset($row->details->{'actions'}))
-                                    <h5>
-                                      <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
-                                    </h5>
-                                    <small>{{ $data->{$row->field} }}</small>
-                                  @else
-                                    {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
-                                    <br/>
-                                    <small>{{ $data->{$row->field} }}</small>
-                                  @endif
-                                  @break
-                                @case('image')
-                                  <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
-                                  @break
-                                @case('multiple_images')
-                                  @php
-                                    $images_field = $data->{$row->field};
-                                  @endphp  
-                                  @if(isset($images_field))
+                                  </a>
+                                @else
+                                  **********
+                                @endif
+                                @break
+                              @case('checkbox')
+                              
+                                @if(isset($row->details->on) && isset($row->details->off))
+                                    @if($data->{$row->field})
+                                        <span class="label label-info">{{ $row->details->on }}</span>
+                                    @else
+                                        <span class="label label-primary">{{ $row->details->off }}</span>
+                                    @endif
+                                @else
+                                  <span class="label label-info">{{ $row->details->on }}</span>
+                                  {{ $data->{$row->field} }}
+                                @endif
+                                @break
+                              @case('timestamp')
+                                @if(isset($row->details->{'actions'}))
+                                  <h5>
+                                    <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}</a>
+                                  </h5>
+                                  <small>{{ $data->{$row->field} }}</small>
+                                @else
+                                  {{ \Carbon\Carbon::parse($data->{$row->field})->DiffForHumans(\Carbon\Carbon::now()) }}
+                                  <br/>
+                                  <small>{{ $data->{$row->field} }}</small>
+                                @endif
+                                @break
+                              @case('image')
+                                <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:60px">
+                                @break
+                              @case('multiple_images')
+                                @php
+                                  $images_field = $data->{$row->field};
+                                @endphp  
+                                @if(isset($images_field))
                                   @foreach (json_decode($images_field) as $item)
                                       @if($loop->first)
-                                      <a href="javascript:;" onclick="ajax_first('{{ $data->id }}', '{{ $dataType->slug }}')">
+                                      <a href="javascript:;" onclick="">
                                           <img src="{{ Voyager::image($item) }}"width="60px">
                                       </a>
                                       @endif
                                       @break
                                   @endforeach
-                                  @endif
-                                  @break
-                                @case('select_dropdown')
-                                  @if(isset($row->details->relationship))
-                                    @php
-                                        $model=$row->details->relationship->{'model'};  
-                                        $data_browse=$model::where($row->details->relationship->{'key'} ,$data->{$row->field})->first();
-                                        $key=$row->details->relationship->{'key'};
-                                        $label=$row->details->relationship->{'label'};
-                                    @endphp
-                                    {{ $data_browse->$label }}
-                                  @else
-                                  <span>{{ $data->{$row->field} }}</span>
-                                  @endif
-                                  @break
-                                @case('relationship')
+                                @endif
+                                @break
+                              @case('select_dropdown')
+                                @if(isset($row->details->relationship))
+                                  @php
+                                      $model=$row->details->relationship->{'model'};  
+                                      $data_browse=$model::where($row->details->relationship->{'key'} ,$data->{$row->field})->first();
+                                      $key=$row->details->relationship->{'key'};
+                                      $label=$row->details->relationship->{'label'};
+                                  @endphp
+                                  {{ $data_browse->$label }}
+                                @else
+                                <span>{{ $data->{$row->field} }}</span>
+                                @endif
+                                @break
+                              @case('relationship')
+                                @if($row->details->{'type'} == 'belongsTo')
                                   @php
                                       $model = app($row->details->model);
                                       $column = $row->details->{'column'};
                                       $query = $model::where('id', $data->$column)->first();
                                       $label=$row->details->{'label'};
                                   @endphp
-                                  <span>{{ $query->$label }}</span>    
-                                  @break
-                                @case('Traking')
+                                  <span>{{ $query->$label }}</span>   
+                                @elseif($row->details->{'type'} == 'belongsToMany')
                                   @php
-                                      $user = \App\User::find($data->{$row->field});
+                                      $model = app($row->details->model);
+                                      $query = $model::all();
+
+                                      $mymodel = app($row->details->attributes->model);
+                                      $mycolumn = $row->details->attributes->{'column'};
+                                      $mykey = $row->details->attributes->{'key'};
+                                      $myquery = $mymodel::where($mycolumn, $data->id)->get();
+
+                                      $myrelationships = false;
                                   @endphp
-                                  <span>{{ $user->name }}</span>
-                                  @break
-                                @default
-                                  @if(isset($row->details->{'actions'}))
-                                    @if ($row->details->actions->{'type'} == 'whatsapp')
-                                        <h4>
-                                          <a href="https://wa.me/{{ $data->{$row->field} }}?text={{ $row->details->actions->{'message'} }}" target="_blank" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
-                                        </h4>
-                                    @else
+                                    @foreach($query as $relationshipData)
+                                      @foreach ($myquery as $item)
+                                          @if ($item->$mykey == $relationshipData->{$row->details->key})
+                                              @php $myrelationships = true; @endphp
+                                              @break
+                                          @endif
+                                      @endforeach
+                                      @if($myrelationships)
+                                          <span>{{ $relationshipData->{$row->details->label} }}</span>
+                                      @endif
+                              
+                                      @php $myrelationships = false; @endphp
+                                  @endforeach
+                                @endif
+                                @break
+                              @case('Traking')
+                                @php
+                                    $user = \App\User::find($data->{$row->field});
+                                @endphp
+                                <span>{{ $user->name }}</span>
+                                @break
+                              @default
+                                @if(isset($row->details->{'actions'}))
+                                  @if ($row->details->actions->{'type'} == 'whatsapp')
                                       <h4>
-                                        <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
+                                        <a href="https://wa.me/{{ $data->{$row->field} }}?text={{ $row->details->actions->{'message'} }}" target="_blank" data-toggle="tooltip" aria-hidden="true" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
                                       </h4>
-                                    @endif
                                   @else
-                                    <span>{{ $data->{$row->field} }}</span>
+                                    <h4>
+                                      <a data-toggle="tooltip" aria-hidden="true" href="#" onclick="ajax('{{ route('inti_relationship', [$data->id, $row->details->actions->{'table'}, $row->details->actions->{'key'}, $row->details->actions->{'type'}]) }}', 'get')" title="{{ $row->details->actions->{'message'} }}">{{ $data->{$row->field} }}</a>
+                                    </h4>
                                   @endif
+                                @else
+                                  <span>{{ $data->{$row->field} }}</span>
+                                @endif
                             @endswitch
-                            </td>
+                          </td>
                         
                           @endforeach
                            

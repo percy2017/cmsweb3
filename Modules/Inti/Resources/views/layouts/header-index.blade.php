@@ -15,7 +15,7 @@
                     <div class="collapse navbar-collapse main-menu-item justify-content-end"
                         id="navbarSupportedContent">
                         <ul class="navbar-nav align-items-center">
-                            {{ menu('landingInti', 'inti::vendor.landingMenu') }}
+                            {{ menu('LandingPageInti', 'inti::vendor.MenuNavbar') }}
                             @guest    
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -23,7 +23,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                      <a class="dropdown-item" href="{{ route('login') }}">
-                                        Iniciar Seccion
+                                        Iniciar Sesión
                                     </a>
                                     @if (Route::has('register'))
                                     <a class="dropdown-item" href="{{ route('register') }}">

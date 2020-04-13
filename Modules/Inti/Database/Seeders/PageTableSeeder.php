@@ -19,7 +19,7 @@ class PageTableSeeder extends Seeder
 
         $page = Page::create([
             'name'        =>  'Landing Page Inti',
-            'slug'        =>  'index',
+            'slug'        =>  'landing-page-inti',
             'user_id'     =>  1,
             'direction'   =>  'inti::index',
             'description' =>  'Pagina de destino para educacion en linea.',
@@ -679,7 +679,7 @@ class PageTableSeeder extends Seeder
          
         $page = Page::create([
             'name'        =>  'Page Live',
-            'slug'        =>  'live',
+            'slug'        =>  'page-live',
             'user_id'     =>  1,
             'direction'   =>  'inti::pages.generica',
             'description' =>  'Pagina de destino para educacion en linea.',
@@ -737,7 +737,7 @@ class PageTableSeeder extends Seeder
                 'day'=>[
                     'type'=>'text',
                     'name'   => 'day',
-                    'label'  => 'Mes ',
+                    'label'  => 'dia ',
                     'value'  => '15',
                     'width'  => 4
                 ],

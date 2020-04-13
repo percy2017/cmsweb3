@@ -31,7 +31,7 @@ class DataRowsTableSeeder extends Seeder
          *               Formulario Course
          * -----------------------------------------------
          */
-        $postion=1;
+        $postion = 1;
         $dataRow = $this->dataRow($CourseDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -81,7 +81,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($CourseDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'Slug',
                 'display_name' => 'slug',
                 'required'     => 1,
                 'browse'       => 1,
@@ -96,7 +96,7 @@ class DataRowsTableSeeder extends Seeder
                     ],
                     'display' => [
                         'width' => '6'
-                    ] 
+                    ]
                 ],
                 'order'  => $postion++,
             ])->save();
@@ -224,6 +224,8 @@ class DataRowsTableSeeder extends Seeder
 
         /**
          * ----------------------------------------
+         * formulario Contents
+         * ----------------------------------------
          */
         $dataRow = $this->dataRow($ContentDataType, 'id');
         if (!$dataRow->exists) {
@@ -249,7 +251,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'rich_text_box',
                 'display_name' => 'Body',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
@@ -289,7 +291,7 @@ class DataRowsTableSeeder extends Seeder
                     'pivot'       => 0,
                 ],
                 'order'        => $postion++,
-                
+
             ])->save();
         }
 
@@ -298,7 +300,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'hidden',
                 'display_name' => 'course_id',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
@@ -318,7 +320,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.created_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 0,
@@ -326,7 +328,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
-                    'width' => '3'
+                    'display'   => [
+                        'width'  => '6',
+                    ],
                 ]
             ])->save();
         }
@@ -336,7 +340,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.updated_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
@@ -344,7 +348,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
-                    'width' => '3'
+                    'display'   => [
+                        'width'  => '6',
+                    ],
                 ]
             ])->save();
         }
@@ -354,7 +360,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => 'deleted_at',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
@@ -362,7 +368,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
-                    'width' => '3'
+                    'display'   => [
+                        'width'  => '6',
+                    ],
                 ]
             ])->save();
         }
@@ -379,16 +387,16 @@ class DataRowsTableSeeder extends Seeder
                 'display_name' => __('voyager::seeders.data_rows.id'),
                 'required'     => 1,
                 'browse'       => 1,
-                'read'         => 0,
-                'edit'         => 0,
+                'read'         => 1,
+                'edit'         => 1,
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => [
-                    'displey' => [
+                    'display' => [
                         'width' => '6'
                     ]
                 ],
-                'order'        => $postion++,
+                'order'=> $postion++,
             ])->save();
         }
         $dataRow = $this->dataRow($LiveDataType, 'title');
@@ -414,7 +422,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($LiveDataType, 'slug');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'Slug',
                 'display_name' => 'slug',
                 'required'     => 1,
                 'browse'       => 1,
@@ -423,11 +431,15 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
+                    'slugify' => [
+                        'origin' => 'title',
+                        'forceUpdate' => true
+                    ],
                     'display' => [
                         'width' => '6'
-                    ] 
+                    ]
                 ],
-                'order'  => $postion++,
+                'order'=> $postion++,
             ])->save();
         }
 
@@ -455,8 +467,8 @@ class DataRowsTableSeeder extends Seeder
                     'pivot_table' => 'inti_courses',
                     'pivot'       => 0,
                 ],
-                'order'        => $postion++,
-                
+                'order'=> $postion++,
+
             ])->save();
         }
 
@@ -465,7 +477,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'hidden',
                 'display_name' => 'course_id',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 1,
@@ -485,7 +497,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.created_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 0,
@@ -493,7 +505,9 @@ class DataRowsTableSeeder extends Seeder
                 'delete'       => 0,
                 'order'        => $postion++,
                 'details'      => [
+                    'display'   => [
                     'width' => '3'
+                    ],
                 ]
             ])->save();
         }
@@ -503,15 +517,17 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.updated_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
-                'details'      => [
+                'details'      =>  [
+                    'display'   => [
                     'width' => '3'
+                    ],
                 ]
             ])->save();
         }
@@ -521,20 +537,22 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => 'deleted_at',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
                 'order'        => $postion++,
-                'details'      => [
+                'details'      =>  [
+                    'display'   => [
                     'width' => '3'
+                    ],
                 ]
             ])->save();
         }
 
-       
+
         /**
          * --------------------------------------------------------
          *  formulario calendars
@@ -618,7 +636,6 @@ class DataRowsTableSeeder extends Seeder
                     ],
                 ]
             ])->save();
-        
         }
 
         $dataRow = $this->dataRow($CalendarDataType, 'course_belongsto_calendar_relationship');
@@ -646,7 +663,7 @@ class DataRowsTableSeeder extends Seeder
                     'pivot'       => 0,
                 ],
                 'order'        => $postion++,
-                
+
             ])->save();
         }
 
@@ -675,7 +692,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.created_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 0,
@@ -693,7 +710,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => __('voyager::seeders.data_rows.updated_at'),
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
@@ -711,7 +728,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'timestamp',
                 'display_name' => 'deleted_at',
-                'required'     => 0,
+                'required'     => 1,
                 'browse'       => 0,
                 'read'         => 1,
                 'edit'         => 0,
