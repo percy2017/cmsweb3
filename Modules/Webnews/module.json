@@ -1,0 +1,13 @@
+{
+    "name": "Webnews",
+    "alias": "webnews",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Webnews\\Providers\\WebnewsServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
