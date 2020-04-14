@@ -51,9 +51,9 @@
                             </div>
                         </li>
                         @endguest
-                        <li class="d-none d-lg-block">
+                        {{-- <li class="d-none d-lg-block">
                             <a class="btn_1" href="#">Obtener Cotizacion</a>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </div>

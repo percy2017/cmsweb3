@@ -435,7 +435,7 @@ class DataRowsTableSeeder extends Seeder
         $dataRow = $this->dataRow($PageDataType, 'direction');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text_area',
+                'type'         => 'text',
                 'display_name' => 'Direccion',
                 'required'     => 0,
                 'browse'       => 1,
@@ -452,7 +452,7 @@ class DataRowsTableSeeder extends Seeder
             $dataRow->fill([
                 'type'         => 'image',
                 'display_name' => 'Image',
-                'required'     => 1,
+                'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
@@ -552,6 +552,7 @@ class DataRowsTableSeeder extends Seeder
 
         //Blocks------------------------------
         //-----------------------------------
+        $count = 1;
         $dataRow = $this->dataRow($BlockDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -563,13 +564,68 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'block_belongsto_page_relationship');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'relationship',
+                'display_name' => 'Pagina',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    'model'       => 'App\\Page',
+                    'table'       => 'pages',
+                    'type'        => 'belongsTo',
+                    'column'      => 'page_id',
+                    'key'         => 'id',
+                    'label'       => 'name',
+                    'pivot_table' => 'pages',
+                    'pivot'       => 0,
+                ],
+                'order'        =>$count++,
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'type');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => 'Tipo',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ],
+                    "options" => [
+                        "dinamyc-data" => "Datos Dinamicos",
+                        "controller" => "Controlador"
+                    ]
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($BlockDataType, 'name');
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'number',
+                'type'         => 'text',
                 'display_name' => 'Nombre',
                 'required'     => 1,
                 'browse'       => 1,
@@ -577,7 +633,88 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'title');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => 'Nombre',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'position');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'Lugar',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'description');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text_area',
+                'display_name' => 'Descripcion',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 6
+                    ]
+                ]
+            ])->save();
+        }
+        $dataRow = $this->dataRow($BlockDataType, 'details');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'code_editor',
+                'display_name' => 'Details',
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => $count++,
+                'details' => [
+                    'display' => [
+                        'width' => 12
+                    ]
+                ]
             ])->save();
         }
         $dataRow = $this->dataRow($BlockDataType, 'created_at');
@@ -591,7 +728,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => $count++,
             ])->save();
         }
 
@@ -606,7 +743,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         $dataRow = $this->dataRow($BlockDataType, 'deleted_at');
@@ -620,7 +757,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => $count++,
             ])->save();
         }
         //Blocks------------------------------

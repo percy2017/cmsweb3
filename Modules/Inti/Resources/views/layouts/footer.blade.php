@@ -28,7 +28,7 @@
                             </div>
                         </form>
                         
-                            {{ menu('LandingPageMenuSocial', 'inti::vendor.MenuSocial') }}
+                            {{--  {{ menu('LandingPageMenuSocial', 'inti::vendor.MenuSocial') }}  --}}
                           {{--   <a href="#"> <i class="ti-twitter-alt"></i> </a>
                             <a href="#"> <i class="ti-instagram"></i> </a>
                             <a href="#"> <i class="ti-skype"></i> </a> --}}

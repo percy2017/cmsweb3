@@ -20,6 +20,7 @@ class CreateBlocksTable extends Migration
             $table->bigInteger('position');
             $table->string('description')->nullable();
             $table->text('details')->nullable();
+            $table->text('type')->nullable();
 
             $table->unsignedBigInteger('page_id');
             $table->foreign('page_id')->references('id')->on('pages');

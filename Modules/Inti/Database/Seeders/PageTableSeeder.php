@@ -677,79 +677,79 @@ class PageTableSeeder extends Seeder
         /**------------------page live------------------------*/
          /**--------------------------------------------------*/
          
-        $page = Page::create([
-            'name'        =>  'Page Live',
-            'slug'        =>  'page-live',
-            'user_id'     =>  1,
-            'direction'   =>  'inti::pages.generica',
-            'description' =>  'Pagina de destino para educacion en linea.',
-            'details'     =>   json_encode([
-                /** banner----- */
-                'title_h2' => [
-                    'type'   => 'text',
-                    'name'   => 'title_h2',
-                    'label'  => 'Titulo H2',
-                    'value'  => 'slug page',
-                    'width'  => 4
-                ],
-                'p1' => [
-                    'type'   => 'text',
-                    'name'   => 'p1',
-                    'label'  => 'etiqueta p1',
-                    'value'  => 'Home',
-                    'width'  => 4
-                ],
-                'p2' => [
-                    'type'   => 'text',
-                    'name'   => 'p2',
-                    'label'  => 'etiqueta p2',
-                    'value'  => 'slug page',
-                    'width'  => 4
-                ]
+        // $page = Page::create([
+        //     'name'        =>  'Page Live',
+        //     'slug'        =>  'page-live',
+        //     'user_id'     =>  1,
+        //     'direction'   =>  'inti::pages.generica',
+        //     'description' =>  'Pagina de destino para educacion en linea.',
+        //     'details'     =>   json_encode([
+        //         /** banner----- */
+        //         'title_h2' => [
+        //             'type'   => 'text',
+        //             'name'   => 'title_h2',
+        //             'label'  => 'Titulo H2',
+        //             'value'  => 'slug page',
+        //             'width'  => 4
+        //         ],
+        //         'p1' => [
+        //             'type'   => 'text',
+        //             'name'   => 'p1',
+        //             'label'  => 'etiqueta p1',
+        //             'value'  => 'Home',
+        //             'width'  => 4
+        //         ],
+        //         'p2' => [
+        //             'type'   => 'text',
+        //             'name'   => 'p2',
+        //             'label'  => 'etiqueta p2',
+        //             'value'  => 'slug page',
+        //             'width'  => 4
+        //         ]
 
-            ])
-        ]);  
+        //     ])
+        // ]);  
 
         /** block 1 */              
-        Block::create([
-            'name'        => 'live_block1',
-            'title'       => 'Blocke #1 (seccion de cursos lives)',
-            'description' => 'Seccion Lista de Cursos lives',
-            'page_id'     => $page->id,
-            'position'    => 1,
-            'details'     => json_encode([
+        // Block::create([
+        //     'name'        => 'live_block1',
+        //     'title'       => 'Blocke #1 (seccion de cursos lives)',
+        //     'description' => 'Seccion Lista de Cursos lives',
+        //     'page_id'     => $page->id,
+        //     'position'    => 1,
+        //     'details'     => json_encode([
 
-                /** single_feature_text */
-                'card-img' => [
-                    'type'   => 'image',
-                    'name'   => 'card-img',
-                    'label'  => 'Imagen card',
-                    'value'  => 'default.png',
-                    'width'  => 4
-                ],
-                'month'=>[
-                    'type'=>'text',
-                    'name'   => 'month',
-                    'label'  => 'Mes ',
-                    'value'  => 'junio',
-                    'width'  => 4
-                ],
-                'day'=>[
-                    'type'=>'text',
-                    'name'   => 'day',
-                    'label'  => 'dia ',
-                    'value'  => '15',
-                    'width'  => 4
-                ],
-                'title_h2' => [
-                    'type'   => 'text',
-                    'name'   => 'title_h2',
-                    'label'  => 'Titulo H2',
-                    'value'  => 'Google inks pact for new 35-storey office',
-                    'width'  => 6
-                ]
-            ])
-        ]);        
+        //         /** single_feature_text */
+        //         'card-img' => [
+        //             'type'   => 'image',
+        //             'name'   => 'card-img',
+        //             'label'  => 'Imagen card',
+        //             'value'  => 'default.png',
+        //             'width'  => 4
+        //         ],
+        //         'month'=>[
+        //             'type'=>'text',
+        //             'name'   => 'month',
+        //             'label'  => 'Mes ',
+        //             'value'  => 'junio',
+        //             'width'  => 4
+        //         ],
+        //         'day'=>[
+        //             'type'=>'text',
+        //             'name'   => 'day',
+        //             'label'  => 'dia ',
+        //             'value'  => '15',
+        //             'width'  => 4
+        //         ],
+        //         'title_h2' => [
+        //             'type'   => 'text',
+        //             'name'   => 'title_h2',
+        //             'label'  => 'Titulo H2',
+        //             'value'  => 'Google inks pact for new 35-storey office',
+        //             'width'  => 6
+        //         ]
+        //     ])
+        // ]);        
     
     }
 }

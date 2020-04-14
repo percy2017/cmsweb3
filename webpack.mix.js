@@ -15,4 +15,5 @@ mix.mergeManifest();
 
 mix.react('resources/js/app.js', 'public/js')
    .react('resources/js/websocket.js', 'public/js')
+   .react('resources/js/inti/inti.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');

@@ -127,16 +127,21 @@
                                     @endswitch
                                 @endforeach
                                 @else
-                                    <div class="form-group col-md-12 text-center">
-                                        <h3><code>No datos dimanicos</code></h3>
+                                    {{-- <div class="form-group col-md-12 text-center">
+                                        <h3><code>No hay datos dimanicos</code></h3>
+                                    </div> --}}
+                                    <div class="form-group text-center col-md-12">
+                                        <a href="#" class="btn btn-dark"><i class="voyager-plus"></i>Agregar</a> 
                                     </div>
                                     
                                 @endif
                                
-
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
                                  <div class="form-group text-center col-md-12">
                                     <button type="submit" class="btn btn-primary"><i class="voyager-edit"></i> Guardar</button>
-                                    {{--  <a href="{{ route('block_delete', $block->id) }}" class="btn btn-danger">Eliminar este Blocke</a>  --}}
+                                    
                                 </div>
                             </form>
                         </div>

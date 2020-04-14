@@ -377,6 +377,9 @@ class MenusTableSeeder extends Seeder
 
         // ------------------- Menu Landing Page Inti ----------------------------------------
         // -------------------------------------------------
+        Menu::firstOrCreate([
+            'name' => 'LandingPageInti',
+        ]);
         $menu = Menu::where('name', 'LandingPageInti')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
@@ -428,6 +431,9 @@ class MenusTableSeeder extends Seeder
 
          // Menu Social ----------------------------------------
         //----------------------------------------------------
+        Menu::firstOrCreate([
+            'name' => 'LandingPageMenuSocial',
+        ]);
         $menu = Menu::where('name', 'LandingPageMenuSocial')->firstOrFail();
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,

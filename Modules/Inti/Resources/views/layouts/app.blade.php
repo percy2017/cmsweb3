@@ -56,8 +56,8 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb_iner text-center">
                         <div class="breadcrumb_iner_item">
-                            <h2>{{ $collection['title_h2']['value'] }}</h2>
-                            <p>{{ $collection['p1']['value'] }}<span>/</span>{{ $collection['p2']['value'] }}</p>
+                            <h2>{{ $page->description }}</h2>
+                            <p><a href="/">Inicio</a><span>/</span>{{ $page->name }}</p>
                         </div>
                     </div>
                 </div>
@@ -92,6 +92,10 @@
     <script src="{{ asset('vendor/inti/js/waypoints.min.js') }}"></script>
     <!-- custom js -->
     <script src="{{ asset('vendor/inti/js/custom.js') }}"></script>
+    <script src="{{ asset('js/inti.js') }}"></script>
+    
+    @yield('javascript')
+
 </body>
 
 </html>

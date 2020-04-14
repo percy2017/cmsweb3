@@ -8,7 +8,7 @@ class PageEdit extends AbstractAction
 {
     public function getTitle()
     {
-        return 'Data';
+        return 'Edit';
     }
 
     public function getIcon()
