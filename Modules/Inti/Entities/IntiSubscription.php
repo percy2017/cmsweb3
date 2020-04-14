@@ -5,10 +5,10 @@ namespace Modules\Inti\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class IntiCalendar extends Model
+class IntiSubscription extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $table = 'inti_calendars';
-    protected $fillable = ['time','days','hours','course_id'];
+    protected $table = 'inti_subscriptions';
+    protected $fillable = ['title','type','price','description','course_id'];
 }

@@ -27,19 +27,19 @@
                                 </div>
                             </div>
                         </form>
-                        
+                        <div class="social_icon">
                             {{ menu('LandingPageMenuSocial', 'inti::vendor.MenuSocial') }}
                           {{--   <a href="#"> <i class="ti-twitter-alt"></i> </a>
                             <a href="#"> <i class="ti-instagram"></i> </a>
                             <a href="#"> <i class="ti-skype"></i> </a> --}}
-                       
+                        </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-sm-6 col-md-4">
                     <div class="single-footer-widget footer_2">
                         <h4>Contáctanos</h4>
                         <div class="contact_info">
-                            <p><span> Direccion :</span> Urb. Santa Ines - Santisima Trinidad</p>
+                            <p><span> Direccion :</span> Urb. Santa Ines - Trinidad</p>
                             <p><span> Telefono :</span> +591 721 XXX XX</p>
                             <p><span> Email : </span>empresa.loginweb@gmail.com </p>
                         </div>
