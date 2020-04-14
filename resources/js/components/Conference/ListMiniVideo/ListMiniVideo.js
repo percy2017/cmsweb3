@@ -2,7 +2,7 @@ import React from 'react';
 
 import MiniVideo from '../MiniVideo/MiniVideo';
 
-const ListMiniVideo = ({userListActive, onClick, userID, miniVideoActive}) =>{
+const ListMiniVideo = ({userListActive, changeMiniVideoActive, userID, miniVideoActive}) =>{
     return(
         <div style={{ position: 'fixed', left: 20, top: 20, bottom: 30, height: `${window.innerHeight}px`}}>
             {
@@ -11,9 +11,10 @@ const ListMiniVideo = ({userListActive, onClick, userID, miniVideoActive}) =>{
                         <MiniVideo
                             key={user.id}
                             user={user}
-                            onClick={onClick}
+                            onClick={() => changeMiniVideoActive(user.id)}
                             userID={userID}
                             miniVideoActive={miniVideoActive}
+                            handUp={user.handUp}
                         />
                     )
                 })

@@ -28,7 +28,7 @@ Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->m
 Route::post('videochats/request', 'FrontEndController@videochats_request')->middleware('auth');
 Route::post('videochats/message', 'FrontEndController@videochats_message')->middleware('auth');
 Route::post('videochats/message/typing', 'FrontEndController@videochats_message_typing')->middleware('auth');
-
+Route::post('videochats/hand_up', 'FrontEndController@videochats_hand_up')->middleware('auth');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

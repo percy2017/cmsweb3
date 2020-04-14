@@ -13,6 +13,7 @@ use App\User;
 // Events
 use App\Events\Telematic\RequestStreamUser;
 use App\Events\Telematic\ResponseStreamUser;
+use App\Events\Telematic\UserHandUp;
 use App\Events\Telematic\NewMessage;
 use App\Events\Telematic\NewMessageTyping;
 
@@ -56,5 +57,13 @@ class FrontEndController extends Controller
 
     function videochats_message_typing(Request $request){
         event(new NewMessageTyping($request->user));
+    }
+
+    function videochats_hand_up(Request $request){
+        $data = [
+            'user_id' => $request->user_id,
+            'value' => $request->value
+        ];
+        event(new UserHandUp($data));
     }
 }

@@ -100,7 +100,7 @@ export default class PanelChat extends Component {
     render() {
 
         return (
-            <div style={{ position: 'fixed', right: 0, bottom: 0, height: window.innerHeight, overflowY: 'hidden', width: 350, backgroundColor: 'rgba(0,0,0,0.8)', display: this.props.displayChat ? 'block' : 'none' }}>
+            <div style={{ position: 'fixed', right: 0, bottom: 0, height: window.innerHeight, overflowY: 'hidden', width: 350, backgroundColor: 'rgba(0,0,0,0.8)', display: this.props.displayChat ? 'block' : 'none', zIndex: 1 }}>
                 <div style={{ position: 'absolute', width: '100%', height: window.innerHeight, marginTop: 10 }}>
                     <div style={{ marginLeft: 20, marginBottom: 20 }}>
                         <button
@@ -126,7 +126,7 @@ export default class PanelChat extends Component {
                             })
                         }
                     </div>
-                    <form onSubmit={this.submitMessage}>
+                    <form onSubmit={this.submitMessage} style={{ marginLeft: 10, marginRight: 10 }}>
                         <div className="input-group">
                             <input type="text" className="form-control" placeholder="Escribe algo..." value={this.state.inputMessage} onChange={this.handleInpuMessage} />
                             <div className="input-group-append">

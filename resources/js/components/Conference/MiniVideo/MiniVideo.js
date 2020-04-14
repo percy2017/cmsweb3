@@ -1,8 +1,12 @@
 import React from 'react';
+import { FaHandPaper } from "react-icons/fa";
 
 const VideoChat = (props) =>{
     return(
         <div id={`containerVideo-${props.user.id}`} style={{position: 'relative', width: '100px', textAlign: 'center', }}>
+            <div style={{ position: 'absolute', right: 5, top: 0, color: '#E3522B', fontSize: 20 }}>
+                {props.handUp ? <FaHandPaper /> : ''}
+            </div>
             <video
                 id={`video-${props.user.id}`}
                 muted={props.userID == props.user.id ? 'muted' : false}
