@@ -24,6 +24,9 @@ Route::get('login/github', 'SocialiteController@redirectToProvider');
 Route::get('login/github/callback', 'SocialiteController@handleProviderCallback');
 Route::get('login/impresionate/{id}', 'SocialiteController@impresionate')->name('impresionate');
 
+Route::get('meet', 'FrontEndController@meet')->name('meet');
+Route::get('meet/{name}', 'FrontEndController@meet_join')->name('meet_join');
+
 Route::get('videochats', 'FrontEndController@videochats')->name('videochats')->middleware('auth');
 Route::post('videochats/request', 'FrontEndController@videochats_request')->middleware('auth');
 Route::post('videochats/message', 'FrontEndController@videochats_message')->middleware('auth');

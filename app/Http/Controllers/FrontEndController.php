@@ -35,6 +35,7 @@ class FrontEndController extends Controller
         $userList = User::where('id', '<>', Auth::user()->id)->select('id', 'name', 'avatar')->get();
         return view('vendor.videochats.index', compact('userList'));
     }
+
     function videochats_request(Request $request){
         $stream = $request->stream;
         $user_emisor = User::find($request->emisorId, ['id', 'name', 'avatar']);
@@ -65,5 +66,13 @@ class FrontEndController extends Controller
             'value' => $request->value
         ];
         event(new UserHandUp($data));
+    }
+
+    function meet(){
+        return view('vendor.meet.index');
+    }
+
+    function meet_join($name){
+        return view('vendor.meet.join', compact('name'));
     }
 }
