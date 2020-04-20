@@ -19,6 +19,8 @@ class CreateIntiTrainersTable extends Migration
             $table->string('profession')->nullable();
             $table->string('cv')->nullable();
             $table->string('avatar')->nullable();
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

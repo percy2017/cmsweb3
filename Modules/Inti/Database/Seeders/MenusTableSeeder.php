@@ -168,12 +168,6 @@ class MenusTableSeeder extends Seeder
             ])->save();
         }
 
-        //inti_contents ------------------------------------------------------
-        Menu::firstOrCreate([
-            'name' => 'inti_contents',
-        ]);
-        $menu = Menu::where('name', 'inti_contents')->firstOrFail();
-        
 
         //inti_ives------------------------------------------------------
         //inti_lives------------------------------------------------------

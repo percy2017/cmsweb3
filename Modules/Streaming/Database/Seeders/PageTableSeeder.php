@@ -22,6 +22,7 @@ class PageTableSeeder extends Seeder
         $page = Page::create([
             'name'      => 'Page streaming',
             'slug'      => 'index',
+            'user_id'   => 1,
             'direction' => 'streaming::index',
             'details'   => json_encode([
                 'carusel1_image' => [
