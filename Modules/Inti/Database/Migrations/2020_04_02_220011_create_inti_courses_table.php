@@ -17,7 +17,11 @@ class CreateIntiCoursesTable extends Migration
             $table->bigIncrements('id');
             $table->string('slug')->unique();
             $table->string('title')->nullable();
-            $table->string('image')->nullable();
+            $table->string('images')->nullable();
+            $table->string('category')->nullable();
+            $table->string('price')->nullable();
+            $table->string('description')->nullable();
+            $table->string('seats')->nullable();
             $table->text('body')->nullable();
 
             $table->unsignedBigInteger('user_id');

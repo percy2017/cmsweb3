@@ -21,7 +21,7 @@ class PermissionTableSeeder extends Seeder
 
         // permission
         Permission::generateFor('inti_courses');
-        Permission::generateFor('inti_contents');
+        
         Permission::generateFor('inti_lives');
         Permission::generateFor('inti_calendars');
         Permission::generateFor('inti_trainers');
@@ -29,17 +29,6 @@ class PermissionTableSeeder extends Seeder
         $role = Role::where('name', 'admin')->firstOrFail();
 
         $permissions = Permission::where('table_name', 'inti_courses')->get();
-        foreach ($permissions as $key) {
-            $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
-            if (!$rp) {
-                DB::table('permission_role')->insert([
-                    'permission_id' => $key->id, 
-                    'role_id' => $role->id
-                ]);
-            }
-        }
-
-        $permissions = Permission::where('table_name', 'inti_contents')->get();
         foreach ($permissions as $key) {
             $rp = DB::table('permission_role')->where('permission_id', $key->id)->first();
             if (!$rp) {
