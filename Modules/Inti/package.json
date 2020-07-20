@@ -17,7 +17,7 @@
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
         "laravel-mix-merge-manifest": "^0.1.2",
-        "lodash": "^4.17.13",
+        "lodash": "^4.17.19",
         "vue-template-compiler": "^2.6.11",
         "popper.js": "^1.12",
         "react": "^16.2.0",
